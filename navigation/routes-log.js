@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Home from '../screens/home';
+import Register from '../screens/user/register'
 
 import {
   StyleSheet,
@@ -17,6 +18,12 @@ import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom
 const RegisterStackNavigator = createStackNavigator({
   Register: { 
       screen: Register,
+  }
+})
+
+const HomeStackNavigator = createStackNavigator({
+  Home: { 
+      screen: Home,
   }
 })
 

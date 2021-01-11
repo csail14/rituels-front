@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffectn, useRef } from 'react';
 import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -12,6 +13,7 @@ import { Video } from 'expo-av';
 const HowAppWork = (props)=>{
     
   const { width } = Dimensions.get('window');
+
     return (
         <View style={styles.container}>
             <ImageBackground source={background} style={styles.image}>
@@ -21,10 +23,12 @@ const HowAppWork = (props)=>{
                 shouldPlay = {false}
                 resizeMode="cover"
                 useNativeControls
+                onFullscreenUpdate
                 isMuted={false}
                 volume={1.0}
-	              style={{ width:width, height: 300 }}
+	              style={{ width:width, height: 500 }}
 	          />
+         
             <Text>Hello</Text>
             </ImageBackground>
         </View>

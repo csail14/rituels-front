@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView,Dimensions    } from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import background from '../../assets/rituals-background.jpg';
-import {saveUser,getUser} from '../../api/userApi'
+import {saveUser} from '../../api/userApi'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const Register = (props)=> {
 
-	const [language, setLanguage] = useState('Français');
     
 	let firstName = "";
 	let lastName = "";
@@ -29,13 +29,12 @@ const Register = (props)=> {
 			lang: lang,
 			phone: phone
 		}
-		
-		console.log(data)
-		saveUser()
+		saveUser(data)
 		
 	}
 
     return (
+		<KeyboardAwareScrollView  style={styles.container}>
     	<View style={styles.container}>
 			<ImageBackground source={background} style={styles.image}>
     		<ScrollView style={styles.scrollContainer}>
@@ -65,7 +64,7 @@ const Register = (props)=> {
 				<TextInput
     				style={styles.input}
     				type="text"
-    				placeholder="email"
+    				placeholder="Email"
     				onChangeText={(text)=>{
     					email = text;
     				}}
@@ -95,6 +94,7 @@ const Register = (props)=> {
     					phone = text;
     				}}
     			/>
+				
 
     			<TouchableOpacity
 					style={styles.button}
@@ -108,6 +108,7 @@ const Register = (props)=> {
     		</ScrollView>
 			</ImageBackground>
     	</View>
+		</KeyboardAwareScrollView>
     )
 
 }
@@ -115,8 +116,7 @@ const Register = (props)=> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#42e5ff',
-	paddingTop: 50
+	backgroundColor: 'black'
   },
   title: {
 	fontSize: 20,
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
 	color: "white"
   },
   scrollContainer: {
+	flex:1,
 	width: wp('100%'),
 	textAlign: 'center',
   },
@@ -147,7 +148,9 @@ const styles = StyleSheet.create({
   image: {
 	flex: 1,
 	resizeMode: "cover",
-	justifyContent: "center"
+	justifyContent: "center",
+	paddingTop:wp('10%'),
+	height:Dimensions.get("window").height 
   },
   button: {
 	backgroundColor: "#321aed",

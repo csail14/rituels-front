@@ -1,6 +1,7 @@
 import React from 'react';
 import Register from '../screens/user/register'
-import Home from '../screens/home'
+import Home from '../screens/home';
+import Login from '../screens/user/login'
 import HowAppWork from '../screens/howAppWork'
 
 import {
@@ -30,6 +31,12 @@ const RegisterStackNavigator = createStackNavigator({
   }
 })
 
+const LoginStackNavigator = createStackNavigator({
+  Connexion: { 
+      screen: Login,
+  }
+})
+
 const HomeStackNavigator = createStackNavigator({
   Acceuil: { 
       screen: Home,
@@ -48,6 +55,16 @@ const TabNavigator = createMaterialBottomTabNavigator(
   {
     Acceuil: {
       screen: HomeStackNavigator,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <View>
+            <Icon style={[{color: tintColor}]} size={25} name={'ios-book'} />
+          </View>
+        ),
+      }
+    },
+    Connexion: {
+      screen: LoginStackNavigator,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <View>
