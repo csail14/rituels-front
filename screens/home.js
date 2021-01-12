@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import {ImageBackground, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {ImageBackground, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import background from '../assets/main-background.jpg'
+import Footer from '../navigation/footer'
 
 
-const Home = (props)=>{
-    
-    
+const Home = ({ navigation })=>{
     return (
         <View style={styles.container}>
             <ImageBackground source={background} style={styles.image}>
             <Text style={styles.title}>Home Page</Text>
+            <Text style={styles.title}>Hello</Text>
+            
             </ImageBackground>
+            <Footer navigation={navigation}/>
+            
         </View>
     );
 }

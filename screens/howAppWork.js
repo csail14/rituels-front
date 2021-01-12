@@ -1,4 +1,4 @@
-import React, { useState, useEffectn, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import {
@@ -8,29 +8,51 @@ import {
 import background from '../assets/rituals-background.jpg';
 import video1 from '../video/sample-mp4-file.mp4'
 import { Video } from 'expo-av';
-
+import VideoPlayer from 'expo-video-player';
+import { NavigationContainer,useIsFocused  } from '@react-navigation/native';
+import Footer from '../navigation/footer'
 
 const HowAppWork = (props)=>{
     
-  const { width } = Dimensions.get('window');
+  const isFocused = useIsFocused();
+  console.log('isfocudsed',isFocused); 
 
+  const [shouldPlay, setShouldPlay] = useState(true);
+
+  useEffect(
+    () => {
+      setShouldPlay(false);
+      console.log("shouldplay",shouldPlay);
+    }
+    ,
+    [isFocused],
+  );
+  
     return (
+
+      
         <View style={styles.container}>
             <ImageBackground source={background} style={styles.image}>
             <Text style={styles.title}>How App Works</Text>
-            <Video
-	              source={video1}
-                shouldPlay = {false}
-                resizeMode="cover"
-                useNativeControls
-                onFullscreenUpdate
-                isMuted={false}
-                volume={1.0}
-	              style={{ width:width, height: 500 }}
-	          />
+           
+           
+            <VideoPlayer
+            videoProps={{
+              shouldPlay: {shouldPlay},
+              resizeMode: Video.RESIZE_MODE_CONTAIN,
+              source: {
+                uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+              },
+            }}
+            inFullscreen={false}
+            width={Dimensions.get('window').width}
+            height={300}
+
+          />
          
             <Text>Hello</Text>
             </ImageBackground>
+            <Footer navigation={props.navigation}/>
         </View>
     );
 }

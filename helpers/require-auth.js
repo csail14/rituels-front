@@ -52,7 +52,7 @@ const RequireAuth = (props)=>{
 
     return (
         <React.Fragment>
-            {isLogged ? <RoutesLog/> : <Routes />}
+           {isLogged ? <RoutesLog/> : <Routes />}
         </React.Fragment>
     )
 

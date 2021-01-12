@@ -6,9 +6,10 @@ import {
   } from 'react-native-responsive-screen';
 import background from '../../assets/rituals-background.jpg';
 import {saveUser} from '../../api/userApi'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Footer from '../../navigation/footer';
 
-const Register = (props)=> {
+const Register = ({navigation})=> {
 
     
 	let firstName = "";
@@ -104,9 +105,11 @@ const Register = (props)=> {
 				>
     				<Text style={styles.buttonText}>Enregistrer</Text>
     			</TouchableOpacity>
-			
+				<Text style={styles.title}>Hello</Text>
+				<Footer style={styles.footer} navigation={navigation}/>
     		</ScrollView>
 			</ImageBackground>
+			
     	</View>
 		</KeyboardAwareScrollView>
     )
@@ -124,9 +127,18 @@ const styles = StyleSheet.create({
 	marginBottom: 20,
 	color: "white"
   },
+  footer: {
+
+	position: 'absolute',
+	bottom: 0,
+	right: 1,
+	left: 1,
+	height: 50,
+},
   scrollContainer: {
 	flex:1,
 	width: wp('100%'),
+	height:wp('50%'),
 	textAlign: 'center',
   },
   picker:{

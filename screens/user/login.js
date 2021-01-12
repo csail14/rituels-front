@@ -7,6 +7,7 @@ import {
 import background from '../../assets/rituals-background.jpg';
 import {saveUser,getUser} from '../../api/userApi'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Footer from '../../navigation/footer'
 
 const Login = (props)=> {
 
@@ -60,7 +61,7 @@ const Login = (props)=> {
 				>
     				<Text style={styles.buttonText}>Connexion</Text>
     			</TouchableOpacity>
-			
+				<Footer navigation={props.navigation}/>
     		</ScrollView>
 			</ImageBackground>
     	</View>
