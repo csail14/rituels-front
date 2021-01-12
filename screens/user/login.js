@@ -5,14 +5,16 @@ import {
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import background from '../../assets/rituals-background.jpg';
-import {saveUser,getUser} from '../../api/userApi'
+import {loginUser} from '../../api/userApi'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import Footer from '../../navigation/footer'
+import Footer from '../../navigation/footer';
+import { useIsFocused  } from '@react-navigation/native';
 
 const Login = (props)=> {
 
-	let email = "";
-	let password = "";
+	const [email, setemail] = useState("")
+	const [password, setpassword] = useState("")
+	const [errorMessage,seterrorMessage] = useState("")
 
 	const onSubmitForm = ()=>{
 		let data = {
@@ -20,7 +22,23 @@ const Login = (props)=> {
 			email: email,
 			password: password,
 		}
-		getUser(data)
+		loginUser(data)
+        .then((res)=>{
+			seterrorMessage('');
+            console.log(res);
+            if(res.status === 200) {
+                //window.localStorage.setItem('user-token', res.token);
+                //this.setState({redirect:true})
+            } else if (res.status === 404){
+				seterrorMessage(res.msg)
+            } else if (res.status === 401) {
+				seterrorMessage(res.msg)
+				} else if (res.status === 403) {
+                seterrorMessage(res.msg)
+            } else {
+                seterrorMessage("Un problème est survenu, veuillez reessayer plus tard.")
+            }
+        })
 		
 	}
 
@@ -39,19 +57,25 @@ const Login = (props)=> {
 				<TextInput
     				style={styles.input}
     				type="text"
-    				placeholder="Email"
+					placeholder="Email"
+					valeur={email}
+					autoCapitalize = 'none'
     				onChangeText={(text)=>{
-    					email = text;
+    					setemail(text);
     				}}
     			/>
 				<TextInput
     				style={styles.input}
-    				type="text"
+					type="text"
+					valeur={password}
+					secureTextEntry={true}
     				placeholder="Mot de passe"
     				onChangeText={(text)=>{
-    					password = text;
+    					setpassword(text)
     				}}
     			/>
+
+				<Text style={styles.errorMessage}>{errorMessage}</Text>
 
     			<TouchableOpacity
 					style={styles.button}
@@ -74,6 +98,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 	backgroundColor: 'black'
+  },
+  errorMessage: {
+	fontSize: 20,
+	textAlign: 'center',
+	marginBottom: 20,
+	color: "red"
   },
   title: {
 	fontSize: 20,

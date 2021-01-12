@@ -38,7 +38,7 @@ const HowAppWork = (props)=>{
            
             <VideoPlayer
             videoProps={{
-              shouldPlay: {shouldPlay},
+              shouldPlay:true,
               resizeMode: Video.RESIZE_MODE_CONTAIN,
               source: {
                 uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',

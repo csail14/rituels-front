@@ -8,19 +8,36 @@ import background from '../../assets/rituals-background.jpg';
 import {saveUser} from '../../api/userApi'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Footer from '../../navigation/footer';
+import {validateInputField} from '../../helpers/form-validator'
+import { useIsFocused  } from '@react-navigation/native';
 
 const Register = ({navigation})=> {
 
-    
-	let firstName = "";
-	let lastName = "";
-	let email = "";
-	let password = "";
-	let lang = "FR";
-	let phone = "";
-	let passwordConfirm="";
+	const [errorMessage, setErrorMessage] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
+	const [email, setemail] = useState("");
+	const [password, setpassword] = useState("");
+	const [lang, setlang] = useState("FR");
+	const [phone, setphone] = useState("");
+	const [passwordConfirm, setpasswordConfirm] = useState("");
+	const isFocused = useIsFocused();
+
+	useEffect(
+		
+		() => {
+		  if (isFocused === false) {
+			  clearform();
+		  }
+		}
+		,
+		[isFocused],
+	  );
+	  
 
 	const onSubmitForm = ()=>{
+		setErrorMessage("");
+
 		let data = {
 			firstName: firstName,
 			lastName: lastName,
@@ -30,8 +47,57 @@ const Register = ({navigation})=> {
 			lang: lang,
 			phone: phone
 		}
-		saveUser(data)
+		let error = formValidator(data);
+		if (error===""){
+			saveUser(data)
+	        .then((res)=>{
+				console.log(res)
+				if (res.status===200){
+					console.log("nouvel utilisateur enregistré")
+					clearform();
+					navigation.navigate('Login')
+				}
+				else{
+					setErrorMessage("Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement.")
+				}
+                
+	        })
+		}
 		
+	}
+
+	const formValidator= (data)=>{
+		let error=false;
+
+		for (let key in data){
+			error = validateInputField(key, "string", data[key])
+			if (error !== ""){
+				setErrorMessage(error)
+				return error
+			}
+		}
+		if(validateInputField('mail', 'email', data.email) !== ""){
+			setErrorMessage(validateInputField('mail', 'email', data.email))
+			return validateInputField('email', 'email',data.email)
+		}
+		if(validateInputField('téléphone', 'phone', data.phone) !== ""){
+			setErrorMessage(validateInputField('téléphone', 'phone', data.phone))
+			return validateInputField('téléphone', 'phone',data.phone)
+		}
+		if(data.password !== data.passwordConfirm){
+			setErrorMessage("Les deux mots de passe ne sont pas identiques.")
+			return "Les deux mots de pass ne sont pas identiques."
+		}
+		return ""
+	}
+
+	const clearform = () => {
+		setFirstName("");
+		setLastName("");
+		setemail("");
+		setpassword("");
+		setphone("");
+		setpasswordConfirm("");
 	}
 
     return (
@@ -48,64 +114,73 @@ const Register = ({navigation})=> {
     			<TextInput
     				style={styles.input}
     				type="text"
-    				placeholder="Prénom"
+					placeholder="Prénom"
+					value={firstName}
     				onChangeText={(text)=>{
-						firstName = text;
+						setFirstName(text);
     				}}
     			/>
 				<TextInput
     				style={styles.input}
     				type="text"
-    				placeholder="Nom"
+					placeholder="Nom"
+					value={lastName}
     				onChangeText={(text)=>{
-    					lastName = text;
+    					setLastName(text);
     				}}
     			/>
 
 				<TextInput
-    				style={styles.input}
+					style={styles.input}
+					value={email}
+					autoCapitalize = 'none'
     				type="text"
     				placeholder="Email"
     				onChangeText={(text)=>{
-    					email = text;
+    					setemail(text)
     				}}
     			/>
 				<TextInput
     				style={styles.input}
-    				type="text"
+					type="password"
+					value={password}
+					secureTextEntry={true}
     				placeholder="Mot de passe"
     				onChangeText={(text)=>{
-    					password = text;
+    					setpassword(text)
     				}}
     			/>
-								<TextInput
+				<TextInput
     				style={styles.input}
-    				type="text"
+					type="password"
+					value={passwordConfirm}
+					secureTextEntry={true}
     				placeholder="Confirmation mot de passe"
     				onChangeText={(text)=>{
-    					passwordConfirm = text;
+    					setpasswordConfirm(text)
     				}}
     			/>
 
 				<TextInput
-    				style={styles.input}
+					style={styles.input}
+					value={phone}
     				type="text"
-    				placeholder="phone"
+    				placeholder="Téléphone"
     				onChangeText={(text)=>{
-    					phone = text;
+    					setphone(text)
     				}}
     			/>
 				
-
+				<Text style={styles.errorMessage}>{errorMessage}</Text>
     			<TouchableOpacity
 					style={styles.button}
 					onPress={(e)=>{
-						onSubmitForm()
+						e.preventDefault();
+						onSubmitForm();
 					}}
 				>
     				<Text style={styles.buttonText}>Enregistrer</Text>
     			</TouchableOpacity>
-				<Text style={styles.title}>Hello</Text>
 				<Footer style={styles.footer} navigation={navigation}/>
     		</ScrollView>
 			</ImageBackground>
@@ -126,6 +201,12 @@ const styles = StyleSheet.create({
 	textAlign: 'center',
 	marginBottom: 20,
 	color: "white"
+  },
+  errorMessage: {
+	fontSize: 20,
+	textAlign: 'center',
+	marginBottom: 20,
+	color: "red"
   },
   footer: {
 
