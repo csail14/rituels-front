@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import {ImageBackground, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
-import background from '../assets/main-background.jpg'
-import Header from '../navigation/header'
-import HeaderLog from '../navigation/header-log'
-import {connect} from 'react-redux';
+import background from '../../assets/rituals-background.jpg';
 
+import { Video } from 'expo-av';
+import VideoPlayer from 'expo-video-player';
+import { NavigationContainer,useIsFocused  } from '@react-navigation/native';
+import HeaderLog from '../../navigation/header-log'
 
-const Home = ({ navigation,user })=>{
-  console.log('props', user)
+const Rituels = (props)=>{
+ 
+  
     return (
-        <View style={styles.container}>
-          {user && user.isLogged ? <HeaderLog screen='Home' navigation={navigation}/>: <Header screen='Home' navigation={navigation}/>}
-          
-            <ImageBackground source={background} style={styles.image}>
-            <Text style={styles.title}>Home Page</Text>
-            
-              {user.infos && <Text style={styles.title}>Hello {user.infos.firstName} </Text>}
 
-            
-            
+      
+        <View style={styles.container}>
+          <HeaderLog screen='Rituels' navigation={props.navigation}/>
+            <ImageBackground source={background} style={styles.image}>
+            <Text style={styles.title}>Rituels</Text>
+         
+            <Text>Hello</Text>
             </ImageBackground>
-            
-            
         </View>
     );
 }
@@ -42,9 +41,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       marginBottom: 20,
       color: "white"
-    },
-    header: {
-      height:100
     },
     text: {
         color: 'white',
@@ -67,6 +63,13 @@ const styles = StyleSheet.create({
       resizeMode: "cover",
       justifyContent: "center"
     },
+    video: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      },
     button: {
       backgroundColor: "#321aed",
       width: wp('40%'),
@@ -97,13 +100,5 @@ const styles = StyleSheet.create({
     }
   });
 
-mapDispatchToProps = {
 
-}
-
-mapStateToProps = (store)=>{
-    return {
-        user: store.user
-    }
-}
-export default  connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Rituels;

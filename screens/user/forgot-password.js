@@ -12,44 +12,28 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import {loadUserInfo} from '../../actions/user/userActions';
 
-const Login = (props)=> {
+const ForgotPassword = (props)=> {
 
 	const [email, setemail] = useState("")
-	const [password, setpassword] = useState("")
 	const [errorMessage,seterrorMessage] = useState("")
 
 	const onSubmitForm = ()=>{
 		let data = {
-
-			email: email,
-			password: password,
+			email: email
 		}
-		loginUser(data)
+		console.log("forgot", data)
+		forgotPassword(data)
         .then((res)=>{
-			seterrorMessage('');
+            seterrorMessage('');
+            console.log(res)
             if(res.status === 200) {
-				storeData(res.token);
-				props.loadUserInfo(res.user);
-				props.navigation.navigate('Home')
-            } else if (res.status === 404){
-				seterrorMessage(res.msg)
-            } else if (res.status === 401) {
-				seterrorMessage(res.msg)
-				} else if (res.status === 403) {
-                seterrorMessage(res.msg)
+				console.log("status 200")
             } else {
                 seterrorMessage("Un problème est survenu, veuillez reessayer plus tard.")
             }
         })
 		
 	}
-	const storeData = async (token) => {
-		try {
-		  await AsyncStorage.setItem('4brntoken', token)
-		} catch (e) {
-		  console.log(e)
-		}
-	  }
 
 
     return (
@@ -62,7 +46,7 @@ const Login = (props)=> {
     			<Text
 					style={styles.title}
 				>
-					Se connecter : 
+					Mot de passe oublié : 
 				</Text>
     			<Text></Text>
 				<TextInput
@@ -75,18 +59,6 @@ const Login = (props)=> {
     					setemail(text);
     				}}
     			/>
-				<TextInput
-    				style={styles.input}
-					type="text"
-					valeur={password}
-					secureTextEntry={true}
-    				placeholder="Mot de passe"
-    				onChangeText={(text)=>{
-    					setpassword(text)
-    				}}
-    			/>
-				<Button title="Mot de passe oublié ?" color="white"  
-				onPress={() => props.navigation.navigate('Forgot')}/>
 				<Text style={styles.errorMessage}>{errorMessage}</Text>
 
     			<TouchableOpacity
@@ -95,7 +67,7 @@ const Login = (props)=> {
 						onSubmitForm()
 					}}
 				>
-    				<Text style={styles.buttonText}>Connexion</Text>
+    				<Text style={styles.buttonText}>Envoyer</Text>
     			</TouchableOpacity>
     		</ScrollView>
 			</ImageBackground>
@@ -171,4 +143,4 @@ mapStateToProps = (store)=>{
         user: store.user
     }
 }
-export default  connect(mapStateToProps, mapDispatchToProps)(Login);
+export default  connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

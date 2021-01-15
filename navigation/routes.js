@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Footer from './footer'
+import Logout from '../screens/user/logout'
 import Home from '../screens/home';
 import Register from '../screens/user/register';
 import Login from '../screens/user/login';
+import Rituels from '../screens/application/rituels'
 import HowAppWork from '../screens/howAppWork';
+import ForgotPassword from '../screens/user/forgot-password'
 
 const Stack = createStackNavigator();
 
@@ -13,7 +15,10 @@ const MyStack = () => {
   return (
 
     <NavigationContainer>
-      <Stack.Navigator>
+      
+      <Stack.Navigator screenOptions={{
+    headerShown: false
+  }}>
         <Stack.Screen
           name="Home"
           component={Home}
@@ -34,6 +39,20 @@ const MyStack = () => {
           component={HowAppWork} 
           options={{ title: 'Comment fonctionne 4BRN ?' }}
         />
+        <Stack.Screen 
+          name="Logout" 
+          component={Logout} 
+          options={{ title: 'Déconnexion' }}
+        />
+        <Stack.Screen 
+          name="Rituels" 
+          component={Rituels}
+          options={{ title: 'Déconnexion' }}
+        /><Stack.Screen 
+        name="Forgot" 
+        component={ForgotPassword}
+        options={{ title: 'Déconnexion' }}
+      />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -10,49 +10,61 @@ import video1 from '../video/sample-mp4-file.mp4'
 import { Video } from 'expo-av';
 import VideoPlayer from 'expo-video-player';
 import { NavigationContainer,useIsFocused  } from '@react-navigation/native';
-import Footer from '../navigation/footer'
+import Header from '../navigation/header'
 
 const HowAppWork = (props)=>{
     
   const isFocused = useIsFocused();
+  const video=null;
+ 
   console.log('isfocudsed',isFocused); 
-
-  const [shouldPlay, setShouldPlay] = useState(true);
 
   useEffect(
     () => {
-      setShouldPlay(false);
-      console.log("shouldplay",shouldPlay);
+     if(!isFocused){
+       pauseVideo();
+     }
     }
     ,
     [isFocused],
   );
   
+  const pauseVideo = () => {
+    console.log('dans pause')
+    console.log(video)
+    if(videoref) {
+      console.log('pause')
+      //videoref.pauseAsync();
+    }
+  }
+  const videoref = React.forwardRef 
     return (
 
-      
         <View style={styles.container}>
-            <ImageBackground source={background} style={styles.image}>
-            <Text style={styles.title}>How App Works</Text>
-           
-           
+          <Header screen='HowAppWork' navigation={props.navigation}/>
+            <ImageBackground source={background} style={styles.image}>     
+
             <VideoPlayer
+            //ref={videoref}
             videoProps={{
+              
+
               shouldPlay:true,
               resizeMode: Video.RESIZE_MODE_CONTAIN,
+              onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
               source: {
-                uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                uri: 'https://res.cloudinary.com/dmpzubglr/video/upload/v1610633687/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-201114_eialb0.mp4',
               },
             }}
             inFullscreen={false}
             width={Dimensions.get('window').width}
-            height={300}
+            height={hp('80%')}
+            
 
           />
          
             <Text>Hello</Text>
             </ImageBackground>
-            <Footer navigation={props.navigation}/>
         </View>
     );
 }

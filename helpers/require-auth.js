@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Routes from '../navigation/routes';
-import RoutesLog from '../navigation/routes-log';
 import axios from 'axios';
 import {config} from '../config';
 import {connect} from 'react-redux';
-import {connectUser} from '../actions/user/userActions';
+import {loadUserInfo} from '../actions/user/userActions';
 
 const RequireAuth = (props)=>{
     const [isLogged, setIsLogged] = useState(false);
@@ -22,44 +22,48 @@ const RequireAuth = (props)=>{
     }, [props.user])
 
     const retrieveData = async ()=>{
-        const token = await AsyncStorage.getItem('babyPubKey');
+        const token = await AsyncStorage.getItem('4brntoken');
         console.log('go', token)
         try {
             
 
             if(token === null) {
+                console.log("token nul")
                 setIsLogged(false);
             } else {
+                console.log('else')
                 axios.get(config.api_url+"/api/v1/checkToken", { headers: { "x-access-token": token }})
                 .then((response)=>{
-                    console.log(response.data);
+                    console.log("reponse check token",response.data);
                     if(response.data.status !== 200) {
-                        
+                        console.log("mauvais token")
                          setIsLogged(false);
                     } else {
                         setIsLogged(true);
-                        let user = response.data.user[0];
+                        console.log("bon token")
+                        let user = response.data.user;
+                        console.log('response')
                         user.token = token;
-                        props.connectUser(user);
+                        props.loadUserInfo(user);
                         
                     }
                 })
             }
          } catch (error) {
-
+            console.log("error ?")
         }
     }
 
     return (
         <React.Fragment>
-           {isLogged ? <RoutesLog/> : <Routes />}
+           {isLogged ? <Routes/> : <Routes />}
         </React.Fragment>
     )
 
 }
 
 mapDispatchToProps = {
-    connectUser
+    loadUserInfo
 }
 
 mapStateToProps = (store)=>{

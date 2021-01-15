@@ -7,7 +7,7 @@ import {
 import background from '../../assets/rituals-background.jpg';
 import {saveUser} from '../../api/userApi'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Footer from '../../navigation/footer';
+import Header from '../../navigation/header';
 import {validateInputField} from '../../helpers/form-validator'
 import { useIsFocused  } from '@react-navigation/native';
 
@@ -57,6 +57,9 @@ const Register = ({navigation})=> {
 					clearform();
 					navigation.navigate('Login')
 				}
+				if (res.status===501){
+					setErrorMessage("Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre.")
+				}
 				else{
 					setErrorMessage("Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement.")
 				}
@@ -103,6 +106,7 @@ const Register = ({navigation})=> {
     return (
 		<KeyboardAwareScrollView  style={styles.container}>
     	<View style={styles.container}>
+		<Header screen='Register' navigation={navigation}/>
 			<ImageBackground source={background} style={styles.image}>
     		<ScrollView style={styles.scrollContainer}>
 			
@@ -181,7 +185,6 @@ const Register = ({navigation})=> {
 				>
     				<Text style={styles.buttonText}>Enregistrer</Text>
     			</TouchableOpacity>
-				<Footer style={styles.footer} navigation={navigation}/>
     		</ScrollView>
 			</ImageBackground>
 			
