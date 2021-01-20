@@ -52,13 +52,13 @@ const Register = ({navigation})=> {
 			saveUser(data)
 	        .then((res)=>{
 				console.log(res)
+				if (res.status===501){
+					setErrorMessage("Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre.")
+				}
 				if (res.status===200){
 					console.log("nouvel utilisateur enregistré")
 					clearform();
 					navigation.navigate('Login')
-				}
-				if (res.status===501){
-					setErrorMessage("Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre.")
 				}
 				else{
 					setErrorMessage("Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement.")

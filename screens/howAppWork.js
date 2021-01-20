@@ -1,72 +1,54 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Component } from 'react';
 import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
-import {
-    widthPercentageToDP as wp,
+import {    widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import background from '../assets/rituals-background.jpg';
-import video1 from '../video/sample-mp4-file.mp4'
+import {FetchUserData} from '../helpers/isFocused'
 import { Video } from 'expo-av';
 import VideoPlayer from 'expo-video-player';
-import { NavigationContainer,useIsFocused  } from '@react-navigation/native';
-import Header from '../navigation/header'
+import Header from '../navigation/header';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
-const HowAppWork = (props)=>{
+
+class HowAppWork extends Component {
+  constructor(props){
+    super(props)
+}
+
     
-  const isFocused = useIsFocused();
-  const video=null;
- 
-  console.log('isfocudsed',isFocused); 
-
-  useEffect(
-    () => {
-     if(!isFocused){
-       pauseVideo();
-     }
-    }
-    ,
-    [isFocused],
-  );
-  
-  const pauseVideo = () => {
-    console.log('dans pause')
-    console.log(video)
-    if(videoref) {
-      console.log('pause')
-      //videoref.pauseAsync();
-    }
-  }
-  const videoref = React.forwardRef 
+  render(){
+    console.log('rerender')
+    
     return (
 
         <View style={styles.container}>
-          <Header screen='HowAppWork' navigation={props.navigation}/>
-            <ImageBackground source={background} style={styles.image}>     
-
+        
+          <Header screen='HowAppWork' navigation={this.props.navigation}/>
+            <ImageBackground source={background} style={styles.image}> 
             <VideoPlayer
-            //ref={videoref}
-            videoProps={{
-              
-
-              shouldPlay:true,
-              resizeMode: Video.RESIZE_MODE_CONTAIN,
-              onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
-              source: {
-                uri: 'https://res.cloudinary.com/dmpzubglr/video/upload/v1610633687/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-201114_eialb0.mp4',
-              },
-            }}
-            inFullscreen={false}
-            width={Dimensions.get('window').width}
-            height={hp('80%')}
-            
-
-          />
-         
-            <Text>Hello</Text>
+                videoProps={{
+                  shouldPlay:true,
+                  resizeMode: Video.RESIZE_MODE_CONTAIN,
+                  onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
+                  source: {
+                    uri: 'https://res.cloudinary.com/dmpzubglr/video/upload/v1610633687/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-201114_eialb0.mp4',
+                  },
+                }}
+                ref={this.videoRef}
+                inFullscreen={false}
+                playbackStatus={
+                  (status)=> {
+                    console.log(status)
+                  }
+                }
+                width={Dimensions.get('window').width}
+                height={hp('80%')}
+            /> 
             </ImageBackground>
         </View>
     );
+          }
 }
 
 

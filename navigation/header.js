@@ -49,26 +49,52 @@ const Header = (props) =>{
             <View style={styles.container}>
                 <Button
                     title="Acceuil" style={styles.button}
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Home' }],
+                          });}
+                        }
                     color={acceuilColor}
                 />
                 <Button
                     title="Détails"
                     style={styles.button}
                     color={detailColor}
-                    onPress={() => navigation.navigate('HowAppWork')}
+                    onPress={() => 
+                        {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'HowAppWork' }],
+                              });}
+                    }
                 ><FontAwesomeIcon style={styles.button} icon={ faCoffee } /></Button>
                 <Button
                     title="S'inscrire"
                     style={styles.button}
                     color={registerColor}
-                    onPress={() => navigation.navigate('Register')}
+                    onPress={() => {
+
+                        //navigation.navigate('Register')
+
+                        navigation.reset({
+                          index: 0,
+                          routes: [{ name: 'Register' }],
+                        });
+                      
+                    }}
                 />
                  <Button
                     title="Se connecter"
                     style={styles.button}
                     color={loginColor}
-                    onPress={() => navigation.navigate('Login')}
+                    onPress={() => 
+                        {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Login' }],
+                              });}
+                    }
                 />
                { /*<TouchableOpacity
                     style={styles.button}

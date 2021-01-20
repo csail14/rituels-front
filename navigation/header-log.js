@@ -40,12 +40,20 @@ const HeaderLog = (props) =>{
             <View style={styles.container}>
                 <Button
                     title="Acceuil" style={styles.button}
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Home' }],
+                          });}}
                     color={acceuilColor}
                 />
                  <Button
                     title="Rituels" style={styles.button}
-                    onPress={() => navigation.navigate('Rituels')}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Rituels' }],
+                          });}}
                     color={rituelsColor}
                 />
                 
@@ -53,7 +61,11 @@ const HeaderLog = (props) =>{
                     title="Se déconnecter"
                     style={styles.button}
                     color={logoutColor}
-                    onPress={() => navigation.navigate('Logout')}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Logout' }],
+                          });}}
                 />
             </View>
             

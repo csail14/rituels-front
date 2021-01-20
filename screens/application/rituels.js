@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
+import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity,Button } from 'react-native';
+import {config} from '../../config';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -10,20 +10,96 @@ import background from '../../assets/rituals-background.jpg';
 import { Video } from 'expo-av';
 import VideoPlayer from 'expo-video-player';
 import { NavigationContainer,useIsFocused  } from '@react-navigation/native';
-import HeaderLog from '../../navigation/header-log'
+import HeaderLog from '../../navigation/header-log';
+import {getCycle, getVideo} from '../../api/cycleApi';
+import {connect} from 'react-redux';
+import {loadCycleInfo} from '../../actions/cycle/cycleActions';
 
 const Rituels = (props)=>{
+  const [video, setvideo] = useState('');
+  const [cycleId, setCycleId] = useState(111);
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [type, settype] = useState('normal');
+  const [list, setlist] =useState([]);
+  const [index,setIndex] = useState(0);
+  const [time,setTime] = useState(0);
+  
+  useEffect(()=>{
+    if(!props.cycle.infos.id){
+      getCycle(cycleId).then(
+        (res)=>{
+          props.loadCycleInfo(res.result[0])
+        }
+      )
+    }
+    }, [])
+
+    useEffect(()=>{
+      if(video){
+        console.log('set url', index, config.video_url+video.url)
+        setVideoUrl(config.video_url+video.url)
+      }
+    }, [video])
+
+    useEffect(()=>{
+
+      if(list){getVideo(list[0]).then(
+        (res)=>{
+          setvideo(res.result[0])
+        }
+      )}
+    }, [list])
+
+    useEffect(()=>{
+      console.log('useEFfect index')
+      if(index>0 && index<11){
+        console.log('get VIdeo', index)
+        getVideo(list[index]).then(
+        (res)=>{
+          setvideo(res.result[0])
+        }
+      )}
+    }, [index])
+
+    useEffect(()=>{
+      setlist(props.cycle.infos.video)
+    }, [props.cycle.infos])
+
+   
  
   
     return (
-
-      
-        <View style={styles.container}>
+          <View style={styles.container}>
           <HeaderLog screen='Rituels' navigation={props.navigation}/>
             <ImageBackground source={background} style={styles.image}>
-            <Text style={styles.title}>Rituels</Text>
-         
-            <Text>Hello</Text>
+            {videoUrl !==null &&<VideoPlayer
+                videoProps={{
+                  shouldPlay:true,
+                  positionMillis:0,
+                  resizeMode: Video.RESIZE_MODE_CONTAIN,
+                  onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
+                  source: {
+                    uri: videoUrl,
+                  },
+                }}
+                inFullscreen={false}
+                playbackCallback={(status) => {
+                  console.log(status)
+                  if(status.didJustFinish){
+                    if(index<10){
+                        setIndex(index+1)
+                        console.log('setIndex')
+                    }}}}
+                onPlaybackStatusUpdate={ (status) => {
+                  console.log(status)
+                }
+                }
+                width={Dimensions.get('window').width}
+                height={hp('80%')}
+            /> }
+            <View>
+                
+            </View>
             </ImageBackground>
         </View>
     );
@@ -100,5 +176,15 @@ const styles = StyleSheet.create({
     }
   });
 
+mapDispatchToProps = {
+  loadCycleInfo
+}
 
-export default Rituels;
+mapStateToProps = (store)=>{
+    return {
+        user: store.user,
+        cycle:store.cycle
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rituels);
