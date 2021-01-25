@@ -48,12 +48,14 @@ const Header = (props) =>{
         return(
             <View style={styles.container}>
                 <Button
-                    title="Acceuil" style={styles.button}
+                    title="Accueil" style={styles.button}
                     onPress={() => {
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Home' }],
-                          });}
+                        if(props.screen!=='Home'){
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Home' }],
+                              });}
+                            }
                         }
                     color={acceuilColor}
                 />
@@ -63,10 +65,11 @@ const Header = (props) =>{
                     color={detailColor}
                     onPress={() => 
                         {
+                            if(props.screen!=='HowAppWork'){
                             navigation.reset({
                                 index: 0,
                                 routes: [{ name: 'HowAppWork' }],
-                              });}
+                              });}}
                     }
                 ><FontAwesomeIcon style={styles.button} icon={ faCoffee } /></Button>
                 <Button
@@ -75,13 +78,13 @@ const Header = (props) =>{
                     color={registerColor}
                     onPress={() => {
 
-                        //navigation.navigate('Register')
+                        if(props.screen!=='Register'){
 
                         navigation.reset({
                           index: 0,
                           routes: [{ name: 'Register' }],
                         });
-                      
+                    }
                     }}
                 />
                  <Button
@@ -90,10 +93,11 @@ const Header = (props) =>{
                     color={loginColor}
                     onPress={() => 
                         {
+                            if(props.screen!=='Login'){
                             navigation.reset({
                                 index: 0,
                                 routes: [{ name: 'Login' }],
-                              });}
+                              });}}
                     }
                 />
                { /*<TouchableOpacity

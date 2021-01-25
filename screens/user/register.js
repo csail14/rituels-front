@@ -10,6 +10,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Header from '../../navigation/header';
 import {validateInputField} from '../../helpers/form-validator'
 import { useIsFocused  } from '@react-navigation/native';
+import { CheckBox } from 'react-native-elements'
 
 const Register = ({navigation})=> {
 
@@ -19,9 +20,9 @@ const Register = ({navigation})=> {
 	const [email, setemail] = useState("");
 	const [password, setpassword] = useState("");
 	const [lang, setlang] = useState("FR");
-	const [phone, setphone] = useState("");
 	const [passwordConfirm, setpasswordConfirm] = useState("");
 	const isFocused = useIsFocused();
+	const [cgu,setcgu] = useState(false)
 
 	useEffect(
 		
@@ -45,7 +46,7 @@ const Register = ({navigation})=> {
 			password: password,
 			passwordConfirm: passwordConfirm,
 			lang: lang,
-			phone: phone
+			phone: ""
 		}
 		let error = formValidator(data);
 		if (error===""){
@@ -83,10 +84,6 @@ const Register = ({navigation})=> {
 			setErrorMessage(validateInputField('mail', 'email', data.email))
 			return validateInputField('email', 'email',data.email)
 		}
-		if(validateInputField('téléphone', 'phone', data.phone) !== ""){
-			setErrorMessage(validateInputField('téléphone', 'phone', data.phone))
-			return validateInputField('téléphone', 'phone',data.phone)
-		}
 		if(data.password !== data.passwordConfirm){
 			setErrorMessage("Les deux mots de passe ne sont pas identiques.")
 			return "Les deux mots de pass ne sont pas identiques."
@@ -99,7 +96,6 @@ const Register = ({navigation})=> {
 		setLastName("");
 		setemail("");
 		setpassword("");
-		setphone("");
 		setpasswordConfirm("");
 	}
 
@@ -164,17 +160,12 @@ const Register = ({navigation})=> {
     					setpasswordConfirm(text)
     				}}
     			/>
-
-				<TextInput
-					style={styles.input}
-					value={phone}
-    				type="text"
-    				placeholder="Téléphone"
-    				onChangeText={(text)=>{
-    					setphone(text)
-    				}}
-    			/>
-				
+				<CheckBox
+  					title="J'accepte les conditions générales d'utilisation"
+					checked={cgu}
+					onPress={()=>setcgu(!cgu)}
+					containerStyle={styles.checkbox}
+				/>
 				<Text style={styles.errorMessage}>{errorMessage}</Text>
     			<TouchableOpacity
 					style={styles.button}
@@ -204,6 +195,11 @@ const styles = StyleSheet.create({
 	textAlign: 'center',
 	marginBottom: 20,
 	color: "white"
+  },
+  checkbox:{
+	width: wp('60%'),
+	marginLeft: wp('20%'),
+	paddingLeft: wp('5%')
   },
   errorMessage: {
 	fontSize: 20,

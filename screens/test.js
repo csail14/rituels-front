@@ -1,137 +1,220 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity,Button } from 'react-native';
+import {config} from '../../config';
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+  } from 'react-native-responsive-screen';
+import background from '../../assets/rituals-background.jpg';
 
-// import all the components we are going to use
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-
-//Import React Native Video to play video
 import { Video } from 'expo-av';
+import VideoPlayer from 'expo-video-player';
+import { NavigationContainer,useIsFocused  } from '@react-navigation/native';
+import HeaderLog from '../../navigation/header-log';
+import {getCycle, getVideo} from '../../api/cycleApi';
+import {connect} from 'react-redux';
+import {loadCycleInfo} from '../../actions/cycle/cycleActions';
+import VideoComponent from '../../component/video'
+import Test from '../../component/testRef'
 
-//Media Controls to control Play/Pause/Seek and full screen
-import
-  MediaControls, {PLAYER_STATES}
-from 'react-native-media-controls';
+const Rituels = (props)=>{
+  const [video, setvideo] = useState('');
+  const [cycleId, setCycleId] = useState(111);
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [type, settype] = useState('normal');
+  const [time, setTime] = useState(0);
+  const [isNextAvailable,setisNextAvailable] =useState(false);
+  const [list, setlist] =useState([]);
+  const [index,setIndex] = useState(0);
 
-const Test = () => {
-  const videoPlayer = useRef(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [paused, setPaused] = useState(false);
-  const [
-    playerState, setPlayerState
-  ] = useState(PLAYER_STATES.PLAYING);
-  const [screenType, setScreenType] = useState('content');
+  let ref = React.createRef();
 
-  const onSeek = (seek) => {
-    //Handler for change in seekbar
-    videoPlayer.current.seek(seek);
-  };
-
-  const onPaused = (playerState) => {
-    //Handler for Video Pause
-    setPaused(!paused);
-    setPlayerState(playerState);
-  };
-
-  const onReplay = () => {
-    //Handler for Replay
-    setPlayerState(PLAYER_STATES.PLAYING);
-    videoPlayer.current.seek(0);
-  };
-
-  const onProgress = (data) => {
-    // Video Player will progress continue even if it ends
-    if (!isLoading && playerState !== PLAYER_STATES.ENDED) {
-      setCurrentTime(data.currentTime);
+  useEffect(()=>{
+    if(!props.cycle.infos.id){
+      getCycle(cycleId).then(
+        (res)=>{
+          props.loadCycleInfo(res.result[0])
+        }
+      )
     }
-  };
+    }, [])
 
-  const onLoad = (data) => {
-    setDuration(data.duration);
-    setIsLoading(false);
-  };
+  useEffect(()=>{
+    if(video){
+      console.log('set url', index, config.video_url+video.url)
+      setVideoUrl(config.video_url+video.url)
+      
+    }
+    if(ref!== null){
+      console.log('plein ecran')
+      //ref.presentFullscreenPlayer()
+    }
+  }, [video])
 
-  const onLoadStart = (data) => setIsLoading(true);
+    useEffect(()=>{
 
-  const onEnd = () => setPlayerState(PLAYER_STATES.ENDED);
+      if(list){getVideo(list[0]).then(
+        (res)=>{
+          setvideo(res.result[0])
+        }
+      )}
+    }, [list])
 
-  const onError = () => alert('Oh! ', error);
+    useEffect(()=>{
+      console.log('useEFfect index')
+      if(index>0 && index<11){
+        console.log('get VIdeo', index)
+        getVideo(list[index]).then(
+        (res)=>{
+          setvideo(res.result[0])
+        }
+      )}
+    }, [index])
 
-  const exitFullScreen = () => {
-    alert('Exit full screen');
-  };
+    useEffect(()=>{
+      setlist(props.cycle.infos.video)
+    }, [props.cycle.infos])
 
-  const enterFullScreen = () => {};
+    const nextVideo = ()=>{
+      if(index<10){
+        setIndex(index+1)
+        console.log('setIndex')
+    }
+    }
 
-  const onFullScreen = () => {
-    setIsFullScreen(isFullScreen);
-    if (screenType == 'content') setScreenType('cover');
-    else setScreenType('content');
-  };
+    const handleVideoRef = (component) => {
+      ref = component;
+    }
+    
+  
+    return (
+          <View style={styles.container}>
+          <HeaderLog screen='Rituels' navigation={props.navigation}/>
+            <ImageBackground source={background} style={styles.image}>
+             {videoUrl !==null &&<VideoPlayer
+          videoProps={{
+            videoRef: handleVideoRef,     /* THIS IS CORRECT*/                                                                                                           
+            shouldPlay: true, 
+            //positionMillis:{time},
+            resizeMode: Video.RESIZE_MODE_CONTAIN,
+            onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
+            source: {
+              uri: videoUrl,
+            },
+          }}
 
-  const renderToolbar = () => (
-    <View>
-      <Text style={styles.toolbar}> toolbar </Text>
-    </View>
-  );
+         
+          inFullscreen={true}
+          playbackCallback={(status) => {
 
-  const onSeeking = (currentTime) => setCurrentTime(currentTime);
+            if(status.didJustFinish){
+                  nextVideo()
+                  ref.setPositionAsync(0)
+                  ref.playAsync()
+              }
+            }
+          }
+          width={Dimensions.get('window').width}
+          height={hp('80%')}
+      />}
+          <TouchableOpacity 
+                        style={styles.link}
+                        onPress={
+                          () => {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Login' }],
+                              });}
+                        }>
+                          <Text  style={{color:"white", fontSize:20}}>Video suivante </Text>    
+                      </TouchableOpacity>
+            <View>
+            </View>
+            </ImageBackground>
+        </View>
+    );
+}
 
-  return (
-    <View style={{flex: 1}}>
-      <Video
-        onEnd={onEnd}
-        onLoad={onLoad}
-        onLoadStart={onLoadStart}
-        onProgress={onProgress}
-        paused={paused}
-        ref={videoPlayer}
-        resizeMode={screenType}
-        onFullScreen={isFullScreen}
-        source={{
-          uri:
-            'https://assets.mixkit.co/videos/download/mixkit-countryside-meadow-4075.mp4',
-        }}
-        style={styles.mediaPlayer}
-        volume={10}
-      />
-      <MediaControls
-        duration={duration}
-        isLoading={isLoading}
-        mainColor="#333"
-        onFullScreen={onFullScreen}
-        onPaused={onPaused}
-        onReplay={onReplay}
-        onSeek={onSeek}
-        onSeeking={onSeeking}
-        playerState={playerState}
-        progress={currentTime}
-        toolbar={renderToolbar()}
-      />
-    </View>
-  );
-};
 
-export default Test;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  toolbar: {
-    marginTop: 30,
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-  },
-  mediaPlayer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-  },
-});
+    container: {
+      flex: 1,
+      backgroundColor: 'black',
+    },
+    title: {
+      fontSize: 20,
+      textAlign: 'center',
+      marginBottom: 20,
+      color: "white"
+    },
+    text: {
+        color: 'white',
+        textAlign: 'center'
+    },
+    scrollContainer: {
+      width: wp('100%'),
+      textAlign: 'center',
+    },
+    input: {
+        backgroundColor: 'white',
+        width: wp('60%'),
+      height: 40,
+      marginBottom: 15,
+      marginLeft: wp('20%'),
+      paddingLeft: wp('5%')
+    },
+    image: {
+      flex: 1,
+      resizeMode: "cover",
+      justifyContent: "center"
+    },
+    video: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      },
+    button: {
+      backgroundColor: "#321aed",
+      width: wp('40%'),
+      height: 40,
+      alignItems: "center",
+      justifyContent: "center",
+      marginLeft: wp('30%'),
+      marginTop: 10
+    },
+    buttonText: {
+        color: "white"
+    },
+    commande: {
+        flex:1
+    },
+    checkBoxContainer: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingLeft: wp('10%'),
+    }, 
+    checkBox: {
+        flex: 1,
+    },
+    validateContainer: {
+        flex: 3
+    }
+  });
+
+mapDispatchToProps = {
+  loadCycleInfo
+}
+
+mapStateToProps = (store)=>{
+    return {
+        user: store.user,
+        cycle:store.cycle
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rituels);

@@ -14,16 +14,23 @@ import HeaderLog from '../../navigation/header-log';
 import {getCycle, getVideo} from '../../api/cycleApi';
 import {connect} from 'react-redux';
 import {loadCycleInfo} from '../../actions/cycle/cycleActions';
+import VideoComponent from '../../component/video'
+import Test from '../../component/testRef'
+import { faBorderNone } from '@fortawesome/free-solid-svg-icons';
 
 const Rituels = (props)=>{
   const [video, setvideo] = useState('');
   const [cycleId, setCycleId] = useState(111);
   const [videoUrl, setVideoUrl] = useState(null);
   const [type, settype] = useState('normal');
+  const [time, setTime] = useState(0);
+  const [isNextAvailable,setisNextAvailable] =useState(false);
   const [list, setlist] =useState([]);
   const [index,setIndex] = useState(0);
-  const [time,setTime] = useState(0);
-  
+  const [isFullScreen, setIsFullScreen] = useState(false)
+
+  let ref = React.createRef();
+
   useEffect(()=>{
     if(!props.cycle.infos.id){
       getCycle(cycleId).then(
@@ -34,12 +41,19 @@ const Rituels = (props)=>{
     }
     }, [])
 
-    useEffect(()=>{
-      if(video){
-        console.log('set url', index, config.video_url+video.url)
-        setVideoUrl(config.video_url+video.url)
-      }
-    }, [video])
+  useEffect(()=>{
+    if(video){
+      console.log('set url', index, config.video_url+video.url)
+      setVideoUrl(config.video_url+video.url)
+      
+    }
+    //if(ref.current!== null && isFullScreen===false){
+     // console.log('plein ecran')
+      //setIsFullScreen(true)
+     // console.log(ref)
+      //ref.presentFullscreenPlayer()
+   // }
+  }, [video])
 
     useEffect(()=>{
 
@@ -65,40 +79,57 @@ const Rituels = (props)=>{
       setlist(props.cycle.infos.video)
     }, [props.cycle.infos])
 
-   
- 
+    const nextVideo = ()=>{
+      if(index<10){
+        setIndex(index+1)
+        console.log('setIndex')
+    }
+    }
+
+    const handleVideoRef = (component) => {
+      ref = component;
+    }
+    
   
     return (
           <View style={styles.container}>
           <HeaderLog screen='Rituels' navigation={props.navigation}/>
             <ImageBackground source={background} style={styles.image}>
-            {videoUrl !==null &&<VideoPlayer
-                videoProps={{
-                  shouldPlay:true,
-                  positionMillis:0,
-                  resizeMode: Video.RESIZE_MODE_CONTAIN,
-                  onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
-                  source: {
-                    uri: videoUrl,
-                  },
-                }}
-                inFullscreen={false}
-                playbackCallback={(status) => {
-                  console.log(status)
-                  if(status.didJustFinish){
-                    if(index<10){
-                        setIndex(index+1)
-                        console.log('setIndex')
-                    }}}}
-                onPlaybackStatusUpdate={ (status) => {
-                  console.log(status)
-                }
-                }
-                width={Dimensions.get('window').width}
-                height={hp('80%')}
-            /> }
+             {videoUrl !==null &&<VideoPlayer
+          videoProps={{
+            videoRef: handleVideoRef,                                                                                                 
+            shouldPlay: true, 
+            resizeMode: Video.RESIZE_MODE_CONTAIN,
+            onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
+            source: {
+              uri: videoUrl,
+            },
+          }}
+
+         
+          inFullscreen={true}
+          playbackCallback={(status) => {
+            if(status.didJustFinish){
+              setisNextAvailable(true)
+              }
+            }
+          }
+          width={Dimensions.get('window').width}
+          height={hp('85%')}
+      />}
+          {isNextAvailable&&<TouchableOpacity 
+                        style={styles.button}
+                        onPress={
+                          () => {
+                            setisNextAvailable(false)
+                            nextVideo()
+                            ref.setPositionAsync(0)
+                            ref.playAsync()
+                            }
+                        }>
+                          <Text  style={{color:"white", fontSize:20}}>Video suivante </Text>    
+                      </TouchableOpacity>}
             <View>
-                
             </View>
             </ImageBackground>
         </View>
