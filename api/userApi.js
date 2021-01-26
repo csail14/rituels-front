@@ -26,6 +26,17 @@ export const getUser = ()=>{
             })
 }
 
+export const getSubUser = (id)=>{
+    axios.get(config.api_url+"/api/v1/subuser/get/all/"+id, { headers})
+                        
+            .then((response)=>{
+                return response.data;
+            })
+            .catch((err)=>{
+                return err;
+            })
+}
+
 export const loginUser = (data)=>{
     return axios.post(config.api_url+"/api/v1/user/login", data)
             .then((response)=>{

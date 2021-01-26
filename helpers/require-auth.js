@@ -32,10 +32,13 @@ const RequireAuth = (props)=>{
                          setIsLogged(false);
                     } else {
                         setIsLogged(true);
-                        let user = response.data.user;
-                        user.token = token;
-                        props.loadUserInfo(user);
-                        
+                        axios.get(config.api_url+"/api/v1/subuser/get/all/"+response.data.user.id, { headers: { "x-access-token": token }})
+                        .then((res=> {
+                            let subuser = res.data.result
+                            let user = response.data.user;
+                            user.token = token;
+                            props.loadUserInfo(user, subuser);
+                        }))
                     }
                 })
             }

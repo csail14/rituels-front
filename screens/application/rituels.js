@@ -53,7 +53,7 @@ const Rituels = (props)=>{
       )}}, [list])
 
     useEffect(()=>{
-      if(index>0 && index<11){
+      if(index>=0 && index<11){
         getVideo(list[index]).then(
         (res)=>{
           setvideo(res.result[0])
@@ -84,13 +84,22 @@ const Rituels = (props)=>{
     const  onSwipeRight = (gestureState) => {
         setShowMenu(true)
     }
-  
+    const restart = () => {
+      console.log('restart')
+      setIndex(0)
+      ref.setPositionAsync(0)
+      setShowMenu(false)
+    }
+
+    const randomCycle = () => {
+      // TO DO quand d'autres cycles
+    }
   
     return (
           <View style={styles.container}>
             
             <View style={styles.maincontent}>
-            {showMenu &&<Menu screen='Rituels' setShowMenu={setShowMenu} navigation={props.navigation} style={styles.menu}/>}
+            {showMenu &&<Menu screen='Rituels' randomCycle={randomCycle} restart={restart} setShowMenu={setShowMenu} navigation={props.navigation} style={styles.menu}/>}
             <GestureRecognizer
               onSwipeLeft={(state) => onSwipeLeft(state)}
               onSwipeRight={(state) => onSwipeRight(state)}

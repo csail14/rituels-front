@@ -5,7 +5,7 @@ import {
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import background from '../../assets/rituals-background.jpg';
-import {loginUser,forgotPassword} from '../../api/userApi'
+import {loginUser,getSubUser} from '../../api/userApi'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Header from '../../navigation/header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,8 +29,12 @@ const Login = (props)=> {
 			seterrorMessage('');
             if(res.status === 200) {
 				storeData(res.token);
-				props.loadUserInfo(res.user);
-				props.navigation.navigate('Home')
+				getSubUser(res.user.id)
+				.then((resp)=>{
+					console.log('resp',resp)
+					props.loadUserInfo(res.user);
+					props.navigation.navigate('Home')
+				})
             } else if (res.status === 404){
 				seterrorMessage(res.msg)
             } else if (res.status === 401) {

@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet,Button, Text} from 'react-native';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
 import {connect} from 'react-redux';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 
-const HeaderLog = (props) =>{
+const HeaderAccount = (props) =>{
     const navigation = props.navigation
     const [acceuilColor,setAcceuilColor] = useState('');
     const [rituelsColor,setRituelsColor] = useState('');
@@ -38,7 +37,7 @@ const HeaderLog = (props) =>{
     }
         return(
             <View style={styles.container}>
-                {props.user.subuser&&<Button
+                <Button
                     title={props.user.subuser[0].name} style={styles.button}
                     onPress={() => {
                         navigation.reset({
@@ -46,19 +45,19 @@ const HeaderLog = (props) =>{
                             routes: [{ name: 'Home' }],
                           });}}
                     color={acceuilColor}
-                />}
+                />
                  <Button
-                    title="Rituels" style={styles.button}
+                    title="Statistiques" style={styles.button}
                     onPress={() => {
                         navigation.reset({
                             index: 0,
-                            routes: [{ name: 'Rituels' }],
+                            routes: [{ name: 'Stat' }],
                           });}}
                     color={rituelsColor}
                 />
                 
                 <Button
-                    title="Mon Compte"
+                    title="Infos"
                     style={styles.button}
                     color={logoutColor}
                     onPress={() => {
@@ -100,4 +99,4 @@ const mapStateToProps = (store)=>{
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(HeaderLog);
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderAccount);

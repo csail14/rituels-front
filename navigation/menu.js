@@ -10,78 +10,50 @@ import {
 
 const Menu = (props) =>{
     const navigation = props.navigation
-    const [acceuilColor,setAcceuilColor] = useState('');
-    const [rituelsColor,setRituelsColor] = useState('');
-    const [logoutColor,setLogoutColor] = useState('');
 
-    useEffect(
-        () => {
-          navigationColor();
-        }
-        ,
-        [props.screen],
-      );
 
-    const navigationColor = () => {
-        switch (props.screen) {
-            case 'Home':
-                setAcceuilColor('white');
-                break;
-            case 'Logout':
-                setLogoutColor('white');
-                break;
-            case 'Rituels':
-                setRituelsColor('white');
-                break;
-            default:
-                break;
-        }
-    }
+
         return(
             <View style={styles.container}>
                 <ImageBackground source={background} style={styles.image}>
-                <TouchableOpacity
-                    onPress={() => {
-                        props.setShowMenu(false)}}
-                >
-                    <Text style={styles.texte}> Retour </Text>
-                </TouchableOpacity>
-                 <Button
-                    title="< Retour" style={styles.button}
-                    onPress={() => {
-                        props.setShowMenu(false)}}
-                    color={acceuilColor}
-                />
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.setShowMenu(false)}}
+                    >
+                        <Text style={styles.texte}> Retour </Text>
+                    </TouchableOpacity>
 
-                <Button
-                    title="Acceuil" style={styles.button}
-                    onPress={() => {
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Home' }],
-                          });}}
-                    color={acceuilColor}
-                />
-                 <Button
-                    title="Rituels" style={styles.button}
-                    onPress={() => {
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Rituels' }],
-                          });}}
-                    color={rituelsColor}
-                />
-                
-                <Button
-                    title="Se déconnecter"
-                    style={styles.button}
-                    color={logoutColor}
-                    onPress={() => {
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Logout' }],
-                          });}}
-                />
+                    <TouchableOpacity
+                        onPress={() =>{props.restart()} }
+                    >
+                        <Text style={styles.texte}> Recommencer le cycle </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() =>{props.randomCycle()} }
+                    >
+                        <Text style={styles.texte}> Changer de cycle </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Home' }],
+                            });}}
+                    >
+                        <Text style={styles.texte}> Acceuil </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Logout' }],
+                            });}}
+                    >
+                        <Text style={styles.texte}> Se deco </Text>
+                    </TouchableOpacity>
                 </ImageBackground>
             </View>
             
@@ -106,11 +78,8 @@ const styles = StyleSheet.create({
     texte :{
         color:'white'
     },
-    button: {
-        paddingTop:10,
-        color:'white',
-        height:50
-    }
+
+    
   });
 const mapDispatchToProps = {
  

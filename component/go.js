@@ -20,13 +20,10 @@ export default class Menu extends React.Component {
     }
 
      playSound = async ()=> {
-        console.log('Loading Sound');
         const { sound } = await Audio.Sound.createAsync(
             require('../assets/magic-wand.wav')
          );
         this.setState({sound:sound})
-        console.log(sound)
-        console.log('Playing Sound');
         await this.state.sound.playAsync(); 
     }
 
@@ -40,8 +37,6 @@ export default class Menu extends React.Component {
                 index: 0,
                 routes: [{ name: 'Rituels' }],
               })
-          //this.state.animation.setValue(0);
-          //If you remove above line then it will stop the animation at toValue point
         });
   
     }
@@ -56,17 +51,11 @@ export default class Menu extends React.Component {
             
             <TouchableWithoutFeedback onPress={
                 ()=>{
-                    //console.log(this.state.sound)
-                    console.log('test')
                     this.playSound();
                     this.startAnimation();
-                    
-                    ;
                 }
                     }>
- 
            <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
-           
          </TouchableWithoutFeedback>  
         </View>
     );}
