@@ -9,25 +9,26 @@ import background from '../../assets/rituals-background.jpg';
 
 import { Video } from 'expo-av';
 import VideoPlayer from 'expo-video-player';
-import { NavigationContainer,useIsFocused  } from '@react-navigation/native';
 import HeaderLog from '../../navigation/header-log';
+import Menu from '../../navigation/menu'
 import {getCycle, getVideo} from '../../api/cycleApi';
 import {connect} from 'react-redux';
 import {loadCycleInfo} from '../../actions/cycle/cycleActions';
-import VideoComponent from '../../component/video'
-import Test from '../../component/testRef'
-import { faBorderNone } from '@fortawesome/free-solid-svg-icons';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
+import { Icon } from 'react-native-elements'
 
 const Rituels = (props)=>{
   const [video, setvideo] = useState('');
   const [cycleId, setCycleId] = useState(111);
   const [videoUrl, setVideoUrl] = useState(null);
   const [type, settype] = useState('normal');
-  const [time, setTime] = useState(0);
   const [isNextAvailable,setisNextAvailable] =useState(false);
   const [list, setlist] =useState([]);
   const [index,setIndex] = useState(0);
   const [isFullScreen, setIsFullScreen] = useState(false)
+  const [gestureName, setGestureName] = useState('none')
+  const [showMenu, setShowMenu] = useState(false)
+  const [height,setHeight] = useState(hp('100%'))
 
   let ref = React.createRef();
 
@@ -37,43 +38,27 @@ const Rituels = (props)=>{
         (res)=>{
           props.loadCycleInfo(res.result[0])
         }
-      )
-    }
-    }, [])
+      )}}, [])
 
   useEffect(()=>{
     if(video){
-      console.log('set url', index, config.video_url+video.url)
       setVideoUrl(config.video_url+video.url)
-      
-    }
-    //if(ref.current!== null && isFullScreen===false){
-     // console.log('plein ecran')
-      //setIsFullScreen(true)
-     // console.log(ref)
-      //ref.presentFullscreenPlayer()
-   // }
-  }, [video])
+    }}, [video])
 
     useEffect(()=>{
-
       if(list){getVideo(list[0]).then(
         (res)=>{
           setvideo(res.result[0])
         }
-      )}
-    }, [list])
+      )}}, [list])
 
     useEffect(()=>{
-      console.log('useEFfect index')
       if(index>0 && index<11){
-        console.log('get VIdeo', index)
         getVideo(list[index]).then(
         (res)=>{
           setvideo(res.result[0])
         }
-      )}
-    }, [index])
+      )}}, [index])
 
     useEffect(()=>{
       setlist(props.cycle.infos.video)
@@ -82,19 +67,34 @@ const Rituels = (props)=>{
     const nextVideo = ()=>{
       if(index<10){
         setIndex(index+1)
-        console.log('setIndex')
-    }
-    }
+    }}
 
     const handleVideoRef = (component) => {
       ref = component;
     }
     
+    const  onSwipeLeft = (gestureState) => {
+      if(isNextAvailable){
+        nextVideo()
+        ref.setPositionAsync(0)
+        setisNextAvailable(false)
+        setHeight(hp('100%'))
+      }
+    }
+    const  onSwipeRight = (gestureState) => {
+        setShowMenu(true)
+    }
+  
   
     return (
           <View style={styles.container}>
-          <HeaderLog screen='Rituels' navigation={props.navigation}/>
-            <ImageBackground source={background} style={styles.image}>
+            
+            <View style={styles.maincontent}>
+            {showMenu &&<Menu screen='Rituels' setShowMenu={setShowMenu} navigation={props.navigation} style={styles.menu}/>}
+            <GestureRecognizer
+              onSwipeLeft={(state) => onSwipeLeft(state)}
+              onSwipeRight={(state) => onSwipeRight(state)}
+              config={{velocityThreshold: 0.3,directionalOffsetThreshold: 80}}>
              {videoUrl !==null &&<VideoPlayer
           videoProps={{
             videoRef: handleVideoRef,                                                                                                 
@@ -105,23 +105,25 @@ const Rituels = (props)=>{
               uri: videoUrl,
             },
           }}
-
-         
-          inFullscreen={true}
+          inFullscreen={false}
+          switchToLandscape={()=> {setShowMenu(true)}}
           playbackCallback={(status) => {
             if(status.didJustFinish){
               setisNextAvailable(true)
+              setHeight(hp('90%'))
               }
             }
           }
           width={Dimensions.get('window').width}
-          height={hp('85%')}
-      />}
+          height={height}
+      />  }</GestureRecognizer>            
+          </View>
           {isNextAvailable&&<TouchableOpacity 
                         style={styles.button}
                         onPress={
                           () => {
                             setisNextAvailable(false)
+                            setHeight(hp('100%'))
                             nextVideo()
                             ref.setPositionAsync(0)
                             ref.playAsync()
@@ -131,7 +133,7 @@ const Rituels = (props)=>{
                       </TouchableOpacity>}
             <View>
             </View>
-            </ImageBackground>
+  
         </View>
     );
 }
@@ -142,6 +144,15 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'black',
+    },
+    maincontent: {
+      display:'flex',
+      flexDirection:'row'
+    },
+    menu : {
+      position:'absolute',
+      left:0,
+      bottom:0
     },
     title: {
       fontSize: 20,
@@ -157,26 +168,11 @@ const styles = StyleSheet.create({
       width: wp('100%'),
       textAlign: 'center',
     },
-    input: {
-        backgroundColor: 'white',
-        width: wp('60%'),
-      height: 40,
-      marginBottom: 15,
-      marginLeft: wp('20%'),
-      paddingLeft: wp('5%')
-    },
     image: {
       flex: 1,
       resizeMode: "cover",
       justifyContent: "center"
     },
-    video: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-      },
     button: {
       backgroundColor: "#321aed",
       width: wp('40%'),
@@ -188,22 +184,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "white"
-    },
-    commande: {
-        flex:1
-    },
-    checkBoxContainer: {
-        flex: 1,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        paddingLeft: wp('10%'),
-    }, 
-    checkBox: {
-        flex: 1,
-    },
-    validateContainer: {
-        flex: 3
     }
   });
 

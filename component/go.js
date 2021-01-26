@@ -7,16 +7,35 @@ export default class Menu extends React.Component {
     constructor(props){
         super(props)
         this.state= {
-            animation : new Animated.Value(0)
+            animation : new Animated.Value(0),
+            sound : null
+             
           }
     }
+
+    getSound = async () => {
+        const { sound } = await Audio.Sound.createAsync(
+            require('../assets/magic-wand.wav'))
+        return sound
+    }
+
+     playSound = async ()=> {
+        console.log('Loading Sound');
+        const { sound } = await Audio.Sound.createAsync(
+            require('../assets/magic-wand.wav')
+         );
+        this.setState({sound:sound})
+        console.log(sound)
+        console.log('Playing Sound');
+        await this.state.sound.playAsync(); 
+    }
+
     startAnimation=()=>{
         Animated.timing(this.state.animation,{
           toValue : 1000,
           duration : 2000,
           useNativeDriver: true
         }).start(()=>{
-            console.log('fini')
             this.props.navigation.reset({
                 index: 0,
                 routes: [{ name: 'Rituels' }],
@@ -37,7 +56,11 @@ export default class Menu extends React.Component {
             
             <TouchableWithoutFeedback onPress={
                 ()=>{
+                    //console.log(this.state.sound)
+                    console.log('test')
+                    this.playSound();
                     this.startAnimation();
+                    
                     ;
                 }
                     }>

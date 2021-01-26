@@ -8,6 +8,7 @@ import Login from '../screens/user/login';
 import Rituels from '../screens/application/rituels'
 import HowAppWork from '../screens/howAppWork';
 import ForgotPassword from '../screens/user/forgot-password'
+import Test from '../screens/test'
 
 const Stack = createStackNavigator();
 
@@ -47,7 +48,6 @@ const MyStack = () => {
         <Stack.Screen 
           name="Rituels" 
           component={Rituels}
-          options={{ title: 'Déconnexion' }}
         /><Stack.Screen 
         name="Forgot" 
         component={ForgotPassword}

@@ -8,7 +8,7 @@ import background from '../assets/main-background.jpg'
 import Header from '../navigation/header'
 import HeaderLog from '../navigation/header-log'
 import {connect} from 'react-redux';
-import Menu from '../component/menu'
+import Menu from '../component/go'
 
 
 const Home = ({ navigation,user })=>{
