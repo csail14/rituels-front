@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 const Account = ({ navigation,user })=>{
     return (
         <View style={styles.container}>
-          <Header screen='Home' navigation={navigation}/>
+          <Header screen='Account' navigation={navigation}/>
           
             <ImageBackground source={background} style={styles.image}>
             

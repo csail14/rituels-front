@@ -9,8 +9,8 @@ import {
 const HeaderAccount = (props) =>{
     const navigation = props.navigation
     const [acceuilColor,setAcceuilColor] = useState('');
-    const [rituelsColor,setRituelsColor] = useState('');
-    const [logoutColor,setLogoutColor] = useState('');
+    const [statColor,setstatColor] = useState('');
+    const [accountColor,setaccountColor] = useState('');
 
     useEffect(
         () => {
@@ -25,11 +25,11 @@ const HeaderAccount = (props) =>{
             case 'Home':
                 setAcceuilColor('white');
                 break;
-            case 'Logout':
-                setLogoutColor('white');
+            case 'Stat':
+                setstatColor('white');
                 break;
-            case 'Rituels':
-                setRituelsColor('white');
+            case 'Account':
+                setaccountColor('white');
                 break;
             default:
                 break;
@@ -53,13 +53,13 @@ const HeaderAccount = (props) =>{
                             index: 0,
                             routes: [{ name: 'Stat' }],
                           });}}
-                    color={rituelsColor}
+                    color={statColor}
                 />
                 
                 <Button
                     title="Infos"
                     style={styles.button}
-                    color={logoutColor}
+                    color={accountColor}
                     onPress={() => {
                         navigation.reset({
                             index: 0,
