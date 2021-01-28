@@ -55,18 +55,21 @@ const Stats = ({ navigation,user })=>{
         var last_monday= new Date();
         console.log('semaine',getDateOfWeek(3,2021))
         let lab = []
+        let array=[]
         let datas = []
         getstatbyweek(user.subuser[0].id).then(
           (res)=>{
-            let keys = Object.keys(res.result[0])
-            let values = Object.values(res.result[0])
-            keys.map((key)=>{
-              lab.push(getDateOfWeek(key))
+            for (const key in res.result[0]){
+              array.push([key,res.result[0][key]])
+            }
+            array.sort( (a, b) => {
+              return a[0] - b[0]
+            })
+            array.map((item)=>{
+              lab.push(getDateOfWeek(item[0]))
+              datas.push(item[1])
             })
             setlabels(lab)
-            values.map((value)=>{
-              datas.push(value)
-            })
             setDataSet(datas)
           }
         )
