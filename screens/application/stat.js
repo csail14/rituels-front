@@ -78,14 +78,14 @@ const Stats = ({ navigation,user })=>{
 
   const screenWidth = Dimensions.get("window").width;
   const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0.5,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0.4,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    backgroundColor: "#e26a00",
+    backgroundGradientFromOpacity: 1,
+    backgroundGradientToOpacity: 1,
+    backgroundGradientFrom: "#bdbdde",
+    backgroundGradientTo: "#8585e6",
+    color: (opacity = 1) => `rgba(24, 24, 26, ${opacity})`,
     strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false // optional
+    barPercentage: 1
   };
 
 
@@ -93,6 +93,7 @@ const Stats = ({ navigation,user })=>{
     labels:labels ,
     datasets: [
       {
+        
         data: dataSet,
         color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
         strokeWidth: 2 // optional
@@ -111,8 +112,10 @@ const Stats = ({ navigation,user })=>{
               width={screenWidth}
               height={400}
               verticalLabelRotation={30}
+              
               chartConfig={chartConfig}
             />
+            
             
             </ImageBackground>
             

@@ -32,3 +32,14 @@ export  const getstatbyweek = async (subuser_id)=>{
                 return err;
             })
 }
+
+export  const addStat = async (data)=>{
+    const token =  await AsyncStorage.getItem('4brntoken');
+    return axios.post(config.api_url+"/api/v1/success/add",data, {headers: {'x-access-token': token}})
+            .then((response)=>{
+                return response.data;
+            })
+            .catch((err)=>{
+                return err;
+            })
+}

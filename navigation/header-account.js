@@ -66,6 +66,16 @@ const HeaderAccount = (props) =>{
                             routes: [{ name: 'Account' }],
                           });}}
                 />
+                 <Button
+                    title="Se déconnecter"
+                    style={styles.button}
+                    color={acceuilColor}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Logout' }],
+                          });}}
+                />
             </View>
             
         )

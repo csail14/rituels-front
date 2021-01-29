@@ -12,6 +12,7 @@ import VideoPlayer from 'expo-video-player';
 import HeaderLog from '../../navigation/header-log';
 import Menu from '../../navigation/menu'
 import {getCycle, getVideo} from '../../api/cycleApi';
+import {addStat} from '../../api/statApi'
 import {connect} from 'react-redux';
 import {loadCycleInfo} from '../../actions/cycle/cycleActions';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
@@ -23,10 +24,9 @@ const Rituels = (props)=>{
   const [videoUrl, setVideoUrl] = useState(null);
   const [type, settype] = useState('normal');
   const [isNextAvailable,setisNextAvailable] =useState(false);
+  const [isCycleDone,setisCycleDone] =useState(false);
   const [list, setlist] =useState([]);
   const [index,setIndex] = useState(0);
-  const [isFullScreen, setIsFullScreen] = useState(false)
-  const [gestureName, setGestureName] = useState('none')
   const [showMenu, setShowMenu] = useState(false)
   const [height,setHeight] = useState(hp('100%'))
 
@@ -69,6 +69,16 @@ const Rituels = (props)=>{
         setIndex(index+1)
     }}
 
+    const validateCycle = () => {
+      const data = {
+        user_id:props.user.infos.id,
+        subuser_id:props.user.subuser[0].id,
+        cycle_id:cycleId
+      }
+      console.log(data)
+      addStat(data).then((res)=>{console.log('stat ajouté')})
+    }
+
     const handleVideoRef = (component) => {
       ref = component;
     }
@@ -107,7 +117,8 @@ const Rituels = (props)=>{
              {videoUrl !==null &&<VideoPlayer
           videoProps={{
             videoRef: handleVideoRef,                                                                                                 
-            shouldPlay: true, 
+            shouldPlay: true,
+            isLooping:true,
             resizeMode: Video.RESIZE_MODE_CONTAIN,
             onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
             source: {
@@ -118,7 +129,11 @@ const Rituels = (props)=>{
           switchToLandscape={()=> {setShowMenu(true)}}
           playbackCallback={(status) => {
             if(status.didJustFinish){
-              setisNextAvailable(true)
+              ref.pauseAsync()
+              if(index<10){
+                setisNextAvailable(true)
+              }
+              else{setisCycleDone(true)}
               setHeight(hp('90%'))
               }
             }
@@ -139,6 +154,17 @@ const Rituels = (props)=>{
                             }
                         }>
                           <Text  style={{color:"white", fontSize:20}}>Video suivante </Text>    
+                      </TouchableOpacity>}
+          {isCycleDone&&<TouchableOpacity 
+                        style={styles.button}
+                        onPress={
+                          () => {
+                            setisCycleDone(false)
+                            setHeight(hp('100%'))
+                            validateCycle()
+                            }
+                        }>
+                          <Text  style={{color:"white", fontSize:20}}>Terminer le cycle </Text>    
                       </TouchableOpacity>}
             <View>
             </View>

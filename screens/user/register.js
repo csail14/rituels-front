@@ -45,8 +45,7 @@ const Register = ({navigation})=> {
 			email: email,
 			password: password,
 			passwordConfirm: passwordConfirm,
-			lang: lang,
-			phone: ""
+			lang: lang
 		}
 		let error = formValidator(data);
 		if (error===""){

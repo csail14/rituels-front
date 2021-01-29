@@ -27,8 +27,7 @@ export const getUser = ()=>{
 }
 
 export const getSubUser = (id)=>{
-    axios.get(config.api_url+"/api/v1/subuser/get/all/"+id, { headers})
-                        
+    return axios.get(config.api_url+"/api/v1/subuser/get/all/"+id, { headers})
             .then((response)=>{
                 return response.data;
             })

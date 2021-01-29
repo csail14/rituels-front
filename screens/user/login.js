@@ -31,8 +31,8 @@ const Login = (props)=> {
 				storeData(res.token);
 				getSubUser(res.user.id)
 				.then((resp)=>{
-					console.log('resp',resp)
-					props.loadUserInfo(res.user);
+
+					props.loadUserInfo(res.user, resp.result);
 					props.navigation.navigate('Home')
 				})
             } else if (res.status === 404){

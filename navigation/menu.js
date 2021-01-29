@@ -16,23 +16,24 @@ const Menu = (props) =>{
         return(
             <View style={styles.container}>
                 <ImageBackground source={background} style={styles.image}>
+                    <View style={styles.menu}>
                     <TouchableOpacity
                         onPress={() => {
                             props.setShowMenu(false)}}
                     >
-                        <Text style={styles.texte}> Retour </Text>
+                        <Text style={styles.text}> Retour </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         onPress={() =>{props.restart()} }
                     >
-                        <Text style={styles.texte}> Recommencer le cycle </Text>
+                        <Text style={styles.text}> Recommencer le cycle </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         onPress={() =>{props.randomCycle()} }
                     >
-                        <Text style={styles.texte}> Changer de cycle </Text>
+                        <Text style={styles.text}> Changer de cycle </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -42,7 +43,7 @@ const Menu = (props) =>{
                                 routes: [{ name: 'Home' }],
                             });}}
                     >
-                        <Text style={styles.texte}> Acceuil </Text>
+                        <Text style={styles.text}> Acceuil </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
@@ -54,6 +55,8 @@ const Menu = (props) =>{
                     >
                         <Text style={styles.texte}> Se deco </Text>
                     </TouchableOpacity>
+                    
+                    </View>
                 </ImageBackground>
             </View>
             
@@ -65,7 +68,7 @@ const Menu = (props) =>{
 const styles = StyleSheet.create({
     container: {
       flexDirection: 'column',
-      justifyContent:'space-around',
+      //justifyContent:'space-around',
       height:wp('100%'),
       width:hp('30%'),
       paddingTop:15
@@ -75,10 +78,20 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
         justifyContent: "center"
       },
-    texte :{
-        color:'white'
+    text :{
+        color:'white',
+        textAlign:'center',
+        paddingTop:30,
+        textDecorationLine:'underline',
+        fontSize:25
     },
-
+    menu:{
+        flex: 1,
+        display:'flex',
+        flexDirection:'column',
+        //justifyContent:'space-around',
+        paddingBottom:10
+    }
     
   });
 const mapDispatchToProps = {
