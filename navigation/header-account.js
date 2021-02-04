@@ -38,7 +38,8 @@ const HeaderAccount = (props) =>{
         return(
             <View style={styles.container}>
                 <Button
-                    title={props.user.subuser[0].name} style={styles.button}
+                    title="Dashboard"
+                    style={styles.button}
                     onPress={() => {
                         navigation.reset({
                             index: 0,
@@ -46,15 +47,7 @@ const HeaderAccount = (props) =>{
                           });}}
                     color={acceuilColor}
                 />
-                 <Button
-                    title="Statistiques" style={styles.button}
-                    onPress={() => {
-                        navigation.reset({
-                            index: 0,
-                            routes: [{ name: 'Stat' }],
-                          });}}
-                    color={statColor}
-                />
+
                 
                 <Button
                     title="Infos"

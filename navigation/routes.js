@@ -11,6 +11,8 @@ import Login from '../screens/user/login';
 import Rituels from '../screens/application/rituels'
 import HowAppWork from '../screens/howAppWork';
 import ForgotPassword from '../screens/user/forgot-password'
+import Warroom from '../screens/application/warroom'
+import Awards from '../screens/application/awards'
 import Test from '../screens/test'
 
 const Stack = createStackNavigator();
@@ -34,6 +36,14 @@ const MyStack = (props) => {
       name="Logout" 
       component={Logout} 
       options={{ title: 'Déconnexion' }}
+    />
+    <Stack.Screen 
+      name="Warroom" 
+      component={Warroom} 
+    />
+    <Stack.Screen 
+      name="Award" 
+      component={Awards} 
     />
     <Stack.Screen 
       name="Rituels" 

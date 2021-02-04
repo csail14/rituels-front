@@ -10,8 +10,10 @@ import {
 const HeaderLog = (props) =>{
     const navigation = props.navigation
     const [acceuilColor,setAcceuilColor] = useState('');
-    const [rituelsColor,setRituelsColor] = useState('');
+    const [statColor,setStatColor] = useState('');
     const [logoutColor,setLogoutColor] = useState('');
+    const [awardColor,setAwardColor] = useState('');
+    const [warroomColor,setWarroomColor] = useState('');
 
     useEffect(
         () => {
@@ -29,8 +31,11 @@ const HeaderLog = (props) =>{
             case 'Logout':
                 setLogoutColor('white');
                 break;
-            case 'Rituels':
-                setRituelsColor('white');
+            case 'Award':
+                setAwardColor('white');
+                break;
+            case 'Stat':
+                setStatColor('white');
                 break;
             default:
                 break;
@@ -39,7 +44,8 @@ const HeaderLog = (props) =>{
         return(
             <View style={styles.container}>
                 {props.user.subuser&&<Button
-                    title={props.user.subuser[0].name} style={styles.button}
+                    title="Dashboard" 
+                    style={styles.button}
                     onPress={() => {
                         navigation.reset({
                             index: 0,
@@ -48,13 +54,31 @@ const HeaderLog = (props) =>{
                     color={acceuilColor}
                 />}
                  <Button
-                    title="Rituels" style={styles.button}
+                    title="Statistiques" style={styles.button}
                     onPress={() => {
                         navigation.reset({
                             index: 0,
-                            routes: [{ name: 'Rituels' }],
+                            routes: [{ name: 'Stat' }],
                           });}}
-                    color={rituelsColor}
+                    color={statColor}
+                />
+                <Button
+                    title="Awards" style={styles.button}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Award' }],
+                          });}}
+                    color={awardColor}
+                />
+                <Button
+                    title="War Room" style={styles.button}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Warroom' }],
+                          });}}
+                    color={warroomColor}
                 />
                 
                 <Button

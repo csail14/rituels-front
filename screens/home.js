@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {ImageBackground, StyleSheet, Text, View, TouchableOpacity,Button} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View, Image,TouchableOpacity,Button} from 'react-native';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -9,18 +9,36 @@ import Header from '../navigation/header'
 import HeaderLog from '../navigation/header-log'
 import {connect} from 'react-redux';
 import Menu from '../component/go'
+import logo from '../assets/logo.png'
+import axios from 'axios';
+import {config} from '../config';
 
 
 const Home = ({ navigation,user })=>{
+
+  useEffect(()=>{
+    if(!user.isLogged===false){
+      axios.get(config.api_url+"/")
+            .then((response)=>{
+                return response.data;
+            })
+    }
+      }, [])
+
     return (
         <View style={styles.container}>
           {user && user.isLogged ? <HeaderLog screen='Home' navigation={navigation}/>: <Header screen='Home' navigation={navigation}/>}
           
             <ImageBackground source={background} style={styles.image}>
             
-              {user.infos && <Menu navigation={navigation}/>}
-              {user.isLogged===false&&<View style={{display:'flex', justifyContent:'center'}}>
-                  <Text style={styles.title}>Bienvenue sur l'application 4Br'N</Text>
+              {user.infos &&
+              <> 
+              
+              <Menu navigation={navigation}/>
+              <Text style={styles.subTitle}>Bonjour {user.infos.firstName}</Text>
+              </>}
+              {user.isLogged===false&&<View style={{display:'flex', flex:1}}>
+                  <Text style={styles.title}>Bienvenue sur  4b Premium</Text>
                   <View style={styles.buttonContainer}>
                     <View style={{display:'flex', alignItems:'center', marginBottom:20}}>
                       <Text style={styles.subTitle}>Déjà un compte ? </Text>
@@ -37,7 +55,7 @@ const Home = ({ navigation,user })=>{
                       </TouchableOpacity>
                     </View>
                     <View style={{display:'flex', alignItems:'center', marginBottom:20}}>
-                    <Text style={styles.subTitle}>Nouveau sur 4Br'N ?</Text>
+                    <Text style={styles.subTitle}>Nouveau sur 4b ?</Text>
                       <TouchableOpacity
                           style={styles.link}
                           onPress={
@@ -52,7 +70,7 @@ const Home = ({ navigation,user })=>{
                         </TouchableOpacity>
                     </View>
                     <View style={{display:'flex', alignItems:'center', marginBottom:20}}>
-                    <Text style={styles.subTitle}>Pour plus d'information sur le principe de 4Br'N</Text>
+                    <Text style={styles.subTitle}>Plus d'information sur 4b :</Text>
                       <TouchableOpacity
                           style={styles.link}
                           onPress={
@@ -65,11 +83,15 @@ const Home = ({ navigation,user })=>{
                       >
                         <Text  style={{color:"white", fontSize:20}}>Cliquez-ici </Text>    
                         </TouchableOpacity>
+                        
+                               
                     </View>
+                    
                   </View>
+                  
                 </View>
               }
-            
+            <Image source={logo} style={styles.logo}/>
             </ImageBackground>
             
             
@@ -87,12 +109,18 @@ const styles = StyleSheet.create({
     buttonContainer:{
       marginTop:wp('0%')
     },
+    logo:{
+      width:80,
+      height:80, 
+      position:'absolute',
+      left:10,
+      bottom:10
+    },
     title: {
       fontSize: 40,
       textAlign: 'center',
       color: "white",
-      marginBottom:40,
-      backgroundColor: 'black',
+      paddingBottom:hp('10%'),
       display:'flex'
     },
     subTitle: {

@@ -10,20 +10,20 @@ import background from '../../assets/rituals-background.jpg';
 import { Video } from 'expo-av';
 import VideoPlayer from 'expo-video-player';
 import HeaderLog from '../../navigation/header-log';
-import Menu from '../../navigation/menu'
+import Menu from '../../navigation/menu';
+import Validate from '../../component/validate'
 import {getCycle, getVideo} from '../../api/cycleApi';
 import {addStat} from '../../api/statApi'
 import {connect} from 'react-redux';
 import {loadCycleInfo} from '../../actions/cycle/cycleActions';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import { Icon } from 'react-native-elements'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const Rituels = (props)=>{
   const [video, setvideo] = useState('');
   const [cycleId, setCycleId] = useState(111);
   const [videoUrl, setVideoUrl] = useState(null);
-  const [type, settype] = useState('normal');
-  const [isNextAvailable,setisNextAvailable] =useState(false);
   const [isCycleDone,setisCycleDone] =useState(false);
   const [list, setlist] =useState([]);
   const [index,setIndex] = useState(0);
@@ -43,6 +43,10 @@ const Rituels = (props)=>{
   useEffect(()=>{
     if(video){
       setVideoUrl(config.video_url+video.url)
+      if (ref.replayAsync){
+        ref.setPositionAsync(0)
+      }
+      
     }}, [video])
 
     useEffect(()=>{
@@ -65,6 +69,7 @@ const Rituels = (props)=>{
     }, [props.cycle.infos])
 
     const nextVideo = ()=>{
+      console.log('ref',ref.refs.node)
       if(index<10){
         setIndex(index+1)
     }}
@@ -75,8 +80,13 @@ const Rituels = (props)=>{
         subuser_id:props.user.subuser[0].id,
         cycle_id:cycleId
       }
-      console.log(data)
-      addStat(data).then((res)=>{console.log('stat ajouté')})
+      addStat(data).then(
+        (res)=>{
+          props.navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+        })
+        })
     }
 
     const handleVideoRef = (component) => {
@@ -84,12 +94,19 @@ const Rituels = (props)=>{
     }
     
     const  onSwipeLeft = (gestureState) => {
-      if(isNextAvailable){
-        nextVideo()
-        ref.setPositionAsync(0)
-        setisNextAvailable(false)
-        setHeight(hp('100%'))
-      }
+      ref.getStatusAsync().then(
+        (status)=>{
+          if(status.positionMillis === status.durationMillis){
+            if(index===list.length-1){
+              setVideoUrl(null)
+              setisCycleDone(true)
+            }else{
+              nextVideo()
+            }
+            
+          }
+        }
+      )
     }
     const  onSwipeRight = (gestureState) => {
         setShowMenu(true)
@@ -98,6 +115,7 @@ const Rituels = (props)=>{
       console.log('restart')
       setIndex(0)
       ref.setPositionAsync(0)
+      ref.playAsync()
       setShowMenu(false)
     }
 
@@ -110,63 +128,32 @@ const Rituels = (props)=>{
             
             <View style={styles.maincontent}>
             {showMenu &&<Menu screen='Rituels' randomCycle={randomCycle} restart={restart} setShowMenu={setShowMenu} navigation={props.navigation} style={styles.menu}/>}
+            
             <GestureRecognizer
               onSwipeLeft={(state) => onSwipeLeft(state)}
               onSwipeRight={(state) => onSwipeRight(state)}
               config={{velocityThreshold: 0.3,directionalOffsetThreshold: 80}}>
-             {videoUrl !==null &&<VideoPlayer
-          videoProps={{
-            videoRef: handleVideoRef,                                                                                                 
-            shouldPlay: true,
-            isLooping:true,
-            resizeMode: Video.RESIZE_MODE_CONTAIN,
-            onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
-            source: {
-              uri: videoUrl,
-            },
-          }}
-          inFullscreen={false}
-          switchToLandscape={()=> {setShowMenu(true)}}
-          playbackCallback={(status) => {
-            if(status.didJustFinish){
-              ref.pauseAsync()
-              if(index<10){
-                setisNextAvailable(true)
-              }
-              else{setisCycleDone(true)}
-              setHeight(hp('90%'))
-              }
-            }
-          }
-          width={Dimensions.get('window').width}
-          height={height}
-      />  }</GestureRecognizer>            
-          </View>
-          {isNextAvailable&&<TouchableOpacity 
-                        style={styles.button}
-                        onPress={
-                          () => {
-                            setisNextAvailable(false)
-                            setHeight(hp('100%'))
-                            nextVideo()
-                            ref.setPositionAsync(0)
-                            ref.playAsync()
-                            }
-                        }>
-                          <Text  style={{color:"white", fontSize:20}}>Video suivante </Text>    
-                      </TouchableOpacity>}
-          {isCycleDone&&<TouchableOpacity 
-                        style={styles.button}
-                        onPress={
-                          () => {
-                            setisCycleDone(false)
-                            setHeight(hp('100%'))
-                            validateCycle()
-                            }
-                        }>
-                          <Text  style={{color:"white", fontSize:20}}>Terminer le cycle </Text>    
-                      </TouchableOpacity>}
-            <View>
+                
+             {videoUrl!==null  &&
+             <Video
+             ref = {handleVideoRef}
+             source={{ uri: videoUrl }}
+             rate={1.0}
+             volume={1.0}
+             isMuted={false}
+             useNativeControls={true}
+             resizeMode="contain"
+             shouldPlay={true}
+             fullscreen = {false}
+             isLooping={false}
+             switchToLandscape={()=> {setShowMenu(true)}}
+             style={{ width: Dimensions.get('window').width, height: height }}
+           />
+             }
+             </GestureRecognizer>            
+          {isCycleDone&&<Validate navigation={props.navigation}/>}
+                  
+            
             </View>
   
         </View>
@@ -189,36 +176,10 @@ const styles = StyleSheet.create({
       left:0,
       bottom:0
     },
-    title: {
-      fontSize: 20,
-      textAlign: 'center',
-      marginBottom: 20,
-      color: "white"
-    },
-    text: {
-        color: 'white',
-        textAlign: 'center'
-    },
-    scrollContainer: {
-      width: wp('100%'),
-      textAlign: 'center',
-    },
     image: {
       flex: 1,
       resizeMode: "cover",
       justifyContent: "center"
-    },
-    button: {
-      backgroundColor: "#321aed",
-      width: wp('40%'),
-      height: 40,
-      alignItems: "center",
-      justifyContent: "center",
-      marginLeft: wp('30%'),
-      marginTop: 10
-    },
-    buttonText: {
-        color: "white"
     }
   });
 

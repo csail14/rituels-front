@@ -45,17 +45,6 @@ const Menu = (props) =>{
                     >
                         <Text style={styles.text}> Acceuil </Text>
                     </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => {
-                            navigation.reset({
-                                index: 0,
-                                routes: [{ name: 'Logout' }],
-                            });}}
-                    >
-                        <Text style={styles.texte}> Se deco </Text>
-                    </TouchableOpacity>
-                    
                     </View>
                 </ImageBackground>
             </View>

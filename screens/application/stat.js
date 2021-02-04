@@ -6,7 +6,7 @@ import {
   } from 'react-native-responsive-screen';
 import {BarChart  } from "react-native-chart-kit";
 import background from '../../assets/rituals-background.jpg'
-import Header from '../../navigation/header-account'
+import Header from '../../navigation/header-log'
 import {connect} from 'react-redux';
 import {getstatbymonth,getstatbyweek} from '../../api/statApi';
 import moment from 'moment';
@@ -18,6 +18,8 @@ const Stats = ({ navigation,user })=>{
   const [scale, setScale] = useState('week')
   const [dataSet, setDataSet] = useState([])
   const [labels,setlabels] = useState([])
+  const [weekColor, setWeekcolor] = useState('#bdbdde')
+  const [monthColor, setMonthcolor] = useState('#8484a3')
 
   useEffect(()=>{
 
@@ -43,10 +45,10 @@ const Stats = ({ navigation,user })=>{
 
     const setData = ()=> {
       if(scale==='month'){
-        setlabels(["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet","Août","Septembre","Octobre","Novembre","Décembre"])
+        setlabels(["Septembre","Octobre","Novembre","Décembre","Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet","Août"])
         getstatbymonth(user.subuser[0].id).then(
           (res)=>{
-            let data = [res.result[0].jan,res.result[0].fev,res.result[0].mars,res.result[0].april,res.result[0].may,res.result[0].june,res.result[0].july,res.result[0].augu,res.result[0].sept,res.result[0].oct,res.result[0].nov,res.result[0].dec]
+            let data = [res.result[0].sept,res.result[0].oct,res.result[0].nov,res.result[0].dec,res.result[0].jan,res.result[0].fev,res.result[0].mars,res.result[0].april,res.result[0].may,res.result[0].june,res.result[0].july,res.result[0].augu]
             setDataSet(data)
           }
         )
@@ -106,17 +108,45 @@ const Stats = ({ navigation,user })=>{
           <Header screen='Stat' navigation={navigation}/>
           
             <ImageBackground source={background} style={styles.image}>
-            
+            <Text  style={styles.text}>Cycles validés</Text>
             <BarChart
               data={dataMonth}
               width={screenWidth}
-              height={400}
+              height={hp('60%')}
               verticalLabelRotation={30}
-              
+              hideLegend={false}
+              radius={32}
+              style={{
+                borderRadius: 16,
+                paddingTop:40,
+                marginBottom:5
+              }}
               chartConfig={chartConfig}
             />
             
-            
+            <View style={styles.boutonView}>
+            <TouchableOpacity style={styles.button}
+                        onPress={
+                          () => {
+                            setScale('week')
+                            setWeekcolor('#bdbdde')
+                            setMonthcolor('#8484a3')
+                            }
+                        }>
+                          <Text  style={[styles.textbouton, {backgroundColor:monthColor}]}>Hebdo</Text>   
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button}
+                        onPress={
+                          () => {
+                            setScale('month')
+                            setWeekcolor('#8484a3')
+                            setMonthcolor('#bdbdde')
+                            }
+                        }>
+                          <Text  style={[styles.textbouton, {backgroundColor:weekColor}]}>Mensuel</Text>   
+              </TouchableOpacity>
+              
+            </View>
             </ImageBackground>
             
             
@@ -135,6 +165,26 @@ const styles = StyleSheet.create({
       flex: 1,
       resizeMode: "cover",
       justifyContent: "center"
+    },
+    text:{
+      color:'white',
+      textAlign:'center',
+      fontSize:30
+    },
+    boutonView:{
+      display:'flex',
+      flexDirection:'row',
+      justifyContent:'center'
+    },
+    textbouton:{
+      backgroundColor:'#bdbdde',
+      padding:20,
+      color:'white',
+      borderColor:'white',
+      borderRadius:100
+    },
+    button:{
+      borderRadius:100
     }
   });
 
