@@ -5,8 +5,10 @@ import  {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import background from '../../assets/rituals-background.jpg'
 import Header from '../../navigation/header-log'
 import {connect} from 'react-redux';
+import AddEvent from '../../component/addEvent'
 
 import {LocaleConfig} from 'react-native-calendars';
+import {getAllEvent} from '../../api/eventApi';
 
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -23,7 +25,24 @@ moment.locale('fr');
 
 const Warroom = ({ navigation,user })=>{
 
-    const now = new Date()
+
+
+    const data = [{'date':'2021-02-17','title':'test','user_id':12,'subuser_id':34},{'date':'2021-02-01','title':'test','user_id':12,'subuser_id':34},{'date':'2021-02-21','title':'test2','user_id':12,'subuser_id':34}]
+    const [currentMonth,setCurrentMonth] = useState((new Date()).getMonth()+1)
+    const [eventPopUp, setEventPopUp] = useState(false)
+    const [selectedDate, setSelectedate] = useState()
+
+    
+    const checkEvent=(day, month)=>{
+      let dayData = []
+      data.map((event)=>{
+        let newEvent = new Date(event.date)
+        if(newEvent.getDate()==day && newEvent.getMonth()+1==month){
+          dayData.push(event)
+        }
+      })
+      return dayData 
+    }
 
         return (
         <View style={styles.container}>
@@ -31,25 +50,45 @@ const Warroom = ({ navigation,user })=>{
           
             <ImageBackground source={background} style={styles.image}>
             <Calendar style={styles.calendar}
-              current={'2021-02-01'}
               dayComponent={({date, state}) => {
+                let dayData = checkEvent(date.day, date.month)
                   return (
-                    <View style={{height:hp('12%')}}>
-                      <TouchableOpacity onPress={()=>console.log(date)}>
-                      <Text style={{textAlign: 'center', color: state === 'disabled' ? 'gray' : 'black'}}>
+                    <View>
+                    <TouchableOpacity onPress={()=>{
+                      setEventPopUp(!eventPopUp)
+                      let newDate = new Date (date.year, date.month-1, date.day)
+                      setSelectedate(newDate)
+                    }}>
+                    <View style={{height:hp('12%'), width:wp('10%')}}>
+                      
+                      <Text style={{textAlign: 'center', color: date.month === currentMonth ? 'black' : 'grey'}}>
                         {date.day}
                       </Text>
-                      <Text style={{textAlign: 'center', color: state === 'disabled' ? 'gray' : 'black'}}>
-                        Event
+                      {dayData.length>0 && dayData.map((event,index)=>{
+                        return (
+                          <Text key={index} style={{textAlign: 'center', color: state === 'disabled' ? 'gray' : 'black'}}>
+                            {event.title}
                       </Text>
-                      </TouchableOpacity>
+                        )
+                      })}
+                      
+                    </View>
+                    </TouchableOpacity>
                     </View>
                   );
               }}
+              markingType={'custom'}
+              markedDates={{
+                '2021-02-01': {selected: true, marked: true, selectedColor: 'blue'},
+                '2021-02-06': {marked: true},
+                '2021-02-18': {marked: true, dotColor: 'red', activeOpacity: 0},
+                '2021-02-19': {disabled: true, disableTouchEvent: true}
+              }}
+              onMonthChange={(month) => {setCurrentMonth(month.month)}}
               // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-              onPressArrowLeft={()=>console.log('left arrow')}
+              onPressArrowLeft={subtractMonth => subtractMonth()}
               // Handler which gets executed when press arrow icon right. It receive a callback can go next month
-              onPressArrowRight={()=>console.log('right arrow')}
+              onPressArrowRight={addMonth => addMonth()}
               theme={{
                 calendarBackground: '#ffffff',
                 textSectionTitleColor: '#b6c1cd',
@@ -65,6 +104,7 @@ const Warroom = ({ navigation,user })=>{
                 textDayHeaderFontSize: 16
             }}
           />
+          {eventPopUp&&<AddEvent setPopUpAvailable={setEventPopUp} date={selectedDate}/>}
           </ImageBackground>    
         </View>
     )
@@ -73,6 +113,7 @@ const Warroom = ({ navigation,user })=>{
 
 
 const styles = StyleSheet.create({
+
     container: {
       flex: 1,
       backgroundColor: 'black',

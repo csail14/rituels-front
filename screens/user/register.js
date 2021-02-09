@@ -51,7 +51,6 @@ const Register = ({navigation})=> {
 		if (error===""){
 			saveUser(data)
 	        .then((res)=>{
-				console.log(res)
 				if (res.status===501){
 					setErrorMessage("Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre.")
 				}

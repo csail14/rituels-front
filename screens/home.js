@@ -17,13 +17,11 @@ import {config} from '../config';
 const Home = ({ navigation,user })=>{
 
   useEffect(()=>{
-    if(!user.isLogged===false){
+    if(user.isLogged===false){
       axios.get(config.api_url+"/")
             .then((response)=>{
                 return response.data;
-            })
-    }
-      }, [])
+            })}}, [])
 
     return (
         <View style={styles.container}>
