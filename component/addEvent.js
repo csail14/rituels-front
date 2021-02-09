@@ -6,14 +6,13 @@ import {
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import {validateInputField} from '../helpers/form-validator'
+
 import DatePicker from 'react-native-datepicker'
 import clock from '../assets/clock.png';
 import moment from 'moment';
 import {addEvent} from '../api/eventApi'
-moment().format();
-moment.locale('fr');
-
-
+import {getAllEvent} from '../api/eventApi';
+import {loadEvent} from '../actions/event/eventActions'
 
 const addEventComp = (props)=>{
 
@@ -23,13 +22,13 @@ const addEventComp = (props)=>{
     const [errorMessage, setErrorMessage] = useState("");
  
     const onSubmitForm = () => {
-
+        let index= props.user.current_subuser
         let data = {
             title:title,
             comment:comment,
             date:date,
             user_id:props.user.infos.id, 
-            subuser_id:props.user.subuser[0].id
+            subuser_id:props.user.subuser[index].id
         }
         setErrorMessage("");
         console.log(data)
@@ -39,6 +38,15 @@ const addEventComp = (props)=>{
                 (res)=>{
                     if(res.status===200){
                         props.setPopUpAvailable(false)
+                        getAllEvent(props.user.subuser[index].id).then(
+                            (resp)=>{
+                                console.log('reponse get all event', resp)
+                                if(resp.status===200){
+                                    console.log('envooi dans redux')
+                                    props.loadEvent(resp.result)
+                                }
+                            }
+                        )
                     }
                     else{
                         setErrorMessage('Une erreur est survenue, veuillez réessayer plus tard.')
@@ -50,8 +58,6 @@ const addEventComp = (props)=>{
 
     const formValidator= ()=>{
 		let error=false;
-
-		
 		error = validateInputField('title', "string", title)
 			if (error !== ""){
 				setErrorMessage("Veuillez ajouter un titre")
@@ -61,20 +67,18 @@ const addEventComp = (props)=>{
 	}
 
     return (
+        
         <View style={styles.container}>
             <TouchableOpacity onPress={()=>props.setPopUpAvailable(false)} style={styles.close}><Text style={styles.closeText}>X</Text></TouchableOpacity>
-          
             <Text  style={styles.title}>Nouveau rituel</Text>
-            
             <TextInput
-    				style={styles.input}
-    				type="text"
-					placeholder="Titre"
-                    onChangeText={
-                        (value) =>{setTitle(value)}
-                    }
+    			style={styles.input}
+    			type="text"
+				placeholder="Titre"
+                onChangeText={
+                    (value) =>{setTitle(value)}
+                }
     		/>
-            
             <DatePicker
                     style={styles.datePickerStyle}
                     date={date} 
@@ -99,8 +103,6 @@ const addEventComp = (props)=>{
                         marginLeft: 100
                     }}
                     onDateChange={(event, date) => {
-                        console.log(event)
-                        console.log(date)
                         setDate(date);
                     }}
             />
@@ -120,12 +122,11 @@ const addEventComp = (props)=>{
 						onSubmitForm();
 					}}
 				>
-                    
     		    <Text style={styles.buttonText}>Enregistrer</Text>
     		</TouchableOpacity>
             <Text style={styles.errorMessage}>{errorMessage}</Text>
-      
         </View>
+        
     );
 }
 
@@ -213,12 +214,13 @@ const styles = StyleSheet.create({
     );
 
     mapDispatchToProps = {
-        
+        loadEvent
       }
       
       mapStateToProps = (store)=>{
           return {
-              user: store.user
+              user: store.user,
+              agenda: store.agenda
           }
       }
       

@@ -22,7 +22,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const Rituels = (props)=>{
   const [video, setvideo] = useState('');
-  const [cycleId, setCycleId] = useState(111);
+  const [cycleId, setCycleId] = useState(121);
   const [videoUrl, setVideoUrl] = useState(null);
   const [isCycleDone,setisCycleDone] =useState(false);
   const [list, setlist] =useState([]);
@@ -69,15 +69,15 @@ const Rituels = (props)=>{
     }, [props.cycle.infos])
 
     const nextVideo = ()=>{
-      console.log('ref',ref.refs.node)
       if(index<10){
         setIndex(index+1)
     }}
 
     const validateCycle = () => {
+      let index= props.user.current_subuser
       const data = {
         user_id:props.user.infos.id,
-        subuser_id:props.user.subuser[0].id,
+        subuser_id:props.user.subuser[index].id,
         cycle_id:cycleId
       }
       addStat(data).then(

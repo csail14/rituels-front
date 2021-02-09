@@ -1,0 +1,1 @@
+export const LOAD_EVENT_INFO = "LOAD_EVENT_INFO";

@@ -12,6 +12,7 @@ import {getstatbymonth,getstatbyweek} from '../../api/statApi';
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
+import {getStatByMonthData} from '../../helpers/createStatCalendar'
 
 const Stats = ({ navigation,user })=>{
 
@@ -43,23 +44,47 @@ const Stats = ({ navigation,user })=>{
         return moment(date).format('DD/MM');
     }
 
-    const setData = ()=> {
+    const  setData = async ()=> {
+      let index= user.current_subuser
+      
+
       if(scale==='month'){
-        setlabels(["Septembre","Octobre","Novembre","Décembre","Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet","Août"])
-        getstatbymonth(user.subuser[0].id).then(
+        getstatbymonth(user.subuser[index].id).then(
           (res)=>{
-            let data = [res.result[0].sept,res.result[0].oct,res.result[0].nov,res.result[0].dec,res.result[0].jan,res.result[0].fev,res.result[0].mars,res.result[0].april,res.result[0].may,res.result[0].june,res.result[0].july,res.result[0].augu]
-            setDataSet(data)
+              let data =[]
+              let thisMonth = (new Date()).getMonth()
+              let thisYear = (new Date()).getFullYear()
+              let calendar =["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet","Août","Septembre","Octobre","Novembre","Décembre"]
+              let stat = [res.result[0].jan,res.result[0].fev,res.result[0].mars,res.result[0].april,res.result[0].may,res.result[0].june,res.result[0].july,res.result[0].augu,res.result[0].sept,res.result[0].oct,res.result[0].nov,res.result[0].dec]
+              for (let i=-6;i<1;i++){
+                  if(thisMonth+i<0){
+                      data.push({
+                          month:calendar[thisMonth+i+12],
+                          data: stat[thisMonth+i+12],
+                          year:thisYear-1
+                      })
+                  }
+                  else{
+                      data.push({
+                          month:calendar[thisMonth+i],
+                          data: stat[thisMonth+i],
+                          year:thisYear
+                      })
+                  }
+                }
+                let label = data.map((item)=> {return item.month})
+                setlabels(label)
+                let dataStat = data.map((item)=> {return item.data})
+                setDataSet(dataStat)
           }
         )
       }else if (scale==='week'){
         
         var last_monday= new Date();
-        console.log('semaine',getDateOfWeek(3,2021))
         let lab = []
         let array=[]
         let datas = []
-        getstatbyweek(user.subuser[0].id).then(
+        getstatbyweek(user.subuser[index].id).then(
           (res)=>{
             for (const key in res.result[0]){
               array.push([key,res.result[0][key]])
@@ -108,7 +133,7 @@ const Stats = ({ navigation,user })=>{
           <Header screen='Stat' navigation={navigation}/>
           
             <ImageBackground source={background} style={styles.image}>
-            <Text  style={styles.text}>Cycles validés</Text>
+            <Text  style={styles.text}>Rituels validés</Text>
             <BarChart
               data={dataMonth}
               width={screenWidth}

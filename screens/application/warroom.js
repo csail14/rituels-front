@@ -6,9 +6,10 @@ import background from '../../assets/rituals-background.jpg'
 import Header from '../../navigation/header-log'
 import {connect} from 'react-redux';
 import AddEvent from '../../component/addEvent'
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {LocaleConfig} from 'react-native-calendars';
 import {getAllEvent} from '../../api/eventApi';
+import {loadEvent} from '../../actions/event/eventActions'
 
 LocaleConfig.locales['fr'] = {
   monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
@@ -23,14 +24,52 @@ import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
 
-const Warroom = ({ navigation,user })=>{
+const Warroom = (props)=>{
 
-
-
-    const data = [{'date':'2021-02-17','title':'test','user_id':12,'subuser_id':34},{'date':'2021-02-01','title':'test','user_id':12,'subuser_id':34},{'date':'2021-02-21','title':'test2','user_id':12,'subuser_id':34}]
     const [currentMonth,setCurrentMonth] = useState((new Date()).getMonth()+1)
     const [eventPopUp, setEventPopUp] = useState(false)
     const [selectedDate, setSelectedate] = useState()
+    const [data,setData] = useState([])
+
+    useEffect(
+      
+      () => {
+        let index = props.user.current_subuser
+        let newData = []
+        console.log(props.agenda)
+        if(props.agenda.event.length===0){
+            getAllEvent(props.user.subuser[index].id).then(
+                  (res)=>{
+                      if(res.status===200){
+                         
+                          props.loadEvent(res.result)
+
+                          setData(res.result)
+                      }
+                      else{
+                          setErrorMessage('Une erreur est survenue, veuillez réessayer plus tard.')
+                      }
+                  }
+              )
+        }
+        else{
+          setData(props.agenda.event)
+        }
+   
+       }
+      ,
+      [],
+      );
+
+      useEffect(
+      
+        () => {
+          
+            setData(props.agenda.event)
+         }
+        ,
+        [props.agenda],
+        );
 
     
     const checkEvent=(day, month)=>{
@@ -45,8 +84,9 @@ const Warroom = ({ navigation,user })=>{
     }
 
         return (
+          <KeyboardAwareScrollView  style={styles.container}>
         <View style={styles.container}>
-          <Header screen='Warroom' navigation={navigation}/>
+          <Header screen='Warroom' navigation={props.navigation}/>
           
             <ImageBackground source={background} style={styles.image}>
             <Calendar style={styles.calendar}
@@ -107,6 +147,7 @@ const Warroom = ({ navigation,user })=>{
           {eventPopUp&&<AddEvent setPopUpAvailable={setEventPopUp} date={selectedDate}/>}
           </ImageBackground>    
         </View>
+        </KeyboardAwareScrollView>
     )
 }
 
@@ -139,12 +180,13 @@ const styles = StyleSheet.create({
   });
 
 mapDispatchToProps = {
-
+  loadEvent
 }
 
 mapStateToProps = (store)=>{
     return {
-        user: store.user
+        user: store.user,
+        agenda : store.agenda
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Warroom);

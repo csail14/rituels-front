@@ -3,14 +3,15 @@ import {LOAD_USER_INFO,LOGOUT_USER_INFO} from '../actions/user/action-type';
 const initialState = {
     isLogged: false,
     infos: null,
-    subuser:null
+    subuser:null,
+    current_subuser:0
 }
 
 const UserReducer = (state = initialState, action)=>{
     
     switch(action.type) {
         case LOAD_USER_INFO:
-            return {isLogged: true, infos: action.payload.infos, subuser:action.payload.subuser}    
+            return {isLogged: true, infos: action.payload.infos, subuser:action.payload.subuser,current_subuser:0}    
         break;
         
         case LOGOUT_USER_INFO:

@@ -58,8 +58,8 @@ export default class Menu extends React.Component {
                     this.playSound();
                     this.startAnimation();
                 }
-                    }>
-           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Valider le cycle</Text></Animated.View>
+            }>
+           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Valider le rituel</Text></Animated.View>
          </TouchableWithoutFeedback>  
         </View>
     );}

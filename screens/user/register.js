@@ -21,20 +21,8 @@ const Register = ({navigation})=> {
 	const [password, setpassword] = useState("");
 	const [lang, setlang] = useState("FR");
 	const [passwordConfirm, setpasswordConfirm] = useState("");
-	const isFocused = useIsFocused();
 	const [cgu,setcgu] = useState(false)
 
-	useEffect(
-		
-		() => {
-		  if (isFocused === false) {
-			  clearform();
-		  }
-		}
-		,
-		[isFocused],
-	  );
-	  
 
 	const onSubmitForm = ()=>{
 		setErrorMessage("");
