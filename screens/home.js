@@ -12,9 +12,11 @@ import Menu from '../component/go'
 import logo from '../assets/logo.png'
 import axios from 'axios';
 import {config} from '../config';
+import LevelBar from '../component/levelbar'
+import {loadCycleInfo} from '../actions/cycle/cycleActions'
 
 
-const Home = ({ navigation,user })=>{
+const Home = ({ navigation,user,progress, loadCycleInfo, cycle })=>{
 
   useEffect(()=>{
     if(user.isLogged===false){
@@ -32,8 +34,15 @@ const Home = ({ navigation,user })=>{
               {user.infos &&
               <> 
               
-              <Menu navigation={navigation}/>
-              <Text style={styles.subTitle}>Bonjour {user.infos.firstName}</Text>
+              <Menu loadCycleInfo={loadCycleInfo} allcycle={cycle.allCycle} navigation={navigation}/>
+              <View style={styles.levelbar}>
+              <LevelBar   obj={progress.obj} state={progress.state}/>
+              <Text style={styles.text}>Rituels : {progress.state}/{progress.obj}</Text>
+              </View>
+                
+                <Text style={styles.subTitle}>Bonjour {user.infos.firstName}</Text>
+              
+              
               </>}
               {user.isLogged===false&&<View style={{display:'flex', flex:1}}>
                   <Text style={styles.title}>Bienvenue sur  4b Premium</Text>
@@ -112,6 +121,11 @@ const styles = StyleSheet.create({
       height:80, 
       position:'absolute',
       left:10,
+      top:10
+    },
+    levelbar:{
+      position:'absolute',
+      right:10,
       bottom:10
     },
     title: {
@@ -132,7 +146,9 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize:20,
+        marginTop:10
     },
     scrollContainer: {
       width: wp('100%'),
@@ -167,12 +183,14 @@ const styles = StyleSheet.create({
   });
 
 mapDispatchToProps = {
-
+  loadCycleInfo
 }
 
 mapStateToProps = (store)=>{
     return {
-        user: store.user
+        user: store.user,
+        progress: store.progress,
+        cycle: store.cycle
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Home);

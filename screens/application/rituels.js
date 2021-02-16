@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import {ImageBackground, Dimensions , StyleSheet, Text, View, TouchableOpacity,Button } from 'react-native';
 import {config} from '../../config';
 import {
@@ -8,21 +8,19 @@ import {
 import background from '../../assets/rituals-background.jpg';
 
 import { Video } from 'expo-av';
-import VideoPlayer from 'expo-video-player';
-import HeaderLog from '../../navigation/header-log';
+
 import Menu from '../../navigation/menu';
 import Validate from '../../component/validate'
-import {getCycle, getVideo} from '../../api/cycleApi';
+import {getCycle, getVideo,getAllCycle} from '../../api/cycleApi';
 import {addStat} from '../../api/statApi'
 import {connect} from 'react-redux';
 import {loadCycleInfo} from '../../actions/cycle/cycleActions';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
-import { Icon } from 'react-native-elements'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {getStateByWeek} from '../../api/awardApi'
 
 const Rituels = (props)=>{
   const [video, setvideo] = useState('');
-  const [cycleId, setCycleId] = useState(121);
+  const [cycle, setCycle] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [isCycleDone,setisCycleDone] =useState(false);
   const [list, setlist] =useState([]);
@@ -33,40 +31,73 @@ const Rituels = (props)=>{
   let ref = React.createRef();
 
   useEffect(()=>{
-    if(!props.cycle.infos.id){
-      getCycle(cycleId).then(
+    if(true){
+      getAllCycle().then(
         (res)=>{
-          props.loadCycleInfo(res.result[0])
+          props.loadCycleInfo({},res.result,props.cycle.duration)
         }
-      )}}, [])
+      )}
+    }, [])
 
   useEffect(()=>{
+    console.log('use effect allcycle')
+    randomCycle();
+  }, [props.cycle.allCycle])
+
+  useEffect(()=>{
+    console.log('use effect video')
     if(video){
-      setVideoUrl(config.video_url+video.url)
+      console.log('if video')
       if (ref.replayAsync){
+        console.log('if replayAsync')
         ref.setPositionAsync(0)
+        ref.playAsync()
       }
+      setVideoUrl(config.video_url+video.url)
       
     }}, [video])
 
     useEffect(()=>{
-      if(list){getVideo(list[0]).then(
+      console.log('use list')
+      if(list){
+        console.log('if list')
+        if (list[0]){
+          console.log('if list[0]')
+        getVideo(list[0]).then(
         (res)=>{
           setvideo(res.result[0])
         }
-      )}}, [list])
+      )}}}, [list])
 
     useEffect(()=>{
+      console.log('use effect index')
       if(index>=0 && index<11){
         getVideo(list[index]).then(
         (res)=>{
+          console.log('set video')
           setvideo(res.result[0])
         }
       )}}, [index])
 
     useEffect(()=>{
-      setlist(props.cycle.infos.video)
-    }, [props.cycle.infos])
+      console.log('use effect cycle')
+      if(cycle){
+        let arrayVideo = JSON.parse(cycle.video)
+        setlist(arrayVideo)
+      }
+    }, [cycle])
+
+    const randomCycle = () => {
+      let max = props.cycle.allCycle.length-1
+      let random = Math.floor( Math.random() * (max + 1))
+      let selectedCycle = props.cycle.allCycle[random]
+      setCycle(selectedCycle)
+      setShowMenu(false)
+      if (ref.replayAsync){
+        ref.setPositionAsync(0)
+        ref.playAsync()
+      }
+    }
 
     const nextVideo = ()=>{
       if(index<10){
@@ -78,14 +109,18 @@ const Rituels = (props)=>{
       const data = {
         user_id:props.user.infos.id,
         subuser_id:props.user.subuser[index].id,
-        cycle_id:cycleId
+        cycle_id:cycle.id
       }
       addStat(data).then(
         (res)=>{
-          props.navigation.reset({
-            index: 0,
-            routes: [{ name: 'Home' }],
-        })
+          getStateByWeek(moment(new Date()).format('W'), props.user.subuser[index].id).then(
+            (resultstate)=> {
+                props.loadProgress(resultstate.result[0].state,props.progress.obj)
+                if(resultstate.result[0].state===props.progress.obj){
+                  console.log('stat atteint')
+                }
+            }
+          )
         })
     }
 
@@ -102,6 +137,8 @@ const Rituels = (props)=>{
               setisCycleDone(true)
             }else{
               nextVideo()
+              ref.setPositionAsync(0)
+              ref.playAsync()
             }
             
           }
@@ -111,17 +148,15 @@ const Rituels = (props)=>{
     const  onSwipeRight = (gestureState) => {
         setShowMenu(true)
     }
+
     const restart = () => {
-      console.log('restart')
       setIndex(0)
       ref.setPositionAsync(0)
       ref.playAsync()
       setShowMenu(false)
     }
 
-    const randomCycle = () => {
-      // TO DO quand d'autres cycles
-    }
+  
   
     return (
           <View style={styles.container}>
@@ -144,6 +179,7 @@ const Rituels = (props)=>{
              useNativeControls={true}
              resizeMode="contain"
              shouldPlay={true}
+             onTouchStart={true}
              fullscreen = {false}
              isLooping={false}
              switchToLandscape={()=> {setShowMenu(true)}}
@@ -151,7 +187,7 @@ const Rituels = (props)=>{
            />
              }
              </GestureRecognizer>            
-          {isCycleDone&&<Validate navigation={props.navigation}/>}
+          {isCycleDone&&<Validate validateCycle={validateCycle} navigation={props.navigation}/>}
                   
             
             </View>
@@ -190,7 +226,8 @@ mapDispatchToProps = {
 mapStateToProps = (store)=>{
     return {
         user: store.user,
-        cycle:store.cycle
+        cycle:store.cycle,
+        progress: store.progress
     }
 }
 

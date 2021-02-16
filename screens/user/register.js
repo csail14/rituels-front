@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
 	flex:1,
 	width: wp('100%'),
-	height:wp('50%'),
+	height:hp('100%'),
 	textAlign: 'center',
   },
   picker:{

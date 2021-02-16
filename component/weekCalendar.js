@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {ImageBackground, StyleSheet, Text, View, Dimensions, TouchableOpacity,Button} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import background from '../../assets/rituals-background.jpg'
-import Header from '../../navigation/header-log'
 import {connect} from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {LocaleConfig} from 'react-native-calendars';
-import {getAllEvent} from '../../api/eventApi';
-import {loadEvent} from '../../actions/event/eventActions';
-import MonthCalendar from '../../component/monthCalendar'
-import WeekCalendar from '../../component/weekCalendar';
+import {getAllEvent} from '../api/eventApi';
+import {loadEvent} from '../actions/event/eventActions';
+import WeekView from 'react-native-week-view';
 
 
 LocaleConfig.locales['fr'] = {
@@ -23,25 +20,21 @@ LocaleConfig.defaultLocale = 'fr';
 
 import moment from 'moment';
 import 'moment/locale/fr';
-import monthCalendar from '../../component/monthCalendar';
+
 moment.locale('fr');
 
-const Warroom = (props)=>{
+const WeekCalendar = (props)=>{
 
     const [currentMonth,setCurrentMonth] = useState((new Date()).getMonth()+1)
-    const [eventPopUp, setEventPopUp] = useState(false)
     const [selectedDate, setSelectedate] = useState()
     const [data,setData] = useState([])
-    const [mode, setMode] = useState('week')
-    const [weekColor, setWeekcolor] = useState('#bdbdde')
-    const [monthColor, setMonthcolor] = useState('#8484a3')
 
     const myEvents = [
       {
         id: 1,
         description: 'Event',
-        startDate: new Date(),
-        endDate: new Date(),
+        //startDate: data[0].date,
+        endDate: "",
         color: 'blue',
         // ... more properties if needed,
       }
@@ -87,51 +80,29 @@ const Warroom = (props)=>{
         [props.agenda],
         );
 
-    
-    const checkEvent=(day, month)=>{
-      let dayData = []
-      data.map((event)=>{
-        let newEvent = new Date(event.date)
-        if(newEvent.getDate()==day && newEvent.getMonth()+1==month){
-          dayData.push(event)
-        }
-      })
-      return dayData 
-    }
-
         return (
           <KeyboardAwareScrollView  style={styles.container}>
-        <View style={styles.container}>
-          <Header screen='Warroom' navigation={props.navigation}/>
-            <ImageBackground source={background} style={styles.image}>
-            {mode==='week'&&<WeekCalendar/>}
-              {mode==='month'&&<MonthCalendar/>}
-          <View style={styles.boutonView}>
-            <TouchableOpacity style={styles.button}
-                        onPress={
-                          () => {
-                            setMode('week')
-                            setWeekcolor('#bdbdde')
-                            setMonthcolor('#8484a3')
-                            }
-                        }>
-                          <Text  style={[styles.textbouton, {backgroundColor:monthColor}]}>Hebdo</Text>   
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}
-                        onPress={
-                          () => {
-                            setMode('month')
-                            setWeekcolor('#8484a3')
-                            setMonthcolor('#bdbdde')
-                            }
-                        }>
-                          <Text  style={[styles.textbouton, {backgroundColor:weekColor}]}>Mensuel</Text>   
-              </TouchableOpacity>
-              
-            </View>
-           
-          </ImageBackground>    
-        </View>
+          
+            <View style={styles.weekView}><WeekView
+              height={hp('80%')}
+              events={myEvents}
+              selectedDate={new Date()}
+              locale = {'FR'}
+              formatDateHeader = {'dddd DD MMMM'}
+              showTitle ={false}
+              numberOfDays={7}
+              onEventPress ={(event)=>console.log(event)}
+              onGridClick = {(pressEvent, startHour, date) => {
+                  console.log('press event', pressEvent)
+                  console.log('startHour', startHour)
+                  console.log('date', date)
+                  
+              }}
+              leftToRight ={true}
+              headerStyle = {{ backgroundColor: '#4286f4', color: '#fff', borderColor: '#fff' }}
+              hourTextStyle =  {{color: 'grey', borderColor: '#fff' }}
+
+            /></View> 
         </KeyboardAwareScrollView>
     )
 }
@@ -154,7 +125,7 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         borderBottomWidth: 1,
         borderColor: '#eee',
-        height: hp('80%'),
+        height: hp('100%'),
         width:wp('100%')
     },
     image: {
@@ -166,21 +137,6 @@ const styles = StyleSheet.create({
       color:'white',
       textAlign:'center',
       fontSize:30
-    },
-    boutonView:{
-      display:'flex',
-      flexDirection:'row',
-      justifyContent:'center'
-    },
-    textbouton:{
-      backgroundColor:'#bdbdde',
-      padding:20,
-      color:'white',
-      borderColor:'white',
-      borderRadius:100
-    },
-    button:{
-      borderRadius:100
     }
   });
 
@@ -194,4 +150,4 @@ mapStateToProps = (store)=>{
         agenda : store.agenda
     }
 }
-export default  connect(mapStateToProps, mapDispatchToProps)(Warroom);
+export default  connect(mapStateToProps, mapDispatchToProps)(WeekCalendar);

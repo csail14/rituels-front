@@ -1,0 +1,1 @@
+export const LOAD_PROGRESS_INFO = "LOAD_PROGRESS_INFO";

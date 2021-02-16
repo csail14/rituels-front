@@ -5,7 +5,13 @@ import Routes from '../navigation/routes';
 import axios from 'axios';
 import {config} from '../config';
 import {connect} from 'react-redux';
+import {getCount} from '../api/eventApi'
 import {loadUserInfo} from '../actions/user/userActions';
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
+import {loadProgress} from '../actions/progress/progressActions';
+import {getStateByWeek} from '../api/awardApi'
 
 const RequireAuth = (props)=>{
     const [isLogged, setIsLogged] = useState(false);
@@ -38,6 +44,19 @@ const RequireAuth = (props)=>{
                             let user = response.data.user;
                             user.token = token;
                             props.loadUserInfo(user, subuser);
+                            getCount(subuser[0].id,moment(new Date()).format('W')).then(
+                                (resultobj)=> {
+                                    console.log('resultobj',resultobj.result)
+                                    getStateByWeek(moment(new Date()).format('W'), subuser[0].id).then(
+                                        (resultstate)=> {
+                                            console.log('resultState', resultstate.result)
+                                            props.loadProgress(resultstate.result[0].state,resultobj.result[0].obj)
+                                        }
+                                      )
+
+                                }
+                              )
+                              
                         }))
                     }
                 })
@@ -56,7 +75,8 @@ const RequireAuth = (props)=>{
 }
 
 mapDispatchToProps = {
-    loadUserInfo
+    loadUserInfo,
+    loadProgress
 }
 
 mapStateToProps = (store)=>{

@@ -8,8 +8,7 @@ import {
 import {validateInputField} from '../helpers/form-validator'
 
 import DatePicker from 'react-native-datepicker'
-import clock from '../assets/clock.png';
-import moment from 'moment';
+
 import {addEvent} from '../api/eventApi'
 import {getAllEvent} from '../api/eventApi';
 import {loadEvent} from '../actions/event/eventActions'
@@ -31,7 +30,6 @@ const addEventComp = (props)=>{
             subuser_id:props.user.subuser[index].id
         }
         setErrorMessage("");
-        console.log(data)
         let error = formValidator();
         if (error===""){
             addEvent(data).then(
@@ -40,9 +38,7 @@ const addEventComp = (props)=>{
                         props.setPopUpAvailable(false)
                         getAllEvent(props.user.subuser[index].id).then(
                             (resp)=>{
-                                console.log('reponse get all event', resp)
                                 if(resp.status===200){
-                                    console.log('envooi dans redux')
                                     props.loadEvent(resp.result)
                                 }
                             }

@@ -8,7 +8,10 @@ export default class Menu extends React.Component {
         super(props)
         this.state= {
             animation : new Animated.Value(0),
-            sound : null
+            sound : null,
+            pressed20:false,
+            pressed40:false,
+            pressed30:false
              
           }
     }
@@ -40,6 +43,20 @@ export default class Menu extends React.Component {
         });
   
     }
+
+    setDuration=()=> {
+      let duration =0;
+      if (this.state.pressed40){
+        duration=40
+      }
+      else if(this.state.pressed20){
+        duration=20
+      }
+      else if(this.state.pressed30){
+        duration=30
+      }
+    this.props.loadCycleInfo({},this.props.allcycle,duration)
+    }
  render(){  
     const transformStyle ={
         transform : [{ 
@@ -48,14 +65,37 @@ export default class Menu extends React.Component {
       }
     return (
         <View style={styles.container} >
-            
             <TouchableWithoutFeedback onPress={
                 ()=>{
+                   this.setState({
+                       pressed20:!this.state.pressed20,
+                       pressed30:false,
+                       pressed40:false
+                })
+                }
+                    }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle,  {backgroundColor:'green', marginRight: 10}, this.state.pressed20?styles.pressed: ""]} ><Text style={styles.minute}>20'</Text></Animated.View>
+         </TouchableWithoutFeedback> 
+            <TouchableWithoutFeedback onPress={
+                ()=>{
+                    this.setDuration();
                     this.playSound();
                     this.startAnimation();
+                    
                 }
                     }>
            <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
+         </TouchableWithoutFeedback>  
+         <TouchableWithoutFeedback onPress={
+                ()=>{
+                    this.setState({
+                        pressed30:!this.state.pressed30,
+                        pressed20:false,
+                        pressed40:false
+                 })
+                }
+          }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'blue', marginLeft: 10}, this.state.pressed30?styles.pressed: ""]} ><Text style={styles.minute}>30'</Text></Animated.View>
          </TouchableWithoutFeedback>  
         </View>
     );}
@@ -67,7 +107,8 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       display:'flex',
-      justifyContent:'center'
+      justifyContent:'center',
+      flexDirection:'row'
     },
     title: {
         fontSize: 30,
@@ -76,6 +117,18 @@ const styles = StyleSheet.create({
         marginBottom:'auto',
         marginTop:'auto',
         display:'flex'
+      },
+      minute: {
+        fontSize: 15,
+        textAlign: 'center',
+        color: "white",
+        marginBottom:'auto',
+        marginTop:'auto',
+        display:'flex'
+      },
+      pressed:{
+          borderColor:'white',
+          borderWidth:2
       },
       mainView: {
         height:200,
@@ -87,8 +140,23 @@ const styles = StyleSheet.create({
         color: "white",
         display:'flex',
         justifyContent:'center',
-        marginLeft:'auto',
-        marginRight:'auto'
+        // marginLeft:'auto',
+        // marginRight:'auto',
+        marginBottom:'auto',
+        marginTop:'auto',
+      },
+      minuteView: {
+        height:50,
+        width:50,
+        borderRadius:100,
+        
+        textAlign: 'center',
+        color: "white",
+        display:'flex',
+        justifyContent:'center',
+
+        marginBottom:'auto',
+        marginTop:'auto',
       },
       animatedBox:{
      width : 190,

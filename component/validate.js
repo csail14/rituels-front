@@ -56,6 +56,7 @@ export default class Menu extends React.Component {
             <TouchableWithoutFeedback onPress={
                 ()=>{
                     this.playSound();
+                    this.props.validateCycle();
                     this.startAnimation();
                 }
             }>

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         color:'white',
         textAlign:'center',
         paddingTop:30,
-        textDecorationLine:'underline',
+       
         fontSize:25
     },
     menu:{
