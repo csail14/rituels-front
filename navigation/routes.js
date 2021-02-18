@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {connect} from 'react-redux'; 
 import Logout from '../screens/user/logout'
 import Home from '../screens/home';
-import Account from '../screens/application/account';
+import Account from '../screens/account/account';
 import Stat from '../screens/application/stat';
 import Register from '../screens/user/register';
 import Login from '../screens/user/login';
@@ -14,6 +14,12 @@ import ForgotPassword from '../screens/user/forgot-password'
 import Warroom from '../screens/application/warroom'
 import Awards from '../screens/application/awards'
 import Test from '../screens/test'
+import ChangeAccount from '../screens/account/changeAccount'
+import MainAccount from '../screens/account/mainAccount'
+import Message from '../screens/account/message'
+import Payment from '../screens/account/payment'
+import Notification from '../screens/account/notificationSettings'
+
 
 const Stack = createStackNavigator();
 
@@ -42,12 +48,32 @@ const MyStack = (props) => {
       component={Warroom} 
     />
     <Stack.Screen 
+      name="Notification" 
+      component={Notification} 
+    />
+    <Stack.Screen 
+      name="Payment" 
+      component={Payment}
+    />
+    <Stack.Screen 
       name="Award" 
       component={Awards} 
     />
     <Stack.Screen 
       name="Rituels" 
       component={Rituels}
+    />
+     <Stack.Screen 
+      name="ChangeAccount" 
+      component={ChangeAccount} 
+    />
+    <Stack.Screen 
+      name="MainAccount" 
+      component={MainAccount} 
+    />
+    <Stack.Screen 
+      name="Message" 
+      component={Message} 
     />
      <Stack.Screen 
       name="Account" 

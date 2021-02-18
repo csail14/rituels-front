@@ -40,7 +40,7 @@ const Home = ({ navigation,user,progress, loadCycleInfo, cycle })=>{
               <Text style={styles.text}>Rituels : {progress.state}/{progress.obj}</Text>
               </View>
                 
-                <Text style={styles.subTitle}>Bonjour {user.infos.firstName}</Text>
+                <Text style={styles.subTitle}>Bonjour {user.subuser[user.current_subuser].name}</Text>
               
               
               </>}

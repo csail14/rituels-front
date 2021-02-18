@@ -12,8 +12,8 @@ export default class Menu extends React.Component {
         super(props)
         this.state= {
             animation : new Animated.Value(0),
-            sound : null
-             
+            sound : null,
+            redirect:true
           }
     }
 
@@ -30,6 +30,9 @@ export default class Menu extends React.Component {
         this.setState({sound:sound})
         await this.state.sound.playAsync(); 
     }
+    componentDidUpdate(prevProps) {
+      console.log('redirect',this.state.redirect)
+    }
 
     startAnimation=()=>{
         Animated.timing(this.state.animation,{
@@ -37,10 +40,15 @@ export default class Menu extends React.Component {
           duration : 2000,
           useNativeDriver: true
         }).start(()=>{
+          if(this.state.redirect){
             this.props.navigation.reset({
                 index: 0,
                 routes: [{ name: 'Home' }],
-              })
+              })}
+            else{
+              this.props.launchCelebration()
+            }
+
         });
   
     }
@@ -54,9 +62,9 @@ export default class Menu extends React.Component {
         <View style={styles.container} >
             
             <TouchableWithoutFeedback onPress={
-                ()=>{
+                async ()=>{
+                    this.setState({redirect: await this.props.validateCycle()});
                     this.playSound();
-                    this.props.validateCycle();
                     this.startAnimation();
                 }
             }>

@@ -11,7 +11,7 @@ const UserReducer = (state = initialState, action)=>{
     
     switch(action.type) {
         case LOAD_USER_INFO:
-            return {isLogged: true, infos: action.payload.infos, subuser:action.payload.subuser,current_subuser:0}    
+            return {isLogged: true, infos: action.payload.infos, subuser:action.payload.subuser,current_subuser:action.payload.current_subuser}    
         break;
         
         case LOGOUT_USER_INFO:

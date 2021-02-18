@@ -9,8 +9,10 @@ import {
 const HeaderAccount = (props) =>{
     const navigation = props.navigation
     const [acceuilColor,setAcceuilColor] = useState('');
-    const [statColor,setstatColor] = useState('');
+    const [changeAccountColor,setChangeAccountColor] = useState('');
     const [accountColor,setaccountColor] = useState('');
+    const [mainaccountColor,setmainaccountColor] = useState('');
+    const [messageColor,setmessageColor] = useState('');
 
     useEffect(
         () => {
@@ -25,11 +27,17 @@ const HeaderAccount = (props) =>{
             case 'Home':
                 setAcceuilColor('white');
                 break;
-            case 'Stat':
-                setstatColor('white');
+            case 'ChangeAccount':
+                setChangeAccountColor('white');
                 break;
             case 'Account':
                 setaccountColor('white');
+                break;
+            case 'MainAccount':
+                setmainaccountColor('white');
+                break;
+            case 'Message':
+                setmessageColor('white');
                 break;
             default:
                 break;
@@ -50,13 +58,43 @@ const HeaderAccount = (props) =>{
 
                 
                 <Button
-                    title="Infos"
+                    title="Mes niveaux"
                     style={styles.button}
                     color={accountColor}
                     onPress={() => {
                         navigation.reset({
                             index: 0,
                             routes: [{ name: 'Account' }],
+                          });}}
+                />
+                <Button
+                    title="Changer de compte"
+                    style={styles.button}
+                    color={changeAccountColor}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'ChangeAccount' }],
+                          });}}
+                />
+                <Button
+                    title="Compte parent"
+                    style={styles.button}
+                    color={mainaccountColor}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'MainAccount' }],
+                          });}}
+                />
+                <Button
+                    title="Message"
+                    style={styles.button}
+                    color={messageColor}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Message' }],
                           });}}
                 />
                  <Button

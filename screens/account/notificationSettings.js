@@ -9,15 +9,16 @@ import Header from '../../navigation/header-account'
 import {connect} from 'react-redux';
 
 
-const Account = ({ navigation,user })=>{
+
+const Notification = ({ navigation,user })=>{
+
     return (
         <View style={styles.container}>
-          <Header screen='Account' navigation={navigation}/>
+          <Header screen='Notification' navigation={navigation}/>
           
             <ImageBackground source={background} style={styles.image}>
             
-              <Text>Hello</Text>
-              
+              <Text style={styles.title}>Notification</Text>
             
             </ImageBackground>
             
@@ -37,6 +38,20 @@ const styles = StyleSheet.create({
       flex: 1,
       resizeMode: "cover",
       justifyContent: "center"
+    },
+    title:{
+      color:'white',
+      textAlign:'left',
+      marginTop:10,
+      marginLeft:15,
+      fontSize:30
+    },
+    text:{
+      color:'white',
+      textAlign:'center',
+      marginTop:10,
+      marginLeft:15,
+      fontSize:20
     }
   });
 
@@ -49,4 +64,4 @@ mapStateToProps = (store)=>{
         user: store.user
     }
 }
-export default  connect(mapStateToProps, mapDispatchToProps)(Account);
+export default  connect(mapStateToProps, mapDispatchToProps)(Notification);

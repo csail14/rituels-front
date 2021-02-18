@@ -16,21 +16,22 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {validateInputField} from '../../helpers/form-validator';
 import {getCount} from '../../api/eventApi'
 import LevelBar from '../../component/levelbar'
-import PopUpHelp from '../../component/popUpHelpAward'
-import { HelperText } from 'react-native-paper';
+import SelectInput from 'react-native-select-input-ios'
 
 
 const Awards = ({ navigation,user, progress })=>{
 
   const [date,setdate]=useState(new Date())
+  const [selectedValue, setSelectedValue] = useState(0)
   const [title, setTitle] =useState('')
   const [message,setMessage] = useState('')
-  const [award, setAward] = useState('')
+  const [award, setAward] = useState(null)
+  const [nextaward, setnextAward] = useState(null)
   const [obj, setObj] = useState(0)
   const [state, setState] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
   const [showCalendar,setshowCalendar] = useState(false)
-  const [showHelp,setShowHelp] = useState(false)
+  const [showTitleInput, setShowTitleInput] = useState(false)
 
   useEffect(
     () => {
@@ -39,13 +40,48 @@ const Awards = ({ navigation,user, progress })=>{
         (res)=> {
           setAward(res[0])}
       )
+      let nextweek = parseInt(moment(new Date()).format('W'))+1
+      console.log('next', nextweek)
+      getAwardByWeek(nextweek, user.subuser[index].id).then(
+        (res)=> {
+          console.log(res)
+          setnextAward(res[0])}
+      )
       setObj(progress.obj)
       setState(progress.state)
+      date.setDate(date.getDate()-date.getDay()+8)
+      console.log('next award', nextaward)
      }
     ,
     [],
     );
-
+  
+     
+  const options = [{
+    value: 0,
+    label: 'Choisis ta récompense   ▼ ',
+  },
+  {
+    value: 1,
+    label: 'Exemple 1',
+  },
+  {
+    value: 2,
+    label: 'Exemple 2 ',
+  },
+  {
+    value: 3,
+    label: 'Exemple 3',
+  },
+  {
+    value: 4,
+    label: 'Exemple 4',
+  },
+  {
+    value: 5,
+    label: 'Autre ...'
+  }
+  ]
 
   const onSubmitForm = ()=> {
     let index= user.current_subuser
@@ -63,6 +99,7 @@ const Awards = ({ navigation,user, progress })=>{
     let error = formValidator();
     if (error===""){
       saveNewAward(form).then((res)=> {
+        console.log(res.status)
         if (res.status===500){
           Alert.alert(
             "Attention",
@@ -112,11 +149,23 @@ const Awards = ({ navigation,user, progress })=>{
 		let error=false;
 		error = validateInputField('title', "string", title)
 			if (error !== ""){
-				setErrorMessage("Veuillez ajouter un nom")
+				setErrorMessage("Veuillez ajouter un titre à votre récompense")
 				return error
 			}
 		return ""
 	}
+
+  const selectAward = (value) => {
+    let filter = options.filter(item => item.value===value)
+    setSelectedValue(filter[0].value)
+    if(filter[0].value!==5 && filter[0].value!==0){
+      setTitle(filter[0].label)
+    }
+    else if (filter[0].value===5){ setTitle('') 
+    setShowTitleInput(true)}
+    console.log(filter)
+  }
+
 
     return (
       <KeyboardAwareScrollView  style={styles.container}>
@@ -125,48 +174,40 @@ const Awards = ({ navigation,user, progress })=>{
         
             <ImageBackground source={background} style={styles.image}>
             <ScrollView style={styles.scrollContainer}>
-                <Text  style={styles.title}>Voila ta récompense de la semaine : </Text>
-                <View style={{alignItems:'center'}}>
-                  {award.title&&<Text style={styles.text}>{award.title}</Text>}
-                  
-                  <LevelBar style={styles.levelBar}obj={obj} state={state}/>
-                  <Text style={styles.text}>Rituels réalisés : {state}/{obj}</Text>
-                </View>
-                <Text  style={styles.title}>Ajouter un nouvel award :</Text>
+                
+                <Text  style={styles.title}>Quelle récompense pour la semaine prochaine ?</Text>
 
                 <View style={styles.formView}>
-            
-                  <TextInput
+                <SelectInput
+                  
+                  value = {selectedValue}
+                  style={styles.selectInput}
+                  labelStyle={{color:'white', fontSize:20}}
+                  cancelKeyText='Annuler'
+                  submitKeyText='Valider'
+                  onSubmitEditing={(value)=>{
+                    selectAward(value)
+                  }}
+                    options={options}
+                />
+                
+                 {showTitleInput&&<TextInput
                     style={styles.input}
                     type="text"
-                    placeholder="Award"
+                    placeholder={"Award"}
                     value={title}
+                    pickerViewStyle={{backgroundColor:'white'}}
                     onChangeText={(text)=>{
                     setTitle(text);
                     }}
-                  />
+                  />}
+                
                   <TouchableOpacity
                   style={styles.input}
                   onPress={()=>setshowCalendar(true)}
                   >
                     <Text style={styles.textDate}>Semaine du {moment(date).format('dddd DD MMMM')}</Text>
                   </TouchableOpacity>
-                    <TextInput
-                      style={[styles.input,{height:100}]}
-                      value={message}
-                      type="text"
-                      placeholder="Message"
-                      onChangeText={(text)=>{
-                        setMessage(text)
-                          
-                      }}
-                    />
-                    <TouchableOpacity onPress={(e)=>{
-                        e.preventDefault()
-                        setShowHelp(true)
-                    }}>
-                      <Text style={styles.text}>Comment remplir les awards ?</Text>
-                    </TouchableOpacity>
                     <Text style={styles.errorMessage}>{errorMessage}</Text>
                     
                     <TouchableOpacity
@@ -200,7 +241,20 @@ const Awards = ({ navigation,user, progress })=>{
                       }}
                     />
                   </View>}
-                  {showHelp&&<PopUpHelp setShowHelp={setShowHelp}/>}
+                  {nextaward &&<View>
+                    <Text  style={styles.title}>Ta récompense de la semaine prochaine: </Text>
+                    <Text style={styles.text}>{nextaward.title}</Text>
+                  </View>}
+                  {award&&
+                  <>
+                  <Text  style={styles.title}>Ta récompense de la semaine : </Text>
+                  <View style={{alignItems:'center'}}>
+                  <Text style={styles.text}>{award.title}</Text>
+                  
+                  <LevelBar style={styles.levelBar}obj={obj} state={state}/>
+                  <Text style={styles.text}>Rituels réalisés : {state}/{obj}</Text>
+                </View>
+                </>}
               </ScrollView>
             </ImageBackground>
 
@@ -222,13 +276,23 @@ const styles = StyleSheet.create({
       },
     formView:{
       alignItems: "center",
-      marginTop:hp('10%')
+      marginTop:20
+    },
+    selectInput:{
+      height:30, 
+      paddingLeft:10,
+      paddingRight:10,
+      marginBottom:20,
+      borderWidth:1,
+      borderRadius:15,
+      borderColor:'white'
     },
     calendar:{
       position:'absolute',
       marginLeft:wp('25%'),
       marginTop:hp('20%'),
       backgroundColor:'#bdbdde',
+      zIndex:1,
       borderRadius:10,
       width:wp('50%')
     },   
@@ -248,7 +312,7 @@ const styles = StyleSheet.create({
     },
     title:{
       color:'white',
-      textAlign:'left',
+      textAlign:'center',
       marginTop:10,
       marginLeft:15,
       fontSize:30
@@ -279,7 +343,7 @@ const styles = StyleSheet.create({
       borderRadius:8,
       width:'50%',
       
-      marginTop:20,
+      marginBottom:30,
       textAlign:'center',
       alignItems: "center",
       justifyContent: "center",

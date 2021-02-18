@@ -32,7 +32,7 @@ class HowAppWork extends Component {
                   resizeMode: Video.RESIZE_MODE_CONTAIN,
                   onFullscreenUpdate:Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
                   source: {
-                    uri: 'https://res.cloudinary.com/dmpzubglr/video/upload/v1610633687/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-201114_eialb0.mp4',
+                    uri: 'https://res.cloudinary.com/dmpzubglr/video/upload/v1612448051/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-210204_ywvr3d.mp4',
                   },
                 }}
                 ref={this.videoRef}

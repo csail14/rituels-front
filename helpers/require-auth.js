@@ -43,7 +43,7 @@ const RequireAuth = (props)=>{
                             let subuser = res.data.result
                             let user = response.data.user;
                             user.token = token;
-                            props.loadUserInfo(user, subuser);
+                            props.loadUserInfo(user, subuser,0);
                             getCount(subuser[0].id,moment(new Date()).format('W')).then(
                                 (resultobj)=> {
                                     console.log('resultobj',resultobj.result)

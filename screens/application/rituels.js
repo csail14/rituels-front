@@ -6,8 +6,11 @@ import {
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import background from '../../assets/rituals-background.jpg';
-
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
 import { Video } from 'expo-av';
+import {loadProgress} from '../../actions/progress/progressActions'
 
 import Menu from '../../navigation/menu';
 import Validate from '../../component/validate'
@@ -24,7 +27,7 @@ const Rituels = (props)=>{
   const [videoUrl, setVideoUrl] = useState(null);
   const [isCycleDone,setisCycleDone] =useState(false);
   const [list, setlist] =useState([]);
-  const [index,setIndex] = useState(0);
+  const [index,setIndex] = useState(9);
   const [showMenu, setShowMenu] = useState(false)
   const [height,setHeight] = useState(hp('100%'))
 
@@ -118,10 +121,20 @@ const Rituels = (props)=>{
                 props.loadProgress(resultstate.result[0].state,props.progress.obj)
                 if(resultstate.result[0].state===props.progress.obj){
                   console.log('stat atteint')
+                  console.log('false')
+                  return false
+                }
+                else{
+                  console.log('true')
+                  return true
                 }
             }
           )
         })
+    }
+
+    const launchCelebration = () => {
+      setVideoUrl("https://res.cloudinary.com/dmpzubglr/video/upload/v1612448051/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-210204_ywvr3d.mp4")
     }
 
     const handleVideoRef = (component) => {
@@ -132,6 +145,13 @@ const Rituels = (props)=>{
       ref.getStatusAsync().then(
         (status)=>{
           if(status.positionMillis === status.durationMillis){
+            if(isCycleDone===true){
+              props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'Home' }],
+              })}
+            
+            else{
             if(index===list.length-1){
               setVideoUrl(null)
               setisCycleDone(true)
@@ -140,8 +160,9 @@ const Rituels = (props)=>{
               ref.setPositionAsync(0)
               ref.playAsync()
             }
-            
           }
+          }
+          
         }
       )
     }
@@ -187,7 +208,7 @@ const Rituels = (props)=>{
            />
              }
              </GestureRecognizer>            
-          {isCycleDone&&<Validate validateCycle={validateCycle} navigation={props.navigation}/>}
+          {isCycleDone&&<Validate validateCycle={validateCycle} launchCelebration={launchCelebration} navigation={props.navigation}/>}
                   
             
             </View>
@@ -220,7 +241,8 @@ const styles = StyleSheet.create({
   });
 
 mapDispatchToProps = {
-  loadCycleInfo
+  loadCycleInfo,
+  loadProgress
 }
 
 mapStateToProps = (store)=>{
