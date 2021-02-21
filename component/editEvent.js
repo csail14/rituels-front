@@ -9,22 +9,41 @@ import {validateInputField} from '../helpers/form-validator'
 
 import DatePicker from 'react-native-datepicker'
 
-import {addEvent} from '../api/eventApi'
+import {modifyEvent,deleteEvent} from '../api/eventApi'
 import {getAllEvent} from '../api/eventApi';
 import {loadEvent} from '../actions/event/eventActions'
 
-const addEventComp = (props)=>{
+const editEventComp = (props)=>{
 
-    const [date, setDate] = useState(props.date);
-    const [title, setTitle] = useState("");
-    const [comment,setComment] = useState("");
+    const [date, setDate] = useState(props.event[0].date);
+    const [title, setTitle] = useState(props.event[0].title);
+    const [comment,setComment] = useState(props.event[0].comment);
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        var d = new Date(date); d.setDate(d.getDate()) ;d.setHours(props.hour);
-        console.log(d)
-        setDate(d)
+        console.log(props.event)
     }, [])
+
+    const deleteform = () => {
+        let index= props.user.current_subuser
+						deleteEvent(props.event[0].id).then(
+                            (res)=>{
+                                if(res.status===200){
+                                    props.setPopUpAvailable(false)
+                                    getAllEvent(props.user.subuser[index].id).then(
+                                        (resp)=>{
+                                            if(resp.status===200){
+                                                props.loadEvent(resp.result)
+                                            }
+                                        }
+                                    )
+                                }
+                                else{
+                                    setErrorMessage('Une erreur est survenue, veuillez réessayer plus tard.')
+                                }
+                            }
+                        )
+    }
 
     const onSubmitForm = () => {
         let index= props.user.current_subuser
@@ -38,7 +57,7 @@ const addEventComp = (props)=>{
         setErrorMessage("");
         let error = formValidator();
         if (error===""){
-            addEvent(data).then(
+            modifyEvent(data, props.event[0].id).then(
                 (res)=>{
                     if(res.status===200){
                         props.setPopUpAvailable(false)
@@ -72,11 +91,11 @@ const addEventComp = (props)=>{
         
         <View style={styles.container}>
             <TouchableOpacity onPress={()=>props.setPopUpAvailable(false)} style={styles.close}><Text style={styles.closeText}>X</Text></TouchableOpacity>
-            <Text  style={styles.title}>Nouveau rituel</Text>
+            <Text  style={styles.title}>Modifier un rituel</Text>
             <TextInput
     			style={styles.input}
     			type="text"
-				placeholder="Titre"
+				value={title}
                 onChangeText={
                     (value) =>{setTitle(value)}
                 }
@@ -112,11 +131,12 @@ const addEventComp = (props)=>{
          <TextInput
     				style={styles.comment}
     				type="text"
-					placeholder="Commentaire"
+					value={comment}
                     onChangeText={
                         (text) =>{setComment(text)}
                     }
     		/>
+            <View style={{display:'flex', flexDirection:'row'}}>
             <TouchableOpacity
 					style={styles.button}
 					onPress={(e)=>{
@@ -126,6 +146,17 @@ const addEventComp = (props)=>{
 				>
     		    <Text style={styles.buttonText}>Enregistrer</Text>
     		</TouchableOpacity>
+            <TouchableOpacity
+					style={styles.buttonDelete}
+					onPress={(e)=>{
+						e.preventDefault();
+                        
+					}}
+				>
+                    
+    		    <Text style={styles.buttonText}>Supprimer</Text>
+    		</TouchableOpacity>
+            </View>
             <Text style={styles.errorMessage}>{errorMessage}</Text>
         </View>
         
@@ -189,6 +220,18 @@ const styles = StyleSheet.create({
         textAlign:'center',
         alignItems: "center",
         justifyContent: "center",
+        marginLeft:2,
+        marginRight:2
+      },
+      buttonDelete: {
+        backgroundColor: "red",
+        height: 40,
+        borderRadius:8,
+        width:'50%',
+        marginTop:50,
+        textAlign:'center',
+        alignItems: "center",
+        justifyContent: "center",
 
       },
       buttonText: {
@@ -227,4 +270,4 @@ const styles = StyleSheet.create({
       }
       
 
-export default  connect(mapStateToProps, mapDispatchToProps)(addEventComp);
+export default  connect(mapStateToProps, mapDispatchToProps)(editEventComp);

@@ -106,7 +106,7 @@ const Warroom = (props)=>{
             <ImageBackground source={background} style={styles.image}>
             {mode==='week'&&<WeekCalendar/>}
               {mode==='month'&&<MonthCalendar/>}
-          <View style={styles.boutonView}>
+          {/* <View style={styles.boutonView}>
             <TouchableOpacity style={styles.button}
                         onPress={
                           () => {
@@ -128,7 +128,7 @@ const Warroom = (props)=>{
                           <Text  style={[styles.textbouton, {backgroundColor:weekColor}]}>Mensuel</Text>   
               </TouchableOpacity>
               
-            </View>
+            </View> */}
            
           </ImageBackground>    
         </View>

@@ -7,6 +7,8 @@ import {LocaleConfig} from 'react-native-calendars';
 import {getAllEvent} from '../api/eventApi';
 import {loadEvent} from '../actions/event/eventActions';
 import WeekView from 'react-native-week-view';
+import AddEvent from '../component/addEvent'
+import EditEvent from '../component/editEvent'
 
 
 LocaleConfig.locales['fr'] = {
@@ -25,56 +27,67 @@ moment.locale('fr');
 
 const WeekCalendar = (props)=>{
 
-    const [currentMonth,setCurrentMonth] = useState((new Date()).getMonth()+1)
+    const [eventPopUp, setEventPopUp] = useState(false)
+    const [editeventPopUp, setEditeventPopUp] = useState(false)
     const [selectedDate, setSelectedate] = useState()
     const [data,setData] = useState([])
-
-    const myEvents = [
-      {
-        id: 1,
-        description: 'Event',
-        //startDate: data[0].date,
-        endDate: "",
-        color: 'blue',
-        // ... more properties if needed,
-      }
-    ];
+    const [hour, setHour] = useState(0)
+    const [selectedEvent,setselectedEvent] = useState([])
 
     useEffect(
       
       () => {
         let index = props.user.current_subuser
         let newData = []
-        console.log(props.agenda)
         if(props.agenda.event.length===0){
             getAllEvent(props.user.subuser[index].id).then(
                   (res)=>{
                       if(res.status===200){
-                         
                           props.loadEvent(res.result)
-
-                          setData(res.result)
-                      }
-                      else{
-                          setErrorMessage('Une erreur est survenue, veuillez réessayer plus tard.')
+                          res.result.map((item)=>{
+                            newData.push({
+                              id:item.id,
+                              description:item.title,
+                              startDate:item.date,
+                              endDate:'',
+                              color:'blue'
+                            })
+                          })
+                          setData(newData)
                       }
                   }
               )
         }
         else{
-          setData(props.agenda.event)
+          props.agenda.event.map((item)=>{
+            newData.push({
+              id:item.id,
+              description:item.title,
+              startDate:new Date(item.date),
+              endDate:(new Date(item.date)).setTime(new Date(item.date).getTime()+(60*60*1000)),
+              color:'blue'
+            })
+          })
+          setData(newData)
         }
-   
        }
       ,
       [],
       );
 
       useEffect(
-      
         () => {
-          
-            setData(props.agenda.event)
+          let newData = []
+          props.agenda.event.map((item)=>{
+            newData.push({
+              id:item.id,
+              description:item.title,
+              startDate:new Date(item.date),
+              endDate:(new Date(item.date)).setTime(new Date(item.date).getTime()+(60*60*1000)),
+              color:'blue'
+            })
+          })
+          setData(newData)
          }
         ,
         [props.agenda],
@@ -82,27 +95,33 @@ const WeekCalendar = (props)=>{
 
         return (
           <KeyboardAwareScrollView  style={styles.container}>
-          
+            
             <View style={styles.weekView}><WeekView
               height={hp('80%')}
-              events={myEvents}
+              events={data}
               selectedDate={new Date()}
               locale = {'FR'}
               formatDateHeader = {'dddd DD MMMM'}
               showTitle ={false}
               numberOfDays={7}
-              onEventPress ={(event)=>console.log(event)}
-              onGridClick = {(pressEvent, startHour, date) => {
-                  console.log('press event', pressEvent)
-                  console.log('startHour', startHour)
-                  console.log('date', date)
-                  
+              onEventPress ={(event)=>{
+                setselectedEvent(props.agenda.event.filter(item => item.id ===event.id))
+                setEditeventPopUp(true)
               }}
+              onGridClick = {(pressEvent, startHour, date) => {
+                  setSelectedate(date)
+                  setEventPopUp(true)
+                  setHour(startHour)
+              }}
+              hoursInDisplay={12}
+              startHour={9}
               leftToRight ={true}
               headerStyle = {{ backgroundColor: '#4286f4', color: '#fff', borderColor: '#fff' }}
               hourTextStyle =  {{color: 'grey', borderColor: '#fff' }}
 
-            /></View> 
+            /></View>
+            {eventPopUp&&<AddEvent setPopUpAvailable={setEventPopUp} hour={hour} date={new Date(selectedDate)}/>} 
+            {editeventPopUp&&<EditEvent setPopUpAvailable={setEditeventPopUp} event={selectedEvent}/>}   
         </KeyboardAwareScrollView>
     )
 }
@@ -118,7 +137,7 @@ const styles = StyleSheet.create({
     weekView:{
       width:wp('100%'),
       backgroundColor:'white',
-      height:hp('80%')
+      height:hp('95%')
     },
     calendar: {
         borderTopWidth: 1,

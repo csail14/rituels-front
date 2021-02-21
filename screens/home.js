@@ -90,12 +90,8 @@ const Home = ({ navigation,user,progress, loadCycleInfo, cycle })=>{
                       >
                         <Text  style={{color:"white", fontSize:20}}>Cliquez-ici </Text>    
                         </TouchableOpacity>
-                        
-                               
                     </View>
-                    
                   </View>
-                  
                 </View>
               }
             <Image source={logo} style={styles.logo}/>

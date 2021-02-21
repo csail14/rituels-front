@@ -47,7 +47,7 @@ const LevelBar = (props)=>{
         <View style={{alignItems:'center',display:'flex', flexDirection:'row',marginTop:10}}>
             <View style={styles.container}>
             {arrayObj && arrayObj.map((index)=>{
-                    return <View  key={Math.random()} style={{height:30, backgroundColor:'orange', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>
+                    return <View  key={Math.random()} style={{height:30, backgroundColor:'#3ADE14', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>
                 })}
                 {arrayState && arrayState.map((index)=>{
                     return <View key={Math.random()} style={{height:30, backgroundColor:'#606F7C', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>

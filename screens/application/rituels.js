@@ -27,7 +27,7 @@ const Rituels = (props)=>{
   const [videoUrl, setVideoUrl] = useState(null);
   const [isCycleDone,setisCycleDone] =useState(false);
   const [list, setlist] =useState([]);
-  const [index,setIndex] = useState(9);
+  const [index,setIndex] = useState(0);
   const [showMenu, setShowMenu] = useState(false)
   const [height,setHeight] = useState(hp('100%'))
 
@@ -90,10 +90,21 @@ const Rituels = (props)=>{
       }
     }, [cycle])
 
+    const filtreCycle = () => {
+      let index= props.user.current_subuser
+      let age = Math.floor( (new Date()).getTime()-(new Date(props.user.subuser[index].birth_date)).getTime()) / (365.24*24*3600*1000)
+      let user_age = Math.trunc(age)
+      let possibleCycle = props.cycle.allCycle.filter(item=>(props.cycle.duration == item.duration) && (item.age_min<=user_age) && (item.age_max >=user_age))
+      return possibleCycle
+    }
+
+
+    
     const randomCycle = () => {
-      let max = props.cycle.allCycle.length-1
+      let possibleCycle = filtreCycle()
+      let max = possibleCycle.length-1
       let random = Math.floor( Math.random() * (max + 1))
-      let selectedCycle = props.cycle.allCycle[random]
+      let selectedCycle = possibleCycle[random]
       setCycle(selectedCycle)
       setShowMenu(false)
       if (ref.replayAsync){

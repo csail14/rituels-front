@@ -34,7 +34,6 @@ const MonthCalendar = (props)=>{
       () => {
         let index = props.user.current_subuser
         let newData = []
-        console.log(props.agenda)
         if(props.agenda.event.length===0){
             getAllEvent(props.user.subuser[index].id).then(
                   (res)=>{
@@ -57,9 +56,9 @@ const MonthCalendar = (props)=>{
        }
       ,
       [],
-      );
+    );
 
-      useEffect(
+  useEffect(
       
         () => {
           
@@ -67,7 +66,7 @@ const MonthCalendar = (props)=>{
          }
         ,
         [props.agenda],
-        );
+  );
 
     
     const checkEvent=(day, month)=>{
@@ -81,7 +80,7 @@ const MonthCalendar = (props)=>{
       return dayData 
     }
 
-        return (
+  return (
           <KeyboardAwareScrollView  style={styles.container}>
         <View style={styles.container}>
              <Calendar style={styles.calendar}

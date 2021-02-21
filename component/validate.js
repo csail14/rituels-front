@@ -69,6 +69,13 @@ export default class Menu extends React.Component {
                 }
             }>
            <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Valider le rituel</Text></Animated.View>
+         </TouchableWithoutFeedback>
+         <TouchableWithoutFeedback onPress={
+                this.props.navigation.reset({
+                  index: 0,
+                  routes: [{ name: 'Home' }],
+                })
+            }>
          </TouchableWithoutFeedback>  
         </View>
     );}

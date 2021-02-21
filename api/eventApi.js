@@ -65,7 +65,7 @@ export const modifyEvent = (data,id)=>{
 }
 
 export const deleteEvent = (id)=>{
-    return axios.put(config.api_url+"/api/v1/event/delete/"+id,  {headers: {'x-access-token': token}})
+    return axios.delete(config.api_url+"/api/v1/event/delete/"+id,  {headers: {'x-access-token': token}})
             .then((response)=>{
                 return response.data;
             })
