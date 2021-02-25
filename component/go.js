@@ -11,7 +11,10 @@ export default class Menu extends React.Component {
             sound : null,
             pressed20:false,
             pressed40:false,
-            pressed30:false
+            pressed30:false,
+            size:0,
+            height:0,
+            width:0
              
           }
     }
@@ -45,7 +48,7 @@ export default class Menu extends React.Component {
     }
 
     setDuration=()=> {
-      let duration =0;
+      let duration = 0;
       if (this.state.pressed40){
         duration=40
       }
@@ -63,18 +66,22 @@ export default class Menu extends React.Component {
             translateX : this.state.animation,
         }]
       }
+
     return (
         <View style={styles.container} >
             <TouchableWithoutFeedback onPress={
                 ()=>{
                    this.setState({
-                       pressed20:!this.state.pressed20,
+                       pressed20:true,
                        pressed30:false,
-                       pressed40:false
+                       pressed40:false,
+                       size:1,
+                       height:200,
+                       width:200
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle,  {backgroundColor:'green', marginRight: 10}, this.state.pressed20?styles.pressed: ""]} ><Text style={styles.minute}>20'</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'green', marginRight: 10}, this.state.pressed20?styles.pressed: ""]} ><Text style={styles.minute}>20'</Text></Animated.View>
          </TouchableWithoutFeedback> 
             <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -84,14 +91,17 @@ export default class Menu extends React.Component {
                     
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle,{height:this.state.height, width:this.state.width}, {transform: [{ scale: this.state.size }]} ]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
                     this.setState({
-                        pressed30:!this.state.pressed30,
+                        pressed30:true,
                         pressed20:false,
-                        pressed40:false
+                        pressed40:false,
+                        size:1,
+                        height:200,
+                        width:200
                  })
                 }
           }>
@@ -131,11 +141,11 @@ const styles = StyleSheet.create({
           borderWidth:2
       },
       mainView: {
-        height:200,
-        width:200,
+        
         borderRadius:100,
         backgroundColor:'red',
         fontSize: 40,
+        zIndex:1,
         textAlign: 'center',
         color: "white",
         display:'flex',

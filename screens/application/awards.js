@@ -175,8 +175,7 @@ const Awards = ({ navigation,user, progress })=>{
             <ImageBackground source={background} style={styles.image}>
             <ScrollView style={styles.scrollContainer}>
                 
-                <Text  style={styles.title}>Quelle récompense pour la semaine prochaine ?</Text>
-
+                <Text  style={styles.title}>Quelle récompense pour la semaine prochaine ???</Text>
                 <View style={styles.formView}>
                 <SelectInput
                   

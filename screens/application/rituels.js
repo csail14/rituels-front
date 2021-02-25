@@ -95,6 +95,7 @@ const Rituels = (props)=>{
       let age = Math.floor( (new Date()).getTime()-(new Date(props.user.subuser[index].birth_date)).getTime()) / (365.24*24*3600*1000)
       let user_age = Math.trunc(age)
       let possibleCycle = props.cycle.allCycle.filter(item=>(props.cycle.duration == item.duration) && (item.age_min<=user_age) && (item.age_max >=user_age))
+      console.log('possible',possibleCycle)
       return possibleCycle
     }
 

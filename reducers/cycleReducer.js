@@ -7,7 +7,7 @@ const initialState = {
 }
 
 const CycleReducer = (state = initialState, action)=>{
-    
+    console.log('cycle reducer', action)
     switch(action.type) {
         case LOAD_CYCLE_INFO:
             return {infos: action.payload.infos,allCycle: action.payload.cycles, duration:action.payload.duration}    

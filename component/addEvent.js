@@ -6,10 +6,12 @@ import {
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 import {validateInputField} from '../helpers/form-validator'
-
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.locale('fr');
 import DatePicker from 'react-native-datepicker'
-
-import {addEvent} from '../api/eventApi'
+import {loadProgress} from '../actions/progress/progressActions'
+import {addEvent,getCount} from '../api/eventApi'
 import {getAllEvent} from '../api/eventApi';
 import {loadEvent} from '../actions/event/eventActions'
 
@@ -49,6 +51,12 @@ const addEventComp = (props)=>{
                                 }
                             }
                         )
+                        getCount(props.user.subuser[index].id,moment(new Date()).format('W')).then(
+                            (resultobj)=> {
+                                        props.loadProgress(props.progress.state,resultobj.result[0].obj)
+
+                            }
+                          )
                     }
                     else{
                         setErrorMessage('Une erreur est survenue, veuillez réessayer plus tard.')
@@ -216,13 +224,15 @@ const styles = StyleSheet.create({
     );
 
     mapDispatchToProps = {
-        loadEvent
+        loadEvent,
+        loadProgress
       }
       
       mapStateToProps = (store)=>{
           return {
               user: store.user,
-              agenda: store.agenda
+              agenda: store.agenda,
+              progress: store.progress
           }
       }
       

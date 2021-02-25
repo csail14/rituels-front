@@ -7,6 +7,8 @@ import {
 import background from '../../assets/main-background.jpg'
 import Header from '../../navigation/header-account'
 import {connect} from 'react-redux';
+import Payment from '../account/payment'
+
 
 
 

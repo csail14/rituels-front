@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {connect} from 'react-redux'; 
 import Logout from '../screens/user/logout'
 import Home from '../screens/home';
-import Account from '../screens/account/account';
+import Account from '../screens/account/level';
 import Stat from '../screens/application/stat';
 import Register from '../screens/user/register';
 import Login from '../screens/user/login';
@@ -19,6 +19,7 @@ import MainAccount from '../screens/account/mainAccount'
 import Message from '../screens/account/message'
 import Payment from '../screens/account/payment'
 import Notification from '../screens/account/notificationSettings'
+import AddSubuser from '../screens/account/addSubuser'
 
 
 const Stack = createStackNavigator();
@@ -46,6 +47,10 @@ const MyStack = (props) => {
     <Stack.Screen 
       name="Warroom" 
       component={Warroom} 
+    />
+     <Stack.Screen 
+      name="AddSubuser" 
+      component={AddSubuser} 
     />
     <Stack.Screen 
       name="Notification" 

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d0aaa08c-c1bc-4200-8c5f-d70a98aa3002" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/statApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/statApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/userApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/userApi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/addEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/addEvent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/editEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/editEvent.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/require-auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/require-auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/navigation/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/reducers/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/account/account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/account/changeAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/changeAccount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/account/mainAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/mainAccount.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/account/payment.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/payment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/application/awards.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/application/awards.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ovn8wRmQya2HXiDpWVOzTKsGam" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Application" type="AndroidRunConfigurationType" factoryName="Android App">
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="true" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Hybrid>
+      <Java />
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="false" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d0aaa08c-c1bc-4200-8c5f-d70a98aa3002" name="Default Changelist" comment="" />
+      <created>1614175776420</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1614175776420</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2501" y="35" width="1092" height="622" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614246933634">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1614175826454" />
+    <state x="2501" y="35" width="1092" height="622" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1614246933633" />
+    <state x="2318" y="274" width="1095" height="495" key="AVDManager" timestamp="1614249052036">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2318" y="274" width="1095" height="495" key="AVDManager/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1614249052036" />
+    <state x="2660" y="275" key="FileChooserDialogImpl" timestamp="1614247322232">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1614247322232" />
+    <state x="2133" y="0" key="SettingsEditor" timestamp="1614247099776">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1614175813223" />
+    <state x="2133" y="0" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1614247099776" />
+  </component>
+</project>

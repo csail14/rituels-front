@@ -5,12 +5,14 @@ import RequireAuth from './helpers/require-auth';
 import { Provider } from "react-redux";
 import store from './store';
 
+
+
 export default function App() {
   return (
     <View style={styles.container}>
-      <Provider store={store}>
-        <RequireAuth />
-      </Provider>
+        <Provider store={store}>
+          <RequireAuth />
+        </Provider>
     </View>
   );
 }

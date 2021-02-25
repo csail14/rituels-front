@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'black',
       flexDirection: 'row',
       justifyContent:'space-around',
+      minHeight:50,
       height:wp('7%'),
       paddingTop:15
     },

@@ -18,7 +18,7 @@ const Login = (props)=> {
 	const [password, setpassword] = useState("")
 	const [errorMessage,seterrorMessage] = useState("")
 
-	const onSubmitForm = ()=>{
+	const onSubmitForm =  ()=>{
 		let data = {
 
 			email: email,
@@ -30,9 +30,11 @@ const Login = (props)=> {
             if(res.status === 200) {
 				storeData(res.token);
 				getSubUser(res.user.id)
-				.then((resp)=>{
-
-					props.loadUserInfo(res.user, resp.result);
+				.then(async (resp)=>{
+					const storageSubuser = await AsyncStorage.getItem('@storage_subuser');
+					let current_subuser = 0;
+                    if (storageSubuser!==null){current_subuser=storageSubuser}
+					props.loadUserInfo(res.user, resp.result,current_subuser);
 					props.navigation.navigate('Home')
 				})
             } else if (res.status === 404){

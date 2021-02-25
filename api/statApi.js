@@ -22,6 +22,7 @@ export  const getstatbymonth = async (subuser_id)=>{
             })
 }
 
+
 export  const getstatbyweek = async (subuser_id)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
     return axios.get(config.api_url+"/api/v1/success/get/"+subuser_id+"/week", {headers: {'x-access-token': token}})

@@ -119,7 +119,9 @@ const styles = StyleSheet.create({
       backgroundColor: 'black',
       flexDirection: 'row',
       justifyContent:'space-around',
+      flexWrap:'wrap',
       height:wp('7%'),
+      //minHeight:120,
       paddingTop:15
     },
     button: {
