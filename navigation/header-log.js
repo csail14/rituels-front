@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent:'space-around',
       height:wp('7%'),
-      //minHeight:120,
+      minHeight:120,
       flexWrap:'wrap',
       paddingTop:15
     },
