@@ -9,7 +9,7 @@ import {validateInputField} from '../helpers/form-validator'
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
-import DatePicker from 'react-native-datepicker'
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {loadProgress} from '../actions/progress/progressActions'
 import {modifyEvent,deleteEvent,getCount} from '../api/eventApi'
 import {getAllEvent} from '../api/eventApi';
@@ -108,9 +108,9 @@ const editEventComp = (props)=>{
                     (value) =>{setTitle(value)}
                 }
     		/>
-            <DatePicker
+            <DateTimePicker
                     style={styles.datePickerStyle}
-                    date={date} 
+                    value={date} 
                     mode="datetime" 
                     format="dddd  DD MMMM  HH:mm"
                     minuteInterval='15'
@@ -144,7 +144,7 @@ const editEventComp = (props)=>{
                         (text) =>{setComment(text)}
                     }
     		/>
-            <View style={{display:'flex', flexDirection:'row'}}>
+            <View style={{display:'flex', flexDirection:'row', marginTop:10}}>
             <TouchableOpacity
 					style={styles.button}
 					onPress={(e)=>{

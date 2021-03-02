@@ -100,7 +100,7 @@ const WeekCalendar = (props)=>{
               height={hp('80%')}
               events={data}
               selectedDate={new Date()}
-              locale = {'FR'}
+              locale = {'fr'}
               formatDateHeader = {'dddd DD MMMM'}
               showTitle ={false}
               numberOfDays={7}

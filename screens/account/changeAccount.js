@@ -10,9 +10,10 @@ import {connect} from 'react-redux';
 import {loadUserInfo} from '../../actions/user/userActions';
 import {loadProgress} from '../../actions/progress/progressActions'
 import {loadLevel} from '../../actions/level/levelActions';
+import {loadEvent} from '../../actions/event/eventActions';
 import {getAllLevel,getCurrentLevel,getLevelByOrder} from '../../api/levelApi';
 import {getStateByWeek} from '../../api/awardApi';
-import {getCount} from '../../api/eventApi';
+import {getCount,getAllEvent} from '../../api/eventApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -24,16 +25,12 @@ import garcon2 from '../../assets/garcon2.png'
 
 
 
-const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel})=>{
+const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel,loadEvent})=>{
 
   const subuser = []
 
   const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem('@storage_subuser', ""+value)
-    } catch (e) {
-      // saving error
-    }
+    await AsyncStorage.setItem('@storage_subuser', ""+value)
   }
 
   const setImage = (player) => {
@@ -73,6 +70,7 @@ const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel})=>
                                             loadUserInfo(user.infos, user.subuser, index)
                                             loadProgress(resultstate.result[0].state,resultobj.result[0].obj)
                                             storeData(index)
+                                            console.log('store be')
                                             navigation.reset({
                                                 index: 0,
                                                 routes: [{ name: 'Home' }],
@@ -93,6 +91,17 @@ const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel})=>
                                     
                                 }
                             )
+                            getAllEvent(user.subuser[index].id).then(
+                              (res)=>{
+                                  if(res.status===200){
+                                     
+                                      loadEvent(res.result)
+                                  }
+                                  else{
+                                      setErrorMessage('Une erreur est survenue, veuillez réessayer plus tard.')
+                                  }
+                              }
+                          )
                             }
                             }
                           
@@ -185,7 +194,8 @@ const styles = StyleSheet.create({
 mapDispatchToProps = {
   loadUserInfo,
   loadProgress,
-  loadLevel
+  loadLevel,
+  loadEvent
 }
 
 mapStateToProps = (store)=>{

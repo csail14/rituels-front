@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
       justifyContent:'space-around',
       flexWrap:'wrap',
       height:wp('7%'),
-      minHeight:120,
+      //minHeight:120,
       paddingTop:15
     },
     button: {

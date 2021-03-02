@@ -24,9 +24,9 @@ export const saveNewLevel = async (data) => {
             })
 }
 
-export  const setLevel = async (subuser_id, level_id)=>{
+export  const setLevel = async (subuser_id, data)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.put(config.api_url+"/api/v1/level/set/"+level_id+"/"+subuser_id, {headers: {'x-access-token': token}})
+    return axios.put(config.api_url+"/api/v1/level/set/"+subuser_id, data,{headers: {'x-access-token': token}})
             .then((response)=>{
                 return response.data;
             })

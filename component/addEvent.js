@@ -9,7 +9,7 @@ import {validateInputField} from '../helpers/form-validator'
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
-import DatePicker from 'react-native-datepicker'
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {loadProgress} from '../actions/progress/progressActions'
 import {addEvent,getCount} from '../api/eventApi'
 import {getAllEvent} from '../api/eventApi';
@@ -23,8 +23,7 @@ const addEventComp = (props)=>{
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        var d = new Date(date); d.setDate(d.getDate()) ;d.setHours(props.hour);
-        console.log(d)
+        var d = new Date(date); d.setDate(d.getDate()-4) ;d.setHours(props.hour);
         setDate(d)
     }, [])
 
@@ -89,9 +88,9 @@ const addEventComp = (props)=>{
                     (value) =>{setTitle(value)}
                 }
     		/>
-            <DatePicker
+            <DateTimePicker
                     style={styles.datePickerStyle}
-                    date={date} 
+                    value={date} 
                     mode="datetime" 
                     format="dddd  DD MMMM  HH:mm"
                     minuteInterval='15'
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius:8,
         width:'50%',
-        marginTop:50,
+        marginTop:60,
         textAlign:'center',
         alignItems: "center",
         justifyContent: "center",

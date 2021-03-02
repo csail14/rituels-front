@@ -8,8 +8,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import {LocaleConfig} from 'react-native-calendars';
 import {getAllEvent} from '../../api/eventApi';
 import {loadEvent} from '../../actions/event/eventActions';
-import MonthCalendar from '../../component/monthCalendar'
 import WeekCalendar from '../../component/weekCalendar';
+import moment from 'moment';
+//import 'moment/locale/fr';
+moment.locale('fr');
 
 
 LocaleConfig.locales['fr'] = {
@@ -21,10 +23,6 @@ LocaleConfig.locales['fr'] = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
-import moment from 'moment';
-import 'moment/locale/fr';
-import monthCalendar from '../../component/monthCalendar';
-moment.locale('fr');
 
 const Warroom = (props)=>{
 

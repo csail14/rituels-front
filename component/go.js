@@ -12,10 +12,8 @@ export default class Menu extends React.Component {
             pressed20:false,
             pressed40:false,
             pressed30:false,
-            size:0,
-            height:0,
-            width:0
-             
+            timeSelected:false
+
           }
     }
 
@@ -72,36 +70,33 @@ export default class Menu extends React.Component {
             <TouchableWithoutFeedback onPress={
                 ()=>{
                    this.setState({
+                      timeSelected:true,
                        pressed20:true,
                        pressed30:false,
                        pressed40:false,
-                       size:1,
-                       height:200,
-                       width:200
+                       
                 })
                 }
                     }>
            <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'green', marginRight: 10}, this.state.pressed20?styles.pressed: ""]} ><Text style={styles.minute}>20'</Text></Animated.View>
          </TouchableWithoutFeedback> 
             <TouchableWithoutFeedback onPress={
-                ()=>{
-                    this.setDuration();
-                    this.playSound();
-                    this.startAnimation();
-                    
+                ()=>{if(this.state.timeSelected){
+                  this.setDuration();
+                  this.playSound();
+                  this.startAnimation();
+                }
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle,{height:this.state.height, width:this.state.width}, {transform: [{ scale: this.state.size }]} ]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
                     this.setState({
+                        timeSelected:true,
                         pressed30:true,
                         pressed20:false,
-                        pressed40:false,
-                        size:1,
-                        height:200,
-                        width:200
+                        pressed40:false
                  })
                 }
           }>
@@ -141,7 +136,8 @@ const styles = StyleSheet.create({
           borderWidth:2
       },
       mainView: {
-        
+        height:200,
+        width:200,
         borderRadius:100,
         backgroundColor:'red',
         fontSize: 40,

@@ -17,6 +17,16 @@ export const  saveUser =  (data)=>{
             })
 }
 
+export const  sendContactMessage =  (data)=>{
+    return axios.post(config.api_url+"/api/v1/user/contact", data)
+            .then((response)=>{
+                return response.data;
+            })
+            .catch((err)=>{
+                return err;
+            })
+}
+
 export const saveSubUser = async (data)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
     return axios.post(config.api_url+"/api/v1/subuser/add", data, {headers: {'x-access-token': token}})
