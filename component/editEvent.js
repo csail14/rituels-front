@@ -21,6 +21,7 @@ const editEventComp = (props)=>{
     const [title, setTitle] = useState(props.event[0].title);
     const [comment,setComment] = useState(props.event[0].comment);
     const [errorMessage, setErrorMessage] = useState("");
+    const [notifTime, setnotifTime] = useState(props.event[0].notifTime)
 
     useEffect(() => {
         console.log(props.event)
@@ -60,7 +61,8 @@ const editEventComp = (props)=>{
             comment:comment,
             date:date,
             user_id:props.user.infos.id, 
-            subuser_id:props.user.subuser[index].id
+            subuser_id:props.user.subuser[index].id,
+            notifTime:notifTime
         }
         setErrorMessage("");
         let error = formValidator();
@@ -144,6 +146,17 @@ const editEventComp = (props)=>{
                         (text) =>{setComment(text)}
                     }
     		/>
+            <View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
+                    <Text style={styles.text}>M'alerter </Text>
+                    <TextInput
+                      style={styles.inputTime}
+                      value={""+notifTime}
+                      onChangeText={
+                          (text)=>{setnotifTime(text)}
+                      }
+                    />
+                    <Text style={styles.text}>min avant </Text>
+                  </View>
             <View style={{display:'flex', flexDirection:'row', marginTop:10}}>
             <TouchableOpacity
 					style={styles.button}
@@ -176,7 +189,7 @@ const editEventComp = (props)=>{
 const styles = StyleSheet.create({
     
     container: {
-      height:hp('60%'),
+      height:hp('80%'),
       width:wp('40%'),
       backgroundColor: '#CAE6FF',
       borderRadius:10,
@@ -189,6 +202,22 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent:'space-around'
     },
+    inputTime: {
+        backgroundColor: 'white',
+        width: 50,
+      height: 40,
+      borderRadius:5,
+      marginLeft:10,
+      paddingLeft:12,
+      marginTop:40,
+      },
+      text:{
+        color:'black',
+        textAlign:'center',
+        marginTop:50,
+        marginLeft:15,
+        fontSize:15
+      },
     title:{
         
         marginBottom:'20%',

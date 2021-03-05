@@ -12,7 +12,7 @@ import Header from '../../navigation/header-account'
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {validateInputField} from '../../helpers/form-validator'
 import DatePicker from 'react-native-datepicker'
-import {saveSubUser,getAllSubuser} from '../../api/userApi'
+import {updateSubUser,getAllSubuser} from '../../api/userApi'
 import fille1 from '../../assets/fille1.png'
 import fille2 from '../../assets/fille2.png'
 import garcon1 from '../../assets/garcon1.png'
@@ -21,13 +21,15 @@ import garcon2 from '../../assets/garcon2.png'
 const AddSubuser = ({navigation,loadUserInfo,user})=> {
 
 	const [errorMessage, setErrorMessage] = useState("");
-	const [name, setName] = useState("");
-	const [birth_date, setBirth_date] = useState(new Date());
+	const [name, setName] = useState(user.subuser[user.current_subuser].name);
+	const [birth_date, setBirth_date] = useState(new Date(user.subuser[user.current_subuser].birth_date));
 	const [fille1Color, setFille1Color] = useState('white')
 	const [fille2Color, setFille2Color] = useState('black')
 	const [garcon1Color, setGarcon1Color] = useState('black')
 	const [garcon2Color, setGarcon2Color] = useState('black')
 	const [selectedPicto, setSelectedPicto] = useState('fille1')
+
+	console.log(user.infos)
 
 	const resetColor = ()=> {
 		setFille2Color('black')
@@ -45,21 +47,26 @@ const AddSubuser = ({navigation,loadUserInfo,user})=> {
 			image: selectedPicto,
 			user_id: user.infos.id
 		}
-
+		console.log(data)
 		let error = formValidator(data);
 		if (error===""){
-			saveSubUser(data)
+			console.log('lance update')
+			updateSubUser(data, user.subuser[user.current_subuser].id)
 	        .then((res)=>{
 				if (res.status===200){
+					console.log('user info', user.infos.id)
 					getAllSubuser(user.infos.id).then(
 						(result)=> {
 							console.log('result',result)
 							console.log('hello')
 							loadUserInfo(user.infos, result.result,user.current_subuser);
+							console.log('after loaduser')
 							navigation.reset({
 								index: 0,
 								routes: [{ name: 'ChangeAccount' }],
 							  })
+							  console.log('after navigation')
+							  
 						}
 					)
 				}
@@ -95,7 +102,7 @@ const AddSubuser = ({navigation,loadUserInfo,user})=> {
     			<Text
 					style={styles.title}
 				>
-					Créer un nouveau compte
+					Modifier un compte
 				</Text>
 				<View style={{display:'flex', flexDirection:'row', justifyContent:'center'}}>
 				<Text

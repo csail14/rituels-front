@@ -5,7 +5,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
-
+import { Video } from 'expo-av';
 
 const PopUpHelp = (props)=>{
 
@@ -13,7 +13,21 @@ const PopUpHelp = (props)=>{
         
         <View style={styles.container}>
             <TouchableOpacity onPress={()=>props.setShowHelp(false)} style={styles.close}><Text style={styles.closeText}>X</Text></TouchableOpacity>
-            <Text  style={styles.title}>Exemple de récompense </Text>
+            <Video
+          
+             source={{ uri: 'https://res.cloudinary.com/dmpzubglr/video/upload/v1612448051/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-210204_ywvr3d.mp4' }}
+             rate={1.0}
+             volume={1.0}
+             isMuted={false}
+             useNativeControls={true}
+             resizeMode="contain"
+             shouldPlay={true}
+             onTouchStart={true}
+             fullscreen = {false}
+             isLooping={false}
+             
+             style={{ width: wp('80%'), height: hp('50%') }}
+           />
             
         </View>
         
@@ -26,17 +40,18 @@ const styles = StyleSheet.create({
     
     container: {
       height:hp('60%'),
-      width:wp('40%'),
-      backgroundColor: '#CAE6FF',
+      width:wp('82%'),
+      backgroundColor: 'black',
       borderRadius:10,
       borderColor: '#CAE6FF',
       borderWidth:1,
       padding:'8%',
-      marginLeft:wp('30%'),
+      marginLeft:wp('10%'),
       position:'absolute',
       display:'flex',
       alignItems: "center",
-      justifyContent:'space-around'
+      justifyContent:'space-around',
+      zIndex:1
     },
     title:{
         
@@ -64,12 +79,12 @@ const styles = StyleSheet.create({
         position:'absolute',
         height:'10%',
         width:'10%',
-        marginTop:'10%',
-        right:'5%'
+        marginTop:'6%',
+        right:'0%'
       },
       closeText:{
           color:'red',
-          fontSize:20
+          fontSize:30
       },
     
     }

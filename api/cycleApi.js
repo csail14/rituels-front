@@ -35,7 +35,6 @@ export  const getAllCycle = async ()=>{
 }
 
 export  const getVideo = async (videoId)=>{
-    console.log('videoID', videoId)
     const token =  await AsyncStorage.getItem('4brntoken');
     return axios.get(config.api_url+"/api/v1/video/get/"+videoId, {headers: {'x-access-token': token}})
             .then((response)=>{

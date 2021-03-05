@@ -90,3 +90,29 @@ export const forgotPassword = (data)=>{
                 console.log(err);
             })
 }
+
+export const setNotification = async (data,id)=>{
+    const token =  await AsyncStorage.getItem('4brntoken');
+    return axios.put(config.api_url+"/api/v1/user/set/notification/"+id, data, {headers: {'x-access-token': token}})
+            .then((response)=>{
+                return response.data;
+            })
+            .catch((err)=>{
+                console.log('erreur')
+                return err;
+
+            })
+}
+
+export const updateSubUser = async (data, id)=>{
+    const token =  await AsyncStorage.getItem('4brntoken');
+    return axios.put(config.api_url+"/api/v1/subuser/set/"+id, data, {headers: {'x-access-token': token}})
+            .then((response)=>{
+                return response.data;
+            })
+            .catch((err)=>{
+                console.log('erreur')
+                return err;
+
+            })
+}

@@ -60,7 +60,7 @@ const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel,loa
                 let age = Math.floor( (new Date()).getTime()-(new Date(player.birth_date)).getTime()) / (365.24*24*3600*1000)
                 let user_age = Math.trunc(age)
                 let image = '../../assets/'+player.image
-                return (<TouchableOpacity key={index}
+                return (<View key={index}><TouchableOpacity 
                   style={styles.subuser}
                             onPress={ ()=>{
                               getCount(user.subuser[index].id,moment(new Date()).format('W')).then(
@@ -108,7 +108,15 @@ const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel,loa
                         >
                             {setImage(player)}
                             <Text key={index} style={styles.title}>{player.name}</Text>
-                        </TouchableOpacity>)
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={(e)=>{
+                            loadUserInfo(user.infos, user.subuser, index)
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'SetSubuser' }],
+                            });}}
+                        ><Text style={{color:'white', fontSize:20, textAlign:'center', marginTop:8}}>Modifier</Text></TouchableOpacity></View>)
               })}
               
               </View>

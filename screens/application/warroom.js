@@ -10,6 +10,8 @@ import {getAllEvent} from '../../api/eventApi';
 import {loadEvent} from '../../actions/event/eventActions';
 import WeekCalendar from '../../component/weekCalendar';
 import moment from 'moment';
+
+import Help from '../../component/popUpHelpWarroom.js'
 //import 'moment/locale/fr';
 moment.locale('fr');
 
@@ -26,24 +28,9 @@ LocaleConfig.defaultLocale = 'fr';
 
 const Warroom = (props)=>{
 
-    const [currentMonth,setCurrentMonth] = useState((new Date()).getMonth()+1)
-    const [eventPopUp, setEventPopUp] = useState(false)
-    const [selectedDate, setSelectedate] = useState()
     const [data,setData] = useState([])
-    const [mode, setMode] = useState('week')
-    const [weekColor, setWeekcolor] = useState('#bdbdde')
-    const [monthColor, setMonthcolor] = useState('#8484a3')
-
-    const myEvents = [
-      {
-        id: 1,
-        description: 'Event',
-        startDate: new Date(),
-        endDate: new Date(),
-        color: 'blue',
-        // ... more properties if needed,
-      }
-    ];
+    const [showHelp,setShowHelp] =useState(false)
+ 
 
     useEffect(
       
@@ -85,48 +72,22 @@ const Warroom = (props)=>{
         [props.agenda],
         );
 
-    
-    const checkEvent=(day, month)=>{
-      let dayData = []
-      data.map((event)=>{
-        let newEvent = new Date(event.date)
-        if(newEvent.getDate()==day && newEvent.getMonth()+1==month){
-          dayData.push(event)
-        }
-      })
-      return dayData 
-    }
 
         return (
           <KeyboardAwareScrollView  style={styles.container}>
         <View style={styles.container}>
           <Header screen='Warroom' navigation={props.navigation}/>
             <ImageBackground source={background} style={styles.image}>
-            {mode==='week'&&<WeekCalendar/>}
-              {mode==='month'&&<MonthCalendar/>}
-          {/* <View style={styles.boutonView}>
-            <TouchableOpacity style={styles.button}
-                        onPress={
-                          () => {
-                            setMode('week')
-                            setWeekcolor('#bdbdde')
-                            setMonthcolor('#8484a3')
-                            }
-                        }>
-                          <Text  style={[styles.textbouton, {backgroundColor:monthColor}]}>Hebdo</Text>   
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button}
-                        onPress={
-                          () => {
-                            setMode('month')
-                            setWeekcolor('#8484a3')
-                            setMonthcolor('#bdbdde')
-                            }
-                        }>
-                          <Text  style={[styles.textbouton, {backgroundColor:weekColor}]}>Mensuel</Text>   
-              </TouchableOpacity>
-              
-            </View> */}
+              <View style={{height:80}}>
+                
+                <TouchableOpacity onPress={()=>{
+                  setShowHelp(true)
+                }}><Text style={styles.text}>Comment fonctionne la warroom ?</Text></TouchableOpacity>
+                <Text style={[styles.text,{textAlign:'left', textDecorationLine:'none'}]}>Legende :</Text>
+              </View>
+
+           <WeekCalendar/>
+           {showHelp&&<Help setShowHelp={setShowHelp}/>}
            
           </ImageBackground>    
         </View>
@@ -141,6 +102,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'black',
+      
     },
     weekView:{
       width:wp('100%'),
@@ -163,7 +125,9 @@ const styles = StyleSheet.create({
     text:{
       color:'white',
       textAlign:'center',
-      fontSize:30
+      textDecorationLine:'underline',
+      fontSize:20,
+      marginTop:10
     },
     boutonView:{
       display:'flex',

@@ -21,9 +21,10 @@ const addEventComp = (props)=>{
     const [title, setTitle] = useState("");
     const [comment,setComment] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [notifTime, setnotifTime] = useState(60)
 
     useEffect(() => {
-        var d = new Date(date); d.setDate(d.getDate()-4) ;d.setHours(props.hour);
+        var d = new Date(date); d.setDate(d.getDate()-2) ;d.setHours(props.hour);
         setDate(d)
     }, [])
 
@@ -34,7 +35,8 @@ const addEventComp = (props)=>{
             comment:comment,
             date:date,
             user_id:props.user.infos.id, 
-            subuser_id:props.user.subuser[index].id
+            subuser_id:props.user.subuser[index].id,
+            notifTime:notifTime
         }
         setErrorMessage("");
         let error = formValidator();
@@ -115,7 +117,7 @@ const addEventComp = (props)=>{
                         setDate(date);
                     }}
             />
-
+            
          <TextInput
     				style={styles.comment}
     				type="text"
@@ -124,6 +126,17 @@ const addEventComp = (props)=>{
                         (text) =>{setComment(text)}
                     }
     		/>
+            <View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
+                    <Text style={styles.text}>M'alerter </Text>
+                    <TextInput
+                      style={styles.inputTime}
+                      value={""+notifTime}
+                      onChangeText={
+                          (text)=>{setnotifTime(text)}
+                      }
+                    />
+                    <Text style={styles.text}>min avant </Text>
+                  </View>
             <TouchableOpacity
 					style={styles.button}
 					onPress={(e)=>{
@@ -144,7 +157,7 @@ const addEventComp = (props)=>{
 const styles = StyleSheet.create({
     
     container: {
-      height:hp('60%'),
+      height:hp('80%'),
       width:wp('40%'),
       backgroundColor: '#CAE6FF',
       borderRadius:10,
@@ -164,6 +177,23 @@ const styles = StyleSheet.create({
         fontSize:30,
         color:'grey'
     },
+
+    inputTime: {
+        backgroundColor: 'white',
+        width: 50,
+      height: 40,
+      borderRadius:5,
+      marginLeft:10,
+      paddingLeft:12,
+      marginTop:40,
+      },
+      text:{
+        color:'black',
+        textAlign:'center',
+        marginTop:50,
+        marginLeft:15,
+        fontSize:15
+      },
     comment :{
         backgroundColor: 'white',
         borderRadius:5,

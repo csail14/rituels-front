@@ -4,8 +4,7 @@ import Constants from 'expo-constants';
 import axios from 'axios';
 import {config} from '../config'
 
-export const registerForPushNotificationsAsync = async (id) => {
-  console.log('ça part de la ');
+export const registerForPushNotificationsAsync = async (id,account,second_uuid) => {
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(
         Permissions.NOTIFICATIONS
@@ -22,24 +21,48 @@ export const registerForPushNotificationsAsync = async (id) => {
         return;
       }
       let token = await Notifications.getExpoPushTokenAsync();
-      console.log('l uuid token', token);
- 
-      let data = {
-        uuid: token.data,
-        second_uuid:null,
-        id: id
+      let data={}
+      if(account=='first'){
+        data = {
+          uuid: token.data,
+          second_uuid:second_uuid,
+          id: id
+        }
       }
-      console.log('l uuid data', data);
+      else if(account=='second'){
+        data = {
+          uuid:second_uuid,
+          second_uuid: token.data,
+          id: id
+        }
+      }
+      
+
       axios.put(config.api_url+'/api/v1/update/uuid', data )
       .then((res)=>{
-        console.log('l uuid token 2',res)
+
       }).catch((err)=>{
         console.log('err',err);
       })
 
-
+      return token.data
  
     } else {
       alert('Must use physical device for Push Notifications');
     }
+    
   };
+
+  export const sendNotification=(msg, token) => {
+    let data ={
+      token:token, 
+      msg:msg
+    }
+    axios.post(config.api_url+'/api/v1/notification', data)
+    .then((res)=> {
+      console.log('resultnotif',res)
+    })
+    .catch((err)=>{
+      console.log('err',err)
+    })
+  }

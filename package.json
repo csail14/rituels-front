@@ -74,7 +74,8 @@
     "redux-thunk": "^2.3.0",
     "stripe": "^8.137.0",
     "tipsi-stripe": "^8.0.2",
-    "expo-notifications": "~0.8.2"
+    "expo-notifications": "~0.8.2",
+    "expo-payments-stripe": "~8.4.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

@@ -59,6 +59,9 @@ const Account = ({ navigation,user,level,loadLevel })=>{
     setTest('')
   }
  
+  const deleLevel = () => {
+    
+  }
 
   const saveChange=  () => {
     setLevel(user.subuser[user.current_subuser].id, stateLevel).then(

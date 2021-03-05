@@ -11,11 +11,11 @@ import 'moment/locale/fr';
 moment.locale('fr');
 import { Video } from 'expo-av';
 import {loadProgress} from '../../actions/progress/progressActions'
-
+import {sendNotification} from '../../helpers/notification'
 import Menu from '../../navigation/menu';
 import Validate from '../../component/validate'
 import {getCycle, getVideo,getAllCycle} from '../../api/cycleApi';
-import {addStat} from '../../api/statApi'
+
 import {connect} from 'react-redux';
 import {loadCycleInfo} from '../../actions/cycle/cycleActions';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
@@ -40,19 +40,23 @@ const Rituels = (props)=>{
           props.loadCycleInfo({},res.result,props.cycle.duration)
         }
       )}
+    if(index==0){
+      sendMessage()
+    }
     }, [])
 
+    const sendMessage=()=>{
+      let message=props.user.subuser[props.user.current_subuser].name+' lance un rituel.'
+      sendNotification(message,props.user.infos.uuid)
+    }
+
   useEffect(()=>{
-    console.log('use effect allcycle')
     randomCycle();
   }, [props.cycle.allCycle])
 
   useEffect(()=>{
-    console.log('use effect video')
     if(video){
-      console.log('if video')
       if (ref.replayAsync){
-        console.log('if replayAsync')
         ref.setPositionAsync(0)
         ref.playAsync()
       }
@@ -61,11 +65,8 @@ const Rituels = (props)=>{
     }}, [video])
 
     useEffect(()=>{
-      console.log('use list')
       if(list){
-        console.log('if list')
         if (list[0]){
-          console.log('if list[0]')
         getVideo(list[0]).then(
         (res)=>{
           setvideo(res.result[0])
@@ -73,17 +74,17 @@ const Rituels = (props)=>{
       )}}}, [list])
 
     useEffect(()=>{
-      console.log('use effect index')
+      if(index==7){
+        sendMessage()
+      }
       if(index>=0 && index<11){
         getVideo(list[index]).then(
         (res)=>{
-          console.log('set video')
           setvideo(res.result[0])
         }
       )}}, [index])
 
     useEffect(()=>{
-      console.log('use effect cycle')
       if(cycle){
         let arrayVideo = JSON.parse(cycle.video)
         setlist(arrayVideo)
@@ -91,8 +92,8 @@ const Rituels = (props)=>{
     }, [cycle])
 
     const filtreCycle = () => {
-      let index= props.user.current_subuser
-      let age = Math.floor( (new Date()).getTime()-(new Date(props.user.subuser[index].birth_date)).getTime()) / (365.24*24*3600*1000)
+      let i= props.user.current_subuser
+      let age = Math.floor( (new Date()).getTime()-(new Date(props.user.subuser[i].birth_date)).getTime()) / (365.24*24*3600*1000)
       let user_age = Math.trunc(age)
       let possibleCycle = props.cycle.allCycle.filter(item=>(props.cycle.duration == item.duration) && (item.age_min<=user_age) && (item.age_max >=user_age))
       console.log('possible',possibleCycle)
@@ -119,31 +120,7 @@ const Rituels = (props)=>{
         setIndex(index+1)
     }}
 
-    const validateCycle = () => {
-      let index= props.user.current_subuser
-      const data = {
-        user_id:props.user.infos.id,
-        subuser_id:props.user.subuser[index].id,
-        cycle_id:cycle.id
-      }
-      addStat(data).then(
-        (res)=>{
-          getStateByWeek(moment(new Date()).format('W'), props.user.subuser[index].id).then(
-            (resultstate)=> {
-                props.loadProgress(resultstate.result[0].state,props.progress.obj)
-                if(resultstate.result[0].state===props.progress.obj){
-                  console.log('stat atteint')
-                  console.log('false')
-                  return false
-                }
-                else{
-                  console.log('true')
-                  return true
-                }
-            }
-          )
-        })
-    }
+   
 
     const launchCelebration = () => {
       setVideoUrl("https://res.cloudinary.com/dmpzubglr/video/upload/v1612448051/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-210204_ywvr3d.mp4")
@@ -154,9 +131,12 @@ const Rituels = (props)=>{
     }
     
     const  onSwipeLeft = (gestureState) => {
+      let i= props.user.current_subuser
+      let age = Math.floor( (new Date()).getTime()-(new Date(props.user.subuser[i].birth_date)).getTime()) / (365.24*24*3600*1000)
+      let user_age = Math.trunc(age)
       ref.getStatusAsync().then(
         (status)=>{
-          if(status.positionMillis === status.durationMillis){
+          if(status.positionMillis === status.durationMillis || user_age>18){
             if(isCycleDone===true){
               props.navigation.reset({
                 index: 0,
@@ -168,9 +148,9 @@ const Rituels = (props)=>{
               setVideoUrl(null)
               setisCycleDone(true)
             }else{
-              nextVideo()
               ref.setPositionAsync(0)
               ref.playAsync()
+              nextVideo()
             }
           }
           }
@@ -220,7 +200,7 @@ const Rituels = (props)=>{
            />
              }
              </GestureRecognizer>            
-          {isCycleDone&&<Validate validateCycle={validateCycle} launchCelebration={launchCelebration} navigation={props.navigation}/>}
+          {isCycleDone&&<Validate cycle_id={cycle.id} launchCelebration={launchCelebration} navigation={props.navigation}/>}
                   
             
             </View>

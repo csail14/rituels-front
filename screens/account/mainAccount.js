@@ -7,17 +7,50 @@ import {
 import background from '../../assets/main-background.jpg'
 import Header from '../../navigation/header-account'
 import {connect} from 'react-redux';
+import {setNotification } from '../../api/userApi'
 import * as Permissions from 'expo-permissions';
 import {registerForPushNotificationsAsync} from '../../helpers/notification'
 import Payment from '../account/payment'
+import {loadUserInfo} from '../../actions/user/userActions'
 
 
 
-
-const MainAccount = ({ navigation,user })=>{
+const MainAccount = ({ navigation,user,loadUserInfo })=>{
   
   const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState)
+    let data ={
+      notification:!isEnabled
+    }
+    setNotification(data, user.infos.id)
+    .then( ()=>{
+      let newuser = user.infos
+      newuser.notification=data.notification
+      loadUserInfo(newuser, user.subuser, user.current_subuser)
+    }
+      
+    )
+  };
+
+
+  useEffect(()=>{
+    if(user.infos.notification=='true' || user.infos.notification==1){
+      setIsEnabled(true)
+    }
+  }, [])
+
+  const saveUuid = async (account,second_uuid) =>{
+    let token = await registerForPushNotificationsAsync(user.infos.id,account,second_uuid)
+    let user_info=user.infos
+    if(account=='first'){
+      user_info.uuid=token
+    }
+    else if(account='second'){
+      user_info.second_uuid=token
+    }
+    loadUserInfo(user_info, user.subuser, user.current_subuser)
+  }
 
     return (
         <View style={styles.container}>
@@ -27,7 +60,7 @@ const MainAccount = ({ navigation,user })=>{
             
               <Text style={styles.title}>{user.infos.firstName} {user.infos.lastName}</Text>
               <Text style={styles.title}>{user.infos.email}</Text>
-              <Text style={styles.title}>Paramètres de notifications : </Text>
+              
               <View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
                 <Text style={styles.text}>Activer les notifications : </Text>
                 <Switch
@@ -39,20 +72,18 @@ const MainAccount = ({ navigation,user })=>{
                   value={isEnabled}
                 />
               </View>
-              <View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
-                <Text style={styles.text}>M'alerter </Text>
-                <TextInput
-                  style={styles.input}
-                />
-                <Text style={styles.text}>minutes avant le début. </Text>
-              </View>
-              <View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
-                  <TouchableOpacity onPress={()=>{
-                    registerForPushNotificationsAsync(user.infos.id)
-                  }} style={styles.notifButton}><Text style={styles.text}>Ajouter cet appareil comme principal</Text></TouchableOpacity>
-                  <TouchableOpacity style={styles.notifButton}><Text style={styles.text}>Ajouter cet appareil en secondaire</Text></TouchableOpacity>
-              </View>
-             
+              {isEnabled&&<View>
+                  
+                  <View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
+                      <TouchableOpacity onPress={()=>{
+                        saveUuid('first',user.infos.second_uuid)
+                        
+                      }} style={styles.notifButton}><Text style={styles.text}>Ajouter cet appareil comme principal</Text></TouchableOpacity>
+                      <TouchableOpacity  onPress={()=>{
+                        saveUuid('second',user.infos.uuid)
+                      }} style={styles.notifButton}><Text style={styles.text}>Ajouter cet appareil en secondaire</Text></TouchableOpacity>
+                  </View>
+              </View>}
               <View>
                 <TouchableOpacity style={[styles.button]}>
                   <Text style={styles.text}>Information de paiement</Text>
@@ -90,9 +121,11 @@ const styles = StyleSheet.create({
     
     input: {
       backgroundColor: 'white',
-      width: 10,
+      width: 50,
     height: 40,
-  
+    borderRadius:5,
+    marginLeft:10,
+    paddingLeft:12,
     },
     button: {
       backgroundColor: "#321aed",
@@ -120,7 +153,7 @@ const styles = StyleSheet.create({
   });
 
 mapDispatchToProps = {
-
+  loadUserInfo
 }
 
 mapStateToProps = (store)=>{

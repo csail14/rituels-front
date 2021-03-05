@@ -20,6 +20,8 @@ import Message from '../screens/account/message'
 import Payment from '../screens/account/payment'
 import Notification from '../screens/account/notificationSettings'
 import AddSubuser from '../screens/account/addSubuser'
+import SetSubuser from '../screens/account/setSubuser'
+
 
 
 const Stack = createStackNavigator();
@@ -51,6 +53,10 @@ const MyStack = (props) => {
      <Stack.Screen 
       name="AddSubuser" 
       component={AddSubuser} 
+    />
+    <Stack.Screen 
+      name="SetSubuser" 
+      component={SetSubuser} 
     />
     <Stack.Screen 
       name="Notification" 
