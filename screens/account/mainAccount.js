@@ -85,8 +85,23 @@ const MainAccount = ({ navigation,user,loadUserInfo })=>{
                   </View>
               </View>}
               <View>
-                <TouchableOpacity style={[styles.button]}>
-                  <Text style={styles.text}>Information de paiement</Text>
+              <TouchableOpacity style={[styles.button]}
+                onPress={()=>{
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Payment' }],
+                    })
+                }}>
+                  <Text style={styles.text}>Acceder moyen de paiement</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.button]}
+                onPress={()=>{
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'AddPayment' }],
+                    })
+                }}>
+                  <Text style={styles.text}>Ajouter un moyen de paiement</Text>
                 </TouchableOpacity>
               </View>
               

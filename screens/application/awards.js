@@ -14,12 +14,13 @@ moment.locale('fr');
 import {saveNewAward,getAwardByWeek, getStateByWeek} from '../../api/awardApi'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {validateInputField} from '../../helpers/form-validator';
-import {getCount} from '../../api/eventApi'
+import {getAllTheme} from '../../api/themeApi'
+import {loadTheme} from '../../actions/theme/themeActions'
 import LevelBar from '../../component/levelbar'
 import SelectInput from 'react-native-select-input-ios'
 
 
-const Awards = ({ navigation,user, progress })=>{
+const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
 
   const [date,setdate]=useState(new Date())
   const [selectedValue, setSelectedValue] = useState(0)
@@ -29,34 +30,46 @@ const Awards = ({ navigation,user, progress })=>{
   const [nextaward, setnextAward] = useState(null)
   const [obj, setObj] = useState(0)
   const [state, setState] = useState(0)
+  const [alltheme, setallTheme] = useState(theme.allTheme)
+  const [selectedCat,setSelectedCat] = useState({id: 1, name: "categorie 1"})
   const [errorMessage, setErrorMessage] = useState('')
   const [showCalendar,setshowCalendar] = useState(false)
   const [showTitleInput, setShowTitleInput] = useState(false)
 
   useEffect(
     () => {
-      let index= user.current_subuser
-      getAwardByWeek(moment(new Date()).format('W'), user.subuser[index].id).then(
-        (res)=> {
-          setAward(res[0])}
-      )
-      let nextweek = parseInt(moment(new Date()).format('W'))+1
-      console.log('next', nextweek)
-      getAwardByWeek(nextweek, user.subuser[index].id).then(
-        (res)=> {
-          console.log(res)
-          setnextAward(res[0])}
-      )
-      setObj(progress.obj)
-      setState(progress.state)
-      date.setDate(date.getDate()-date.getDay()+8)
-      console.log('next award', nextaward)
+      if(alltheme.length==0){
+        getAllTheme().then((res)=>{
+          setallTheme(res.result)
+          setSelectedCat(res.result[0])
+          loadTheme(res.result,res.result[0])
+        }
+        )
+      }else{setSelectedCat(theme.allTheme[0])}
      }
     ,
     [],
     );
-  
-     
+    useEffect(
+      () => {
+        let index= user.current_subuser
+        getAwardByWeek(moment(new Date()).format('W'), user.subuser[index].id,selectedCat.id).then(
+          (res)=> {
+            setAward(res[0])}
+        )
+        let nextweek = parseInt(moment(new Date()).format('W'))+1
+        getAwardByWeek(nextweek, user.subuser[index].id,selectedCat.id).then(
+          (res)=> {
+            console.log('award next week',res)
+            setnextAward(res[0])}
+        )
+        setObj(progress.obj)
+        setState(progress.state)
+        date.setDate(date.getDate()-date.getDay()+8)
+      ,
+      [],
+      );
+
   const options = [{
     value: 0,
     label: 'Choisis ta récompense   ▼ ',
@@ -92,14 +105,14 @@ const Awards = ({ navigation,user, progress })=>{
       title:title,
       message:message,
       done:false,
+      theme_id:selectedCat.id,
       resetPrevious:false
     }
-    console.log(form)
+
     setErrorMessage("");
     let error = formValidator();
     if (error===""){
       saveNewAward(form).then((res)=> {
-        console.log(res.status)
         if (res.status===500){
           Alert.alert(
             "Attention",
@@ -163,7 +176,6 @@ const Awards = ({ navigation,user, progress })=>{
     }
     else if (filter[0].value===5){ setTitle('') 
     setShowTitleInput(true)}
-    console.log(filter)
   }
 
 
@@ -174,7 +186,18 @@ const Awards = ({ navigation,user, progress })=>{
         
             <ImageBackground source={background} style={styles.image}>
             <ScrollView style={styles.scrollContainer}>
-                
+            <View style={styles.boutonView}>
+              {alltheme.map((item)=>{
+                return(<TouchableOpacity key={item.id} style={styles.catbutton}
+                  onPress={
+                    () => {
+                      setSelectedCat(item)
+                      }
+                  }>
+                    <Text  style={[styles.textbouton, {marginTop:10},selectedCat.id==item.id?styles.pressed: ""]}>{item.name}</Text>   
+        </TouchableOpacity>)
+              })}              
+            </View>
                 <Text  style={styles.title}>Quelle récompense pour la semaine prochaine ???</Text>
                 <View style={styles.formView}>
                 <SelectInput
@@ -299,6 +322,9 @@ const styles = StyleSheet.create({
       width: '80%',
       marginBottom: 20,
     },
+    pressed:{
+      color:'white'
+    },
     levelBar:{
       justifyContent:'center'
     },
@@ -315,6 +341,11 @@ const styles = StyleSheet.create({
       marginTop:10,
       marginLeft:15,
       fontSize:30
+    },
+    boutonView:{
+      display:'flex',
+      flexDirection:'row',
+      justifyContent:'center'
     },
     text:{
       color:'white',
@@ -348,6 +379,14 @@ const styles = StyleSheet.create({
       justifyContent: "center",
 
     },
+    catbutton:{
+      height:40,
+      paddingLeft:10,
+      backgroundColor:'#C66BF0',
+      width:'10%',
+      borderColor:'#582B6D',
+      borderWidth:1
+    },
     errorMessage:{
       color:'red',
       fontSize:20
@@ -355,13 +394,14 @@ const styles = StyleSheet.create({
   });
 
 mapDispatchToProps = {
-
+  loadTheme
 }
 
 mapStateToProps = (store)=>{
     return {
         user: store.user,
-        progress: store.progress
+        progress: store.progress,
+        theme:store.theme
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Awards);

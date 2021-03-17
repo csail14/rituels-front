@@ -4,41 +4,24 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
-
+import AddWebview from '../../component/payment-webview'
+import Webview from '../../component/checkPayment'
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+import Header from '../../navigation/header-account'
+
 
 const Payment = (props)=>{
 
-  // Stripe.setOptionsAsync({
-  //   publishableKey: 'pk_test_51I6vy9JwXSakrFauRRfQLrkQvat3WF9g4MGNiH4uUHYasoeXeZAwOXcqD6cmvph6qSVo8Ob0OQTBZ2me7hrtQhgI00TrQZTw4x'
-  // });
-
-  // const params = {
-  //   // mandatory
-  //   number: '4242424242424242',
-  //   expMonth: 11,
-  //   expYear: 17,
-  //   cvc: '223',
-  //   // optional
-  //   name: 'Test User',
-  //   currency: 'usd',
-  //   addressLine1: '123 Test Street',
-  //   addressLine2: 'Apt. 5',
-  //   addressCity: 'Test City',
-  //   addressState: 'Test State',
-  //   addressCountry: 'Test Country',
-  //   addressZip: '55555',
-  // };
   
-  //const token = await Stripe.createTokenWithCardAsync(params);
-
+console.log(props.route.name)
   return (
-        
-    <View style={styles.container}>
-       <Text style={styles.text}>Paiment</Text>
-    </View>
+    <View><AddWebview/></View>
+    
+    //     <View>
+    //       <Header screen='MainAccount' navigation={props.navigation}/>
+    //       {props.route.name=="AddPayment"&&<AddWebview/>}
+    //       {props.route.name=="Payment"&&<Webview/>}
+    // </View>
     
 );
 }
@@ -156,4 +139,4 @@ mapStateToProps = (store)=>{
 }
 
 
-export default  connect(mapStateToProps, mapDispatchToProps)(Payment);
+export default  Payment;

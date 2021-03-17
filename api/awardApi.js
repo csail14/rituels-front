@@ -33,10 +33,10 @@ export  const getAwardById = async (id, subuser_id)=>{
 
 
 
-export  const getAwardByWeek = async (week, subuser_id)=>{
+export  const getAwardByWeek = async (week, subuser_id,theme_id)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
     console.log('week',week)
-    return axios.get(config.api_url+"/api/v1/get/award/week/"+week+"/"+subuser_id, {headers: {'x-access-token': token}})
+    return axios.get(config.api_url+"/api/v1/get/award/week/"+week+"/"+subuser_id+"/"+theme_id, {headers: {'x-access-token': token}})
             .then((response)=>{
                 return response.data;
             })

@@ -18,6 +18,8 @@ import ChangeAccount from '../screens/account/changeAccount'
 import MainAccount from '../screens/account/mainAccount'
 import Message from '../screens/account/message'
 import Payment from '../screens/account/payment'
+import AddPayment from '../component/payment-webview';
+import CheckPayment from '../component/checkPayment'
 import Notification from '../screens/account/notificationSettings'
 import AddSubuser from '../screens/account/addSubuser'
 import SetSubuser from '../screens/account/setSubuser'
@@ -64,7 +66,11 @@ const MyStack = (props) => {
     />
     <Stack.Screen 
       name="Payment" 
-      component={Payment}
+      component={CheckPayment}
+    />
+    <Stack.Screen 
+      name="AddPayment" 
+      component={AddPayment}
     />
     <Stack.Screen 
       name="Award" 
