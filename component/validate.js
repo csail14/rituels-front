@@ -46,7 +46,8 @@ import { Video } from 'expo-av';
       const data = {
         user_id:this.props.user.infos.id,
         subuser_id:this.props.user.subuser[i].id,
-        cycle_id:this.props.cycle_id
+        cycle_id:this.props.cycle_id,
+        theme_id:this.props.theme_id
       }
       console.log('data', data)
       addStat(data).then(

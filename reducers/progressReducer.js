@@ -9,10 +9,12 @@ const ProgressReducer = (state = initialState, action)=>{
     
     switch(action.type) {
         case LOAD_PROGRESS_INFO:
+            console.log('payload',action.payload)
             return {state: action.payload.state, obj:action.payload.obj}    
         break;
      
     }
+    console.log('state',state)
     return state;
 }
 

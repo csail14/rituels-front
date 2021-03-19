@@ -37,7 +37,7 @@ const Rituels = (props)=>{
     if(true){
       getAllCycle().then(
         (res)=>{
-          props.loadCycleInfo({},res.result,props.cycle.duration)
+          props.loadCycleInfo({},res.result,props.cycle.duration, props.cycle.cat)
         }
       )}
     if(index==0){
@@ -95,8 +95,14 @@ const Rituels = (props)=>{
       let i= props.user.current_subuser
       let age = Math.floor( (new Date()).getTime()-(new Date(props.user.subuser[i].birth_date)).getTime()) / (365.24*24*3600*1000)
       let user_age = Math.trunc(age)
-      let possibleCycle = props.cycle.allCycle.filter(item=>(props.cycle.duration == item.duration) && (item.age_min<=user_age) && (item.age_max >=user_age))
-      console.log('possible',possibleCycle)
+      let possibleCycle = props.cycle.allCycle.filter(item=>(props.cycle.duration == item.duration) && (item.age_min<=user_age) && (item.age_max >=user_age) && (props.cycle.cat.id == item.theme_id))
+      if (possibleCycle.length==0){
+        window.alert('Aucun rituel disponible')
+        props.navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        })
+      }
       return possibleCycle
     }
 
@@ -200,7 +206,7 @@ const Rituels = (props)=>{
            />
              }
              </GestureRecognizer>            
-          {isCycleDone&&<Validate cycle_id={cycle.id} launchCelebration={launchCelebration} navigation={props.navigation}/>}
+          {isCycleDone&&<Validate cycle_id={cycle.id} theme_id={props.cycle.cat.id}launchCelebration={launchCelebration} navigation={props.navigation}/>}
                   
             
             </View>

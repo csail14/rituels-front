@@ -15,17 +15,24 @@ const LevelBar = (props)=>{
     useEffect(
         () => {
             let arrObj =[]
-            let state = props.state<=props.obj? props.state :props.obj
+            
+            let propsObj = props.obj.filter(item=> item.id==props.theme_id)[0].obj
+            let propsState = props.state.filter(item=> item.id==props.theme_id)[0].state
+            console.log('obj', propsObj)
+            let state = propsState<=propsObj? propsState :propsObj
+            
             for (let i=0;i<state;i++){
-                arrObj.push("")
+                arrObj.push("cycle done "+i)
             }
-            setArrayObj(arrObj)
+             setArrayObj(arrObj)
+             
 
-            let arrState =[]
-            for (let i=0;i<props.obj-state;i++){
-                arrState.push("")
+             let arrState =[]
+            for (let i=0;i<propsObj-state;i++){
+                
+                arrState.push("remaining "+i)
             }
-            setArrayState(arrState)
+             setArrayState(arrState)
         }
         ,
         [props.obj, props.state],
@@ -46,12 +53,12 @@ const LevelBar = (props)=>{
         <View>
         <View style={{alignItems:'center',display:'flex', flexDirection:'row',marginTop:10}}>
             <View style={styles.container}>
-            {arrayObj && arrayObj.map((index)=>{
+            {/* {arrayObj && arrayObj.map((index)=>{
                     return <View  key={Math.random()} style={{height:30, backgroundColor:'#3ADE14', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>
                 })}
                 {arrayState && arrayState.map((index)=>{
                     return <View key={Math.random()} style={{height:30, backgroundColor:'#606F7C', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>
-                })}
+                })} */}
             </View>
         </View>
         </View>

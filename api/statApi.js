@@ -11,11 +11,13 @@ const headers = {
   }
 
 
-export  const getstatbymonth = async (subuser_id)=>{
+export  const getstatbymonth = async (subuser_id,theme_id)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.get(config.api_url+"/api/v1/success/get/"+subuser_id+"/month", {headers: {'x-access-token': token}})
+    return axios.get(config.api_url+"/api/v1/success/get/"+subuser_id+"/"+theme_id+"/month", {headers: {'x-access-token': token}})
             .then((response)=>{
+                
                 return response.data;
+
             })
             .catch((err)=>{
                 return err;
@@ -23,10 +25,11 @@ export  const getstatbymonth = async (subuser_id)=>{
 }
 
 
-export  const getstatbyweek = async (subuser_id)=>{
+export  const getstatbyweek = async (subuser_id,theme_id)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.get(config.api_url+"/api/v1/success/get/"+subuser_id+"/week", {headers: {'x-access-token': token}})
+    return axios.get(config.api_url+"/api/v1/success/get/"+subuser_id+"/"+theme_id+"/week", {headers: {'x-access-token': token}})
             .then((response)=>{
+                
                 return response.data;
             })
             .catch((err)=>{

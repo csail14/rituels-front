@@ -11,20 +11,28 @@ import {connect} from 'react-redux';
 import Menu from '../component/go'
 import logo from '../assets/logo.png'
 import axios from 'axios';
+import {getAllTheme} from '../api/themeApi'
+import {loadTheme} from '../actions/theme/themeActions'
 import {config} from '../config';
 import LevelBar from '../component/levelbar'
 import {loadCycleInfo} from '../actions/cycle/cycleActions'
 
 
-const Home = ({ navigation,user,progress, loadCycleInfo, cycle })=>{
+const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle, theme })=>{
 
   useEffect(()=>{
+    if(theme.allTheme.length==0){
+      getAllTheme().then((res)=>{
+        loadTheme(res.result,res.result[0])
+      }
+      )
+    }
     if(user.isLogged===false){
       axios.get(config.api_url+"/")
             .then((response)=>{
                 return response.data;
             })}}, [])
-
+   
     return (
         <View style={styles.container}>
           {user && user.isLogged ? <HeaderLog screen='Home' navigation={navigation}/>: <Header screen='Home' navigation={navigation}/>}
@@ -34,10 +42,10 @@ const Home = ({ navigation,user,progress, loadCycleInfo, cycle })=>{
               {user.infos &&
               <> 
               
-              <Menu loadCycleInfo={loadCycleInfo} allcycle={cycle.allCycle} navigation={navigation}/>
+              <Menu loadCycleInfo={loadCycleInfo} alltheme={theme.allTheme} allcycle={cycle.allCycle} navigation={navigation}/>
               <View style={styles.levelbar}>
-              <LevelBar   obj={progress.obj} state={progress.state}/>
-              <Text style={styles.text}>Rituels : {progress.state}/{progress.obj}</Text>
+              {/* <LevelBar   theme_id={0} obj={progress.obj} state={progress.state}/> */}
+              {/* <Text style={styles.text}>Rituels : {progress.state}/{progress.obj}</Text> */}
               </View>
                 
                 <Text style={styles.subTitle}>Bonjour {user.subuser[user.current_subuser].name}</Text>
@@ -179,14 +187,16 @@ const styles = StyleSheet.create({
   });
 
 mapDispatchToProps = {
-  loadCycleInfo
+  loadCycleInfo,
+  loadTheme
 }
 
 mapStateToProps = (store)=>{
     return {
         user: store.user,
         progress: store.progress,
-        cycle: store.cycle
+        cycle: store.cycle,
+        theme: store.theme
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Home);

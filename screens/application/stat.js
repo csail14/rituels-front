@@ -12,15 +12,17 @@ import {getstatbymonth,getstatbyweek} from '../../api/statApi';
 import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
-import {getStatByMonthData} from '../../helpers/createStatCalendar'
 
-const Stats = ({ navigation,user })=>{
+const Stats = ({ navigation,user,theme })=>{
 
   const [scale, setScale] = useState('week')
   const [dataSet, setDataSet] = useState([])
   const [labels,setlabels] = useState([])
+  const [alltheme, setallTheme] = useState(theme.allTheme)
+  const [selectedCat,setSelectedCat] = useState(theme.allTheme[0])
   const [weekColor, setWeekcolor] = useState('#bdbdde')
   const [monthColor, setMonthcolor] = useState('#8484a3')
+  
 
   useEffect(()=>{
 
@@ -33,7 +35,7 @@ const Stats = ({ navigation,user })=>{
       if(user.subuser){
           setData()
         }
-      }, [scale])
+      }, [scale,selectedCat])
 
 
       const getDateOfWeek = (w) => {
@@ -49,7 +51,7 @@ const Stats = ({ navigation,user })=>{
       
 
       if(scale==='month'){
-        getstatbymonth(user.subuser[index].id).then(
+        getstatbymonth(user.subuser[index].id, selectedCat.id).then(
           (res)=>{
               let data =[]
               let thisMonth = (new Date()).getMonth()
@@ -84,7 +86,7 @@ const Stats = ({ navigation,user })=>{
         let lab = []
         let array=[]
         let datas = []
-        getstatbyweek(user.subuser[index].id).then(
+        getstatbyweek(user.subuser[index].id, selectedCat.id).then(
           (res)=>{
             for (const key in res.result[0]){
               array.push([key,res.result[0][key]])
@@ -134,6 +136,18 @@ const Stats = ({ navigation,user })=>{
           
             <ImageBackground source={background} style={styles.image}>
             <Text  style={styles.text}>Rituels validés</Text>
+            <View style={styles.boutonView}>
+              {alltheme.map((item)=>{
+                return(<TouchableOpacity key={item.id} style={styles.catbutton}
+                  onPress={
+                    () => {
+                      setSelectedCat(item)
+                      }
+                  }>
+                    <Text  style={[styles.textcatbouton, {marginTop:10},selectedCat.id==item.id?styles.pressed: ""]}>{item.name}</Text>   
+                    </TouchableOpacity>)
+                  })}              
+            </View>
             <BarChart
               data={dataMonth}
               width={screenWidth}
@@ -208,6 +222,17 @@ const styles = StyleSheet.create({
       borderColor:'white',
       borderRadius:100
     },
+     catbutton:{
+      height:40,
+      paddingLeft:10,
+      backgroundColor:'#C66BF0',
+      width:'10%',
+      borderColor:'#582B6D',
+      borderWidth:1
+    },
+    pressed:{
+      color:'white'
+    }, 
     button:{
       borderRadius:100
     }
@@ -219,7 +244,8 @@ mapDispatchToProps = {
 
 mapStateToProps = (store)=>{
     return {
-        user: store.user
+        user: store.user,
+        theme:store.theme
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Stats);

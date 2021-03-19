@@ -45,15 +45,23 @@ export  const getAwardByWeek = async (week, subuser_id,theme_id)=>{
             })
 }
 
-export  const getStateByWeek = async (week, subuser_id)=>{
+export  const getStateByWeek = async (week, subuser_id, theme)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.get(config.api_url+"/api/v1/success/get/count/"+subuser_id+"/"+week, {headers: {'x-access-token': token}})
+    let state = []
+    for (let i=0; i<theme.length;i++){
+        let item = {}
+        item.id=theme[i].id
+    axios.get(config.api_url+"/api/v1/success/get/count/"+subuser_id+"/"+week+"/"+theme[i].id, {headers: {'x-access-token': token}})
             .then((response)=>{
-                return response.data;
+                item.state=response.data.result[0].state;;
             })
             .catch((err)=>{
                 return err;
             })
+            state.push(item)
+        }
+        console.log(state)
+        return state
 }
 
 export const deleteAward = (id) => {

@@ -1,15 +1,14 @@
 import React, { useRef,useState, useEffect } from 'react';
 import {Animated, StyleSheet, Text, View, TouchableOpacity,TouchableWithoutFeedback, Dimensions} from 'react-native';
 import { Audio } from 'expo-av';
-import {  Circle, Text as SvgText, TextPath, TSpan, G, Svg }
-  from 'react-native-svg';
-  import {
+import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
 
   
 export default class Menu extends React.Component {
+
     constructor(props){
         super(props)
         this.state= {
@@ -32,6 +31,7 @@ export default class Menu extends React.Component {
           }
     }
 
+    
     getSound = async () => {
         const { sound } = await Audio.Sound.createAsync(
             require('../assets/magic-wand.wav'))
@@ -60,8 +60,9 @@ export default class Menu extends React.Component {
   
     }
 
-    setDuration=()=> {
+    setParams=()=> {
       let duration = 0;
+      let cat = 0;
       if (this.state.pressed40){
         duration=40
       }
@@ -71,7 +72,35 @@ export default class Menu extends React.Component {
       else if(this.state.pressed30){
         duration=30
       }
-    this.props.loadCycleInfo({},this.props.allcycle,duration)
+      if (this.state.pressedCat1){
+        cat=this.props.alltheme[0]
+      }
+      else if(this.state.pressedCat2){
+        cat=this.props.alltheme[1]
+      }
+      else if(this.state.pressedCat3){
+        cat=this.props.alltheme[2]
+      }
+      else if(this.state.pressedCat4){
+        cat=this.props.alltheme[3]
+      }
+      else if(this.state.pressedCat5){
+        cat=this.props.alltheme[4]
+      }
+      else if(this.state.pressedCat6){
+        cat=this.props.alltheme[5]
+      }
+      else if(this.state.pressedCat7){
+        cat=this.props.alltheme[6]
+      }
+      else if(this.state.pressedCat8){
+        cat=this.props.alltheme[7]
+      }
+      else if(this.state.pressedCat9){
+        cat=this.props.alltheme[8]
+      }
+      
+    this.props.loadCycleInfo({},this.props.allcycle,duration,cat)
     }
  render(){  
     const transformStyle ={
@@ -79,7 +108,7 @@ export default class Menu extends React.Component {
             translateX : this.state.animation,
         }]
       }
-
+    
     return (
       <>
         <View style={styles.container} >
@@ -94,7 +123,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#5C3ACC', position:'absolute', top:hp('30%'), left:wp('56%') }, this.state.pressed30?styles.pressed: ""]} ><Text style={styles.details}>30'</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#5C3ACC', position:'absolute', top:hp('30%'), left:wp('56%') }, this.state.pressed30?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.details}>30'</Text></Animated.View>
          </TouchableWithoutFeedback> 
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -112,7 +141,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#CC3E3A', position:'absolute', top:hp('21%'), left:wp('45%') }, this.state.pressedCat9?styles.pressed: ""]} ><Text style={styles.details}>9</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#CC3E3A', position:'absolute', top:hp('21%'), left:wp('45%') }, this.state.pressedCat9?[styles.pressed,{position:'absolute', top:hp('7%'), left:wp('41%') }]: ""]} ><Text style={styles.details}>9</Text></Animated.View>
          </TouchableWithoutFeedback> 
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -124,7 +153,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#A878F0', position:'absolute', top:hp('24%'), left:wp('52%') }, this.state.pressed20?styles.pressed: ""]} ><Text style={styles.details}>20'</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#A878F0', position:'absolute', top:hp('24%'), left:wp('52%') }, this.state.pressed20?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.details}>20'</Text></Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -143,7 +172,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#EA6363', position:'absolute', top:hp('23%'), left:wp('38%') }, this.state.pressedCat8?styles.pressed: ""]} ><Text style={styles.details}>8</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#EA6363', position:'absolute', top:hp('23%'), left:wp('38%') }, this.state.pressedCat8?[styles.pressed,{position:'absolute', top:hp('10%'), left:wp('30%') }]: ""]} ><Text style={styles.details}>8</Text></Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -162,7 +191,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#F6A2A2', position:'absolute', top:hp('30%'), left:wp('33%') }, this.state.pressedCat7?styles.pressed: ""]} ><Text style={styles.details}>7</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#F6A2A2', position:'absolute', top:hp('30%'), left:wp('33%') }, this.state.pressedCat7?[styles.pressed,{position:'absolute', top:hp('20%'), left:wp('23%') }]: ""]} ><Text style={styles.details}>7</Text></Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -181,7 +210,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#DCD97A', position:'absolute', top:hp('39%'), left:wp('31%') }, this.state.pressedCat6?styles.pressed: ""]} ><Text style={styles.details}>6</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#DCD97A', position:'absolute', top:hp('39%'), left:wp('31%') }, this.state.pressedCat6?[styles.pressed,{position:'absolute', top:hp('32%'), left:wp('20%') }]: ""]} ><Text style={styles.details}>6</Text></Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -200,7 +229,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BA5D8', position:'absolute', top:hp('56%'), left:wp('45%') }, this.state.pressedCat3?styles.pressed: ""]} ><Text style={styles.details}>3</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BA5D8', position:'absolute', top:hp('56%'), left:wp('45%') }, this.state.pressedCat3?[styles.pressed,{position:'absolute', top:hp('58%'), left:wp('40%') }]: ""]} ><Text style={styles.details}>3</Text></Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -219,7 +248,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#9FD83B', position:'absolute', top:hp('47%'), left:wp('33%') }, this.state.pressedCat5?styles.pressed: ""]} ><Text style={styles.details}>5</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#9FD83B', position:'absolute', top:hp('47%'), left:wp('33%') }, this.state.pressedCat5?[styles.pressed,{position:'absolute', top:hp('46%'), left:wp('23%') }]: ""]} ><Text style={styles.details}>5</Text></Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -237,7 +266,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BD83F', position:'absolute', top:hp('54%'), left:wp('38%') }, this.state.pressedCat4?styles.pressed: ""]} ><Text style={styles.details}>4</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BD83F', position:'absolute', top:hp('54%'), left:wp('38%') }, this.state.pressedCat4?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('30%') }]: ""]} ><Text style={styles.details}>4</Text></Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -256,7 +285,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3B67D8', position:'absolute', top:hp('54%'), left:wp('51%') }, this.state.pressedCat2?styles.pressed: ""]} ><Text style={styles.details}>2</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3B67D8', position:'absolute', top:hp('54%'), left:wp('51%') }, this.state.pressedCat2?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('50%') }]: ""]} ><Text style={styles.details}>2</Text></Animated.View>
          </TouchableWithoutFeedback>     
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -275,11 +304,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#0D0AAE', position:'absolute', top:hp('47%'), left:wp('56%') }, this.state.pressedCat1?styles.pressed: ""]} ><Text style={styles.details}>1</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#0D0AAE', position:'absolute', top:hp('47%'), left:wp('56%') }, this.state.pressedCat1?[styles.pressed,{position:'absolute', top:hp('45%'), left:wp('56%') }]: ""]} ><Text style={styles.details}>1</Text></Animated.View>
          </TouchableWithoutFeedback>   
             <TouchableWithoutFeedback onPress={
-                ()=>{if(this.state.timeSelected){
-                  this.setDuration();
+                ()=>{if(this.state.timeSelected &&this.state.catSelected){
+                  this.setParams();
                   this.playSound();
                   this.startAnimation();
                 }
@@ -297,7 +326,7 @@ export default class Menu extends React.Component {
                  })
                 }
           }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#6C069B', marginLeft: 10}, this.state.pressed40?styles.pressed: ""]} ><Text style={styles.minute}>40'</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#6C069B', marginLeft: 10}, this.state.pressed40?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.minute}>40'</Text></Animated.View>
          </TouchableWithoutFeedback>  
          
         </View>

@@ -66,9 +66,8 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
         setObj(progress.obj)
         setState(progress.state)
         date.setDate(date.getDate()-date.getDay()+8)
-      ,
-      [],
-      );
+          },
+      [selectedCat]   );
 
   const options = [{
     value: 0,
@@ -230,6 +229,7 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
                   >
                     <Text style={styles.textDate}>Semaine du {moment(date).format('dddd DD MMMM')}</Text>
                   </TouchableOpacity>
+                  <Text style={styles.text}>Catégorie : {selectedCat.name}</Text>
                     <Text style={styles.errorMessage}>{errorMessage}</Text>
                     
                     <TouchableOpacity
@@ -273,8 +273,8 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
                   <View style={{alignItems:'center'}}>
                   <Text style={styles.text}>{award.title}</Text>
                   
-                  <LevelBar style={styles.levelBar}obj={obj} state={state}/>
-                  <Text style={styles.text}>Rituels réalisés : {state}/{obj}</Text>
+                  <LevelBar theme_id={selectedCat.id} style={styles.levelBar}obj={obj} state={state}/>
+                  {/* <Text style={styles.text}>Rituels réalisés : {state}/{obj}</Text> */}
                 </View>
                 </>}
               </ScrollView>

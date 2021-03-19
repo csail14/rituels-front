@@ -33,15 +33,25 @@ export  const getOneEvent = async (subuser_id,id)=>{
             })
 }
 
-export  const getCount = async (subuser_id,week)=>{
+export  const getCount = async (subuser_id,week,theme)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.get(config.api_url+"/api/v1/event/get/count/"+subuser_id+"/"+week, {headers: {'x-access-token': token}})
-            .then((response)=>{
-                return response.data;
-            })
-            .catch((err)=>{
-                return err;
-            })
+    let obj = []
+    
+    for (let i=0; i<theme.length;i++){
+        let item = {}
+        item.id=theme[i].id
+        axios.get(config.api_url+"/api/v1/event/get/count/"+subuser_id+"/"+week+"/"+theme[i].id, {headers: {'x-access-token': token}})
+        .then((response)=>{
+            item.obj=response.data.result[0].obj;
+        })
+        .catch((err)=>{
+            return err;
+        })
+        obj.push(item)
+    }
+    console.log(obj)
+    return obj
+   
 }
 
 export const addEvent = (data)=>{
