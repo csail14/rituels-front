@@ -14,6 +14,8 @@ import {loadProgress} from '../actions/progress/progressActions'
 import {modifyEvent,deleteEvent,getCount} from '../api/eventApi'
 import {getAllEvent} from '../api/eventApi';
 import {loadEvent} from '../actions/event/eventActions'
+import SelectInput from 'react-native-select-input-ios'
+
 
 const editEventComp = (props)=>{
 
@@ -22,6 +24,7 @@ const editEventComp = (props)=>{
     const [comment,setComment] = useState(props.event[0].comment);
     const [errorMessage, setErrorMessage] = useState("");
     const [notifTime, setnotifTime] = useState(props.event[0].notifTime)
+    const [selectedValue, setSelectedValue] = useState(props.event[0].theme_id)
 
     useEffect(() => {
         console.log(props.event)
@@ -60,6 +63,7 @@ const editEventComp = (props)=>{
             title:title,
             comment:comment,
             date:date,
+            theme_id:selectedValue,
             user_id:props.user.infos.id, 
             subuser_id:props.user.subuser[index].id,
             notifTime:notifTime
@@ -97,6 +101,16 @@ const editEventComp = (props)=>{
 		return ""
 	}
 
+    const selectCat = (value) => {
+        let filter = options.filter(item => item.value===value)
+        setSelectedValue(filter[0].value)
+
+      }
+
+    const options =  props.theme.allTheme.map((item)=>{return {value:item.id, label:item.name}})
+      
+
+
     return (
         
         <View style={styles.container}>
@@ -110,6 +124,20 @@ const editEventComp = (props)=>{
                     (value) =>{setTitle(value)}
                 }
     		/>
+             <View style={{display:'flex', flexDirection:'row'}}>
+            <Text  style={{color:'black', marginTop:38, fontSize:20}}>Catégorie : </Text>
+            <SelectInput
+                  
+                  value = {selectedValue}
+                  style={styles.selectInput}
+                  labelStyle={{color:'grey', fontSize:20}}
+                  cancelKeyText='Annuler'
+                  submitKeyText='Valider'
+                  onSubmitEditing={(value)=>{
+                    selectCat(value)
+                  }}
+                    options={options}
+                /></View>
             <DateTimePicker
                     style={styles.datePickerStyle}
                     value={date} 
@@ -218,6 +246,16 @@ const styles = StyleSheet.create({
         marginLeft:15,
         fontSize:15
       },
+      selectInput:{
+        height:30, 
+        paddingLeft:10,
+        paddingRight:10,
+        marginTop:35,
+        marginBottom:10,
+        borderWidth:1,
+        borderRadius:15,
+        borderColor:'grey'
+      },
     title:{
         
         marginBottom:'20%',
@@ -304,7 +342,8 @@ const styles = StyleSheet.create({
           return {
               user: store.user,
               agenda: store.agenda,
-              progress: store.progress
+              progress: store.progress,
+              theme: store.theme
           }
       }
       

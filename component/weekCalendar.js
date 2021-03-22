@@ -50,7 +50,7 @@ const WeekCalendar = (props)=>{
                               description:item.title,
                               startDate:item.date,
                               endDate:'',
-                              color:'blue'
+                              color:props.theme.allTheme.filter(th=> th.id==item.theme_id)[0].color
                             })
                           })
                           setData(newData)
@@ -65,8 +65,9 @@ const WeekCalendar = (props)=>{
               description:item.title,
               startDate:new Date(item.date),
               endDate:(new Date(item.date)).setTime(new Date(item.date).getTime()+(60*60*1000)),
-              color:'blue'
+              color:props.theme.allTheme.filter(th=> th.id==item.theme_id)[0].color
             })
+            
           })
           setData(newData)
         }
@@ -84,7 +85,7 @@ const WeekCalendar = (props)=>{
               description:item.title,
               startDate:new Date(item.date),
               endDate:(new Date(item.date)).setTime(new Date(item.date).getTime()+(60*60*1000)),
-              color:'blue'
+              color:props.theme.allTheme.filter(th=> th.id==item.theme_id)[0].color
             })
           })
           setData(newData)
@@ -166,7 +167,8 @@ mapDispatchToProps = {
 mapStateToProps = (store)=>{
     return {
         user: store.user,
-        agenda : store.agenda
+        agenda : store.agenda,
+        theme:store.theme
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(WeekCalendar);

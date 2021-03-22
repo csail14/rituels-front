@@ -11,14 +11,15 @@ const LevelBar = (props)=>{
 
     const [arrayObj , setArrayObj] = useState([]);
      const [arrayState , setArrayState] = useState([]);
+    
 
     useEffect(
         () => {
             let arrObj =[]
             
-            let propsObj = props.obj.filter(item=> item.id==props.theme_id)[0].obj
-            let propsState = props.state.filter(item=> item.id==props.theme_id)[0].state
-            console.log('obj', propsObj)
+            let propsObj = props.obj
+            let propsState = props.state
+            
             let state = propsState<=propsObj? propsState :propsObj
             
             for (let i=0;i<state;i++){
@@ -48,17 +49,19 @@ const LevelBar = (props)=>{
         }
         
     }
-
+    
     return (
         <View>
         <View style={{alignItems:'center',display:'flex', flexDirection:'row',marginTop:10}}>
             <View style={styles.container}>
-            {/* {arrayObj && arrayObj.map((index)=>{
-                    return <View  key={Math.random()} style={{height:30, backgroundColor:'#3ADE14', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>
+            {arrayObj && arrayObj.map((index)=>{
+                
+                     return <View   style={{height:30, backgroundColor:'#3ADE14', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>
                 })}
                 {arrayState && arrayState.map((index)=>{
-                    return <View key={Math.random()} style={{height:30, backgroundColor:'#606F7C', width:calculWidth(), borderColor:'grey', borderWidth:1}}></View>
-                })} */}
+                    
+                     return <View  style={{height:30, backgroundColor:'#606F7C', width:calculWidth(),borderColor:'grey', borderWidth:1}}></View>
+                })}
             </View>
         </View>
         </View>

@@ -46,6 +46,8 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
         }
         )
       }else{setSelectedCat(theme.allTheme[0])}
+      setObj(progress.obj.filter(item=> item.id==selectedCat.id)[0].obj)
+      setState(progress.state.filter(item=> item.id==selectedCat.id)[0].state)
      }
     ,
     [],
@@ -63,8 +65,8 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
             console.log('award next week',res)
             setnextAward(res[0])}
         )
-        setObj(progress.obj)
-        setState(progress.state)
+        setObj(progress.obj.filter(item=> item.id==selectedCat.id)[0].obj)
+        setState(progress.state.filter(item=> item.id==selectedCat.id)[0].state)
         date.setDate(date.getDate()-date.getDay()+8)
           },
       [selectedCat]   );
@@ -274,7 +276,7 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
                   <Text style={styles.text}>{award.title}</Text>
                   
                   <LevelBar theme_id={selectedCat.id} style={styles.levelBar}obj={obj} state={state}/>
-                  {/* <Text style={styles.text}>Rituels réalisés : {state}/{obj}</Text> */}
+                  <Text style={styles.text}>Rituels réalisés : {state}/{obj}</Text>
                 </View>
                 </>}
               </ScrollView>
