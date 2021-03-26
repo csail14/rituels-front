@@ -12,12 +12,20 @@ import * as Permissions from 'expo-permissions';
 import {registerForPushNotificationsAsync} from '../../helpers/notification'
 import Payment from '../account/payment'
 import {loadUserInfo} from '../../actions/user/userActions'
+import { Icon,CheckBox } from 'react-native-elements'
+import { inlineStyles } from 'react-native-svg';
+
 
 
 
 const MainAccount = ({ navigation,user,loadUserInfo })=>{
   
   const [isEnabled, setIsEnabled] = useState(false);
+  const [isPaid, setIsPaid] = useState(user.infos.isPaid)
+  const [selectedPackId,setSelectedPackId] = useState(null)
+  const [kidsPack,setKidsPack] = useState(false)
+  const [familyPack, setFamilyPack] = useState(false)
+
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState)
     let data ={
@@ -33,12 +41,29 @@ const MainAccount = ({ navigation,user,loadUserInfo })=>{
     )
   };
 
-
   useEffect(()=>{
     if(user.infos.notification=='true' || user.infos.notification==1){
       setIsEnabled(true)
     }
   }, [])
+
+  const selectPack = (pack) => {
+    switch (pack) {
+      case ('kids'):
+        setKidsPack(true)
+        setFamilyPack(false)
+        setSelectedPackId('price_1IZDjWJwXSakrFau37sJondx')
+        break;
+        case ('family'):
+          setKidsPack(false)
+          setFamilyPack(true)
+          setSelectedPackId('price_1IZDkSJwXSakrFauYSsgNXAi')
+          break;
+      
+      default:
+        break;
+    }
+  }
 
   const saveUuid = async (account,second_uuid) =>{
     let token = await registerForPushNotificationsAsync(user.infos.id,account,second_uuid)
@@ -85,6 +110,8 @@ const MainAccount = ({ navigation,user,loadUserInfo })=>{
                   </View>
               </View>}
               <View>
+              {isPaid==1&&<>
+              <Text style={styles.text}>Votre moyen de paiment est à jour !  <Icon name='check-square' type='font-awesome'color='green'/></Text>
               <TouchableOpacity style={[styles.button]}
                 onPress={()=>{
                   navigation.reset({
@@ -92,17 +119,42 @@ const MainAccount = ({ navigation,user,loadUserInfo })=>{
                     routes: [{ name: 'Payment' }],
                     })
                 }}>
-                  <Text style={styles.text}>Acceder moyen de paiement</Text>
-                </TouchableOpacity>
+                  <Text style={styles.text}>Voir mon moyen de paiement</Text>
+                </TouchableOpacity></>}
+                {isPaid==1&&<>
+                <Text  style={styles.text}>Choisissez un pack :</Text>
+                <View style={styles.packContainer}>
+                  <TouchableOpacity style={styles.pack} onPress={()=>{selectPack('kids')}}>
+                    <Text style={styles.text}>Pack Kids</Text>
+                    <Text style={styles.text}>3€/mois</Text>
+                    <CheckBox
+                      center
+                      checkedIcon='dot-circle-o'
+                      uncheckedIcon='circle-o'
+                      checked={kidsPack}
+                      onPress={()=>{selectPack('kids')}}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.pack} onPress={()=>{selectPack('family')}}>
+                  <Text style={styles.text}>Pack Family</Text>
+                    <Text style={styles.text}>5€/mois</Text>
+                    <CheckBox
+                      center
+                      checkedIcon='dot-circle-o'
+                      uncheckedIcon='circle-o'
+                      checked={familyPack}
+                      onPress={()=>{selectPack('family')}}
+                    />
+                  </TouchableOpacity>
+                </View>
                 <TouchableOpacity style={[styles.button]}
                 onPress={()=>{
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: 'AddPayment' }],
-                    })
+                  console.log('go to addPayment')
+                  navigation.
+                  navigate('AddPayment',{priceId:selectedPackId})
                 }}>
                   <Text style={styles.text}>Ajouter un moyen de paiement</Text>
-                </TouchableOpacity>
+                </TouchableOpacity></>}
               </View>
               
             
@@ -120,6 +172,23 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: 'black',
       justifyContent:'center'
+    },
+    packContainer:{
+      display:'flex',
+      flexDirection:'row',
+      justifyContent:'center',
+      paddingTop:10,
+      paddingBottom:10
+
+    },
+    pack:{
+      borderColor:'white',
+      borderRadius:10,
+      borderWidth:2,
+      margin:10,
+      paddingRight:10,
+      paddingBottom:10,
+      width:wp('15%')
     },
     notifButton:{
       borderWidth:1,
@@ -149,13 +218,15 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
       marginTop:10,
-      marginLeft: wp('30%')
+      marginLeft: wp('30%'),
+      borderRadius:5
       },
     title:{
       color:'white',
       textAlign:'center',
       marginTop:10,
       marginLeft:15,
+      marginRight:15,
       fontSize:30
     },
     text:{
@@ -163,6 +234,7 @@ const styles = StyleSheet.create({
       textAlign:'center',
       marginTop:10,
       marginLeft:15,
+      marginBottom:10,
       fontSize:20
     }
   });

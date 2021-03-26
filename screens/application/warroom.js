@@ -83,7 +83,14 @@ const Warroom = (props)=>{
                 <TouchableOpacity onPress={()=>{
                   setShowHelp(true)
                 }}><Text style={styles.text}>Comment fonctionne la warroom ?</Text></TouchableOpacity>
-                <Text style={[styles.text,{textAlign:'left', textDecorationLine:'none'}]}>Legende :</Text>
+               
+                <View style={styles.boutonView}>
+                  {props.theme.allTheme.map((item)=>{
+                    return(<View key={item.id} style={[styles.catbutton,{backgroundColor:item.color}]}>
+                        <Text  style={ {marginTop:10, color:'white'}}>{item.name}</Text>   
+                        </View>)
+                      })}              
+            </View>
               </View>
 
            <WeekCalendar/>
@@ -130,9 +137,19 @@ const styles = StyleSheet.create({
       marginTop:10
     },
     boutonView:{
+      marginTop:5,
       display:'flex',
       flexDirection:'row',
       justifyContent:'center'
+    },
+    catbutton:{
+      height:40,
+      paddingLeft:10,
+      paddingRight:10,
+      //width:'10%',
+      borderColor:'black',
+      borderRadius:5,
+      borderWidth:1
     },
     textbouton:{
       backgroundColor:'#bdbdde',
@@ -153,7 +170,8 @@ mapDispatchToProps = {
 mapStateToProps = (store)=>{
     return {
         user: store.user,
-        agenda : store.agenda
+        agenda : store.agenda,
+        theme:store.theme
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Warroom);

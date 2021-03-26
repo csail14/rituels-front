@@ -16,9 +16,14 @@ import {loadTheme} from '../actions/theme/themeActions'
 import {config} from '../config';
 import LevelBar from '../component/levelbar'
 import {loadCycleInfo} from '../actions/cycle/cycleActions'
+import {getCurrentLevel} from '../api/levelApi'
 
+const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle,level, theme })=>{
 
-const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle, theme })=>{
+  const [theme_id,setThemeId] = useState(null)
+  const [currentLevel, setcurrentLevel] = useState([{name:'Débutant'}])
+  const [obj,setObj] = useState(0)
+  const [state,setState] = useState(0)
 
   useEffect(()=>{
     if(theme.allTheme.length==0){
@@ -32,6 +37,18 @@ const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle, theme 
             .then((response)=>{
                 return response.data;
             })}}, [])
+
+  useEffect(()=>{
+    if(theme_id){
+      setObj(progress.obj.filter(item=> item.id==theme_id.id)[0].obj)
+      setState(progress.state.filter(item=> item.id==theme_id.id)[0].state)
+      setcurrentLevel(getCurrentLevel(level.allLevel.filter(item=>item.id==theme_id.id)[0].level,progress.state.filter(item=> item.id==theme_id.id)[0].state))
+    }
+    
+  }, [theme_id])
+
+  console.log('themeid', theme_id)
+  console.log('currentLevel',currentLevel)
    
     return (
         <View style={styles.container}>
@@ -42,10 +59,13 @@ const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle, theme 
               {user.infos &&
               <> 
               
-              <Menu loadCycleInfo={loadCycleInfo} alltheme={theme.allTheme} allcycle={cycle.allCycle} navigation={navigation}/>
+              <Menu loadCycleInfo={loadCycleInfo} currentLevel={currentLevel} alltheme={theme.allTheme} setThemeId={setThemeId} allcycle={cycle.allCycle} navigation={navigation}/>
               <View style={styles.levelbar}>
-              {/* <LevelBar   theme_id={0} obj={progress.obj} state={progress.state}/> */}
-              {/* <Text style={styles.text}>Rituels : {progress.state}/{progress.obj}</Text> */}
+                {theme_id&&<>
+                  <LevelBar  obj={obj} state={state}/> 
+                  <Text style={styles.text}>Rituels : {state}/{obj}</Text>
+                </>}
+              
               </View>
                 
                 <Text style={styles.subTitle}>Bonjour {user.subuser[user.current_subuser].name}</Text>
@@ -196,7 +216,8 @@ mapStateToProps = (store)=>{
         user: store.user,
         progress: store.progress,
         cycle: store.cycle,
-        theme: store.theme
+        theme: store.theme,
+        level:store.level
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Home);

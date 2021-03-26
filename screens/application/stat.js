@@ -138,7 +138,7 @@ const Stats = ({ navigation,user,theme })=>{
             <Text  style={styles.text}>Rituels validés</Text>
             <View style={styles.boutonView}>
               {alltheme.map((item)=>{
-                return(<TouchableOpacity key={item.id} style={styles.catbutton}
+                return(<TouchableOpacity key={item.id} style={[styles.catbutton,{backgroundColor:item.color}]}
                   onPress={
                     () => {
                       setSelectedCat(item)
@@ -222,12 +222,13 @@ const styles = StyleSheet.create({
       borderColor:'white',
       borderRadius:100
     },
-     catbutton:{
+    catbutton:{
       height:40,
       paddingLeft:10,
-      backgroundColor:'#C66BF0',
-      width:'10%',
-      borderColor:'#582B6D',
+      paddingRight:10,
+      //width:'10%',
+      borderColor:'black',
+      borderRadius:5,
       borderWidth:1
     },
     pressed:{

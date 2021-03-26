@@ -2,9 +2,9 @@ import axios from 'axios';
 import {config} from '../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export  const getAllLevel = async (subuser_id)=>{
+export  const getAllLevel = async (subuser_id,theme_id)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.get(config.api_url+"/api/v1/all/level/"+subuser_id, {headers: {'x-access-token': token}})
+    return axios.get(config.api_url+"/api/v1/all/level/"+subuser_id+"/"+theme_id, {headers: {'x-access-token': token}})
             .then((response)=>{
                 return response.data;
             })
@@ -24,9 +24,9 @@ export const saveNewLevel = async (data) => {
             })
 }
 
-export  const setLevel = async (subuser_id, data)=>{
+export  const setLevel = async (subuser_id, data,theme_id)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.put(config.api_url+"/api/v1/level/set/"+subuser_id, data,{headers: {'x-access-token': token}})
+    return axios.put(config.api_url+"/api/v1/level/set/"+subuser_id+"/"+theme_id, data,{headers: {'x-access-token': token}})
             .then((response)=>{
                 return response.data;
             })
@@ -35,10 +35,12 @@ export  const setLevel = async (subuser_id, data)=>{
             })
 }
 
-export  const deleteLevel = async (level_id)=>{
+export  const deleteLevel = async (level_id,theme_id)=>{
     const token =  await AsyncStorage.getItem('4brntoken');
-    return axios.delete(config.api_url+"/api/v1/delete/level/"+level_id, {headers: {'x-access-token': token}})
+    return axios.delete(config.api_url+"/api/v1/delete/level/"+level_id+"/"+theme_id, {headers: {'x-access-token': token}})
             .then((response)=>{
+
+
                 return response.data;
             })
             .catch((err)=>{
@@ -47,6 +49,8 @@ export  const deleteLevel = async (level_id)=>{
 }
 
 export const getCurrentLevel = (allLevel,count) => {
+    console.log(allLevel)
+    console.log(count)
     return allLevel.filter((level)=> level.min<=count && level.max>=count)
 }
 

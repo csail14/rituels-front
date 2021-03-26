@@ -57,25 +57,23 @@ const RequireAuth = (props)=>{
                                         (resultobj)=> {
                                             getStateByWeek(moment(new Date()).format('W'), subuser[current_subuser].id,restheme.result).then(
                                                 (resultstate)=> {
-                                                    console.log("resultstate",resultstate)
-                                                    console.log('resultobj', resultobj)
                                                     props.loadProgress(resultstate,resultobj)
                                                 }
                                             )
                                         }
                                     )
-                                    // getAllLevel(subuser[current_subuser].id).then(
-                                    //     (result)=>{
-                                    //         getStateByWeek(moment(new Date()).format('W')-1, subuser[current_subuser].id,restheme.result).then(
-                                    //             (resultstate)=> {
-                                    //                 let currentlevel = getCurrentLevel(result,resultstate.result[0].state)
-                                    //                 let nextLevel = getLevelByOrder(result,currentlevel[0].ordre+1)
-                                    //                 props.loadLevel(result,currentlevel[0],nextLevel[0])
-                                    //             }
-                                    //         )
-                                            
-                                    //     }
-                                    // )
+                                    let allLevel = []
+                                    for (let i=0;i<restheme.result.length;i++){
+                                        let item = {}
+                                        getAllLevel(subuser[current_subuser].id,restheme.result[i].id).then(
+                                            (result)=>{
+                                                item.id=restheme.result[i].id
+                                                item.level=result
+                                                allLevel.push(item)
+                                            }
+                                        )
+                                }
+                                props.loadLevel(allLevel)
                                 })
                                 
                             }))

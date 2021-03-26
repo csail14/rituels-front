@@ -16,10 +16,13 @@ import moment from 'moment';
 import 'moment/locale/fr';
 moment.locale('fr');
 
-const Account = ({ navigation,user,level,loadLevel })=>{
+const Account = ({ navigation,user,level,loadLevel,theme,progress })=>{
 
   const [subuser,setsubuser] = useState({})
   const [stateLevel,setstateLevel] = useState([])
+  const [selectedCat,setSelectedCat] = useState(theme.allTheme[0])
+  const [currentLevel,setCurrentLevel] = useState(null)
+  const [state,setState] = useState(0)
   const [test,setTest] = useState("0")
 
   useEffect(()=>{
@@ -27,19 +30,24 @@ const Account = ({ navigation,user,level,loadLevel })=>{
       setsubuser(user.subuser[user.current_subuser])
     }
     let array=[]
-    level.allLevel.map((level)=>{
-      let el = {ordre:level.ordre,
-      name:level.name,
-      min:""+level.min,
-      max:""+level.max,
-      id:level.id,
-      subuser_id:user.subuser[user.current_subuser].id
-    }
-    array.push(el)
-    })
+    let catLevel = level.allLevel.filter(it=>it.id==selectedCat.id);
+    if (catLevel.length>0){
+      catLevel[0].level.map((level)=>{
+        let el = {ordre:level.ordre,
+        name:level.name,
+        min:""+level.min,
+        max:""+level.max,
+        id:level.id,
+        theme_id:selectedCat.id,
+        subuser_id:user.subuser[user.current_subuser].id
+      }
+      array.push(el)
+      })}
     setstateLevel(array)
-
-    }, [level])
+    setState(progress.state.filter(item=> item.id==selectedCat.id)[0].state)
+    let currentlevel =  getCurrentLevel(stateLevel,state)
+    setCurrentLevel(currentlevel[0])
+    }, [level,selectedCat])
 
   const addLevel= () => {
     let index = stateLevel.length-1
@@ -51,6 +59,7 @@ const Account = ({ navigation,user,level,loadLevel })=>{
       name:'Nouveau',
       min:""+min,
       max:""+max,
+      theme_id:selectedCat.id,
       subuser_id:user.subuser[user.current_subuser].id
     }
     let array = stateLevel
@@ -58,37 +67,33 @@ const Account = ({ navigation,user,level,loadLevel })=>{
     setstateLevel(array)
     setTest('')
   }
- 
-  const deleLevel = () => {
-    
-  }
 
   const saveChange=  () => {
-    setLevel(user.subuser[user.current_subuser].id, stateLevel).then(
+    setLevel(user.subuser[user.current_subuser].id, stateLevel,selectedCat.id).then(
       (res)=>{
-        getAllLevel(user.subuser[user.current_subuser].id).then(
-          (result)=>{
-              getStateByWeek(moment(new Date()).format('W')-1, user.subuser[user.current_subuser].id).then(
-                  (resultstate)=> {
-                      let currentlevel = getCurrentLevel(result,resultstate.result[0].state)
-                      let nextLevel = getLevelByOrder(result,currentlevel[0].ordre+1)
-                      loadLevel(result,currentlevel[0],nextLevel[0])
-                      navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Home' }],
-                    })                     
-                  }
-              )
-              
-          }
-      )
+        let all = []
+        for (let i=0;i<theme.allTheme.length;i++){
+            let item = {}
+            getAllLevel(user.subuser[user.current_subuser].id,theme.allTheme[i].id).then(
+                (result)=>{
+                    item.id=theme.allTheme[i].id
+                    item.level=result
+                    all.push(item)
+                }
+            )
+        }
+       
+        loadLevel(all)
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+          }) 
       }
     )
   }
-    
 
 
-
+console.log('stateLEvel',stateLevel)
     return (
       <KeyboardAwareScrollView  style={styles.container}>
         <View style={styles.container}>
@@ -97,8 +102,16 @@ const Account = ({ navigation,user,level,loadLevel })=>{
             <ImageBackground source={background} style={styles.image}>
             
               <Text style={styles.title}>{subuser.name}</Text>
-              <Text style={styles.title}>Niveau actuel : {level.currentLevel.name}</Text>
-              
+              {currentLevel&& <Text style={styles.title}>Niveau actuel : {currentLevel.name}</Text>   }    
+              <View style={styles.boutonView}>
+              {theme.allTheme.map((item)=>{
+                return(<TouchableOpacity key={item.id} style={[styles.catbutton,{backgroundColor:item.color}]}
+                  onPress={() => {setSelectedCat(item)}}>
+                    <Text  style={[styles.textcatbouton, {marginTop:10},selectedCat.id==item.id?styles.pressed: ""]}>{item.name}</Text>   
+                    </TouchableOpacity>)
+                  })}              
+            </View>
+                     
                 {stateLevel.length>0 &&stateLevel.map((level)=>{
                   return (
                     <View key={level.id}>
@@ -189,20 +202,23 @@ const Account = ({ navigation,user,level,loadLevel })=>{
                         }}
                       />
                       </View>
-                      <Icon 
-                        name='trash'
-                        type='evilicon'
-                        color='white'
-                        onPress={()=>{
-                          let i = stateLevel.indexOf(level)
+                      <TouchableOpacity 
+                      onPress={()=>{
+                        let i = stateLevel.indexOf(level)
                           let array= stateLevel
                           let id = array[i].id
-                          deleteLevel(id)
+                          console.log('delete')
+                          deleteLevel(id,selectedCat.id)
                           array.splice(i,1)
                           setstateLevel(array)
                           setTest(array.length)
-                        }}
-                        style={styles.icon} />
+                      }}>
+                      <Icon 
+                        name='trash'
+                        size={40}
+                        type='evilicon'
+                        color='white'
+                        style={styles.icon} /></TouchableOpacity>
                     </View>}
                     </View>)
                 }
@@ -236,6 +252,18 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: 'black',
     },
+    catbutton:{
+      height:40,
+      paddingLeft:10,
+      paddingRight:10,
+      //width:'10%',
+      borderColor:'black',
+      borderRadius:5,
+      borderWidth:1
+    },
+    pressed:{
+      color:'white'
+    }, 
     icon:{
       marginTop:20
     },
@@ -250,6 +278,11 @@ const styles = StyleSheet.create({
       marginLeft:15,
       fontSize:30,
 
+    },
+    boutonView:{
+      display:'flex',
+      flexDirection:'row',
+      justifyContent:'center'
     },
     button: {
       backgroundColor: "#321aed",
@@ -302,7 +335,9 @@ mapDispatchToProps = {
 mapStateToProps = (store)=>{
     return {
         user: store.user, 
-        level:store.level
+        level:store.level,
+        theme:store.theme,
+        progress: store.progress
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(Account);

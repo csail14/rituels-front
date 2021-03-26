@@ -25,7 +25,7 @@ import garcon2 from '../../assets/garcon2.png'
 
 
 
-const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel,loadEvent})=>{
+const ChangeAccount = ({ navigation,theme,user,loadUserInfo,loadProgress,loadLevel,loadEvent})=>{
 
   const subuser = []
 
@@ -63,14 +63,14 @@ const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel,loa
                 return (<View key={index}><TouchableOpacity 
                   style={styles.subuser}
                             onPress={ ()=>{
-                              getCount(user.subuser[index].id,moment(new Date()).format('W')).then(
+                              getCount(user.subuser[index].id,moment(new Date()).format('W'),theme.allTheme).then(
                                 (resultobj)=> {
-                                    getStateByWeek(moment(new Date()).format('W'), user.subuser[index].id).then(
+                                    getStateByWeek(moment(new Date()).format('W'), user.subuser[index].id,theme.allTheme).then(
                                       async (resultstate)=> {
                                             loadUserInfo(user.infos, user.subuser, index)
-                                            loadProgress(resultstate.result[0].state,resultobj.result[0].obj)
+                                            loadProgress(resultstate,resultobj)
                                             storeData(index)
-                                            console.log('store be')
+                                    
                                             navigation.reset({
                                                 index: 0,
                                                 routes: [{ name: 'Home' }],
@@ -79,18 +79,20 @@ const ChangeAccount = ({ navigation,user,loadUserInfo,loadProgress,loadLevel,loa
                                       )
                                 }
                               )
-                              getAllLevel(user.subuser[index].id).then(
-                                (result)=>{
-                                    getStateByWeek(moment(new Date()).format('W')-1, user.subuser[index].id).then(
-                                        (resultstate)=> {
-                                            let currentlevel = getCurrentLevel(result,resultstate.result[0].state)
-                                            let nextLevel = getLevelByOrder(result,currentlevel[0].ordre+1)
-                                            loadLevel(result,currentlevel[0],nextLevel[0])
-                                        }
-                                    )
-                                    
-                                }
-                            )
+                              let allLevel = []
+                              for (let i=0;i<theme.allTheme.length;i++){
+                                let item={}
+                                getAllLevel(user.subuser[index].id, theme.allTheme[i].id).then(
+                                  (result)=>{
+                                    item.id=restheme.result[i].id
+                                    item.level=result
+                                    allLevel.push(item)
+                                      
+                                  }
+                              )
+                              }
+                              loadLevel(allLevel)
+                              
                             getAllEvent(user.subuser[index].id).then(
                               (res)=>{
                                   if(res.status===200){
@@ -210,7 +212,8 @@ mapStateToProps = (store)=>{
     return {
         user: store.user,
         cycle: store.cycle,
-        level:store.level
+        level:store.level,
+        theme:store.theme
     }
 }
 export default  connect(mapStateToProps, mapDispatchToProps)(ChangeAccount);

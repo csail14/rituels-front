@@ -153,7 +153,8 @@ const addEventComp = (props)=>{
                         (text) =>{setComment(text)}
                     }
     		/>
-            <View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
+            
+            {props.user.infos.notification==1&&<View style={{display:'flex', flexDirection:'row', justifyContent:'center', flexWrap:'wrap'}}>
                     <Text style={styles.text}>M'alerter </Text>
                     <TextInput
                       style={styles.inputTime}
@@ -163,7 +164,7 @@ const addEventComp = (props)=>{
                       }
                     />
                     <Text style={styles.text}>min avant </Text>
-                  </View>
+                  </View>}
             <TouchableOpacity
 					style={styles.button}
 					onPress={(e)=>{

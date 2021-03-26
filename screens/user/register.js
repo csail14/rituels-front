@@ -33,7 +33,9 @@ const Register = ({navigation})=> {
 			email: email,
 			password: password,
 			passwordConfirm: passwordConfirm,
-			lang: lang
+			lang: lang,
+			stripe_id:null,
+			isPaid:false
 		}
 		let error = formValidator(data);
 		if (error===""){

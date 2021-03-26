@@ -5,7 +5,7 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
   } from 'react-native-responsive-screen';
-
+  import { Icon } from 'react-native-elements'
   
 export default class Menu extends React.Component {
 
@@ -58,6 +58,10 @@ export default class Menu extends React.Component {
               })
         });
   
+    }
+
+    setTheme=(theme)=> {
+      this.props.setThemeId(this.props.alltheme[theme])
     }
 
     setParams=()=> {
@@ -127,6 +131,7 @@ export default class Menu extends React.Component {
          </TouchableWithoutFeedback> 
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(8)
                    this.setState({
                       catSelected:true,
                       pressedCat1:false,
@@ -141,7 +146,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#CC3E3A', position:'absolute', top:hp('21%'), left:wp('45%') }, this.state.pressedCat9?[styles.pressed,{position:'absolute', top:hp('7%'), left:wp('41%') }]: ""]} ><Text style={styles.details}>9</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#CC3E3A', position:'absolute', top:hp('21%'), left:wp('45%') }, this.state.pressedCat9?[styles.pressed,{position:'absolute', top:hp('7%'), left:wp('41%') }]: ""]} >{this.state.pressedCat9?<View><Text style={styles.details}>Sport Extérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='futbol-o' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback> 
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -157,6 +162,7 @@ export default class Menu extends React.Component {
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(7)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
@@ -172,10 +178,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#EA6363', position:'absolute', top:hp('23%'), left:wp('38%') }, this.state.pressedCat8?[styles.pressed,{position:'absolute', top:hp('10%'), left:wp('30%') }]: ""]} ><Text style={styles.details}>8</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#EA6363', position:'absolute', top:hp('23%'), left:wp('38%') }, this.state.pressedCat8?[styles.pressed,{position:'absolute', top:hp('10%'), left:wp('30%') }]: ""]} >{this.state.pressedCat8?<View><Text style={styles.details}>Sport Interieur </Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='universal-access' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(6)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
@@ -191,10 +198,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#F6A2A2', position:'absolute', top:hp('30%'), left:wp('33%') }, this.state.pressedCat7?[styles.pressed,{position:'absolute', top:hp('20%'), left:wp('23%') }]: ""]} ><Text style={styles.details}>7</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#F6A2A2', position:'absolute', top:hp('30%'), left:wp('33%') }, this.state.pressedCat7?[styles.pressed,{position:'absolute', top:hp('20%'), left:wp('23%') }]: ""]} >{this.state.pressedCat7?<View><Text style={styles.details}>Hygiène de vie</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='cutlery' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(5)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
@@ -210,10 +218,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#DCD97A', position:'absolute', top:hp('39%'), left:wp('31%') }, this.state.pressedCat6?[styles.pressed,{position:'absolute', top:hp('32%'), left:wp('20%') }]: ""]} ><Text style={styles.details}>6</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#DCD97A', position:'absolute', top:hp('39%'), left:wp('31%') }, this.state.pressedCat6?[styles.pressed,{position:'absolute', top:hp('32%'), left:wp('20%') }]: ""]} >{this.state.pressedCat6?<View><Text style={styles.details}>Domicile Extérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='leaf' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(2)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
@@ -229,10 +238,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BA5D8', position:'absolute', top:hp('56%'), left:wp('45%') }, this.state.pressedCat3?[styles.pressed,{position:'absolute', top:hp('58%'), left:wp('40%') }]: ""]} ><Text style={styles.details}>3</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BA5D8', position:'absolute', top:hp('56%'), left:wp('45%') }, this.state.pressedCat3?[styles.pressed,{position:'absolute', top:hp('58%'), left:wp('40%') }]: ""]} >{this.state.pressedCat3?<View><Text style={styles.details}>Lecture</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='book' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(4)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
@@ -248,10 +258,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#9FD83B', position:'absolute', top:hp('47%'), left:wp('33%') }, this.state.pressedCat5?[styles.pressed,{position:'absolute', top:hp('46%'), left:wp('23%') }]: ""]} ><Text style={styles.details}>5</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#9FD83B', position:'absolute', top:hp('47%'), left:wp('33%') }, this.state.pressedCat5?[styles.pressed,{position:'absolute', top:hp('46%'), left:wp('23%') }]: ""]} >{this.state.pressedCat5?<View><Text style={styles.details}>Domicile Intérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='home' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>  
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(3)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
@@ -266,10 +277,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BD83F', position:'absolute', top:hp('54%'), left:wp('38%') }, this.state.pressedCat4?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('30%') }]: ""]} ><Text style={styles.details}>4</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BD83F', position:'absolute', top:hp('54%'), left:wp('38%') }, this.state.pressedCat4?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('30%') }]: ""]} >{this.state.pressedCat4?<View><Text style={styles.details}>Arts, Musique</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='music' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(1)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
@@ -285,10 +297,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3B67D8', position:'absolute', top:hp('54%'), left:wp('51%') }, this.state.pressedCat2?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('50%') }]: ""]} ><Text style={styles.details}>2</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3B67D8', position:'absolute', top:hp('54%'), left:wp('51%') }, this.state.pressedCat2?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('50%') }]: ""]} >{this.state.pressedCat2?<View><Text style={styles.details}>Etudes</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='university' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>     
          <TouchableWithoutFeedback onPress={
                 ()=>{
+                  this.setTheme(0)
                    this.setState({
                     catSelected:true,
                     pressedCat1:true,
@@ -304,7 +317,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#0D0AAE', position:'absolute', top:hp('47%'), left:wp('56%') }, this.state.pressedCat1?[styles.pressed,{position:'absolute', top:hp('45%'), left:wp('56%') }]: ""]} ><Text style={styles.details}>1</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#0D0AAE', position:'absolute', top:hp('47%'), left:wp('56%') }, this.state.pressedCat1?[styles.pressed,{position:'absolute', top:hp('45%'), left:wp('56%') }]: ""]} >{this.state.pressedCat1?<View><Text style={styles.details}>Ecole</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='edit' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>   
             <TouchableWithoutFeedback onPress={
                 ()=>{if(this.state.timeSelected &&this.state.catSelected){
