@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
     boutonView:{
       display:'flex',
       flexDirection:'row',
+      flexWrap:'wrap',
       justifyContent:'center'
     },
     textbouton:{

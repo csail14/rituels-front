@@ -116,101 +116,48 @@ export default class Menu extends React.Component {
     return (
       <>
         <View style={styles.container} >
+            
+        
+         
+         
+      
+         
+            
+         
+         <View style={styles.circle}>
             <TouchableWithoutFeedback onPress={
-                ()=>{
-                   this.setState({
-                      timeSelected:true,
-                       pressed20:false,
-                       pressed30:true,
-                       pressed40:false,
-                       
-                })
+                ()=>{if(this.state.timeSelected &&this.state.catSelected){
+                  this.setParams();
+                  this.playSound();
+                  this.startAnimation();
+                }
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#5C3ACC', position:'absolute', top:hp('30%'), left:wp('56%') }, this.state.pressed30?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.details}>30'</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
          </TouchableWithoutFeedback> 
          <TouchableWithoutFeedback onPress={
                 ()=>{
-                  this.setTheme(8)
-                   this.setState({
-                      catSelected:true,
-                      pressedCat1:false,
-                      pressedCat2:false,
-                      pressedCat3:false,
-                      pressedCat4:false,
-                      pressedCat5:false,
-                      pressedCat6:false,
-                      pressedCat7:false,
-                      pressedCat8:false,
-                      pressedCat9:true
-                })
+                    this.setState({
+                        timeSelected:true,
+                        pressed30:false,
+                        pressed20:false,
+                        pressed40:true
+                 })
                 }
-                    }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#CC3E3A', position:'absolute', top:hp('21%'), left:wp('45%') }, this.state.pressedCat9?[styles.pressed,{position:'absolute', top:hp('7%'), left:wp('41%') }]: ""]} >{this.state.pressedCat9?<View><Text style={styles.details}>Sport Extérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='futbol-o' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
-         </TouchableWithoutFeedback> 
-         <TouchableWithoutFeedback onPress={
-                ()=>{
-                   this.setState({
-                      timeSelected:true,
-                       pressed20:true,
-                       pressed30:false,
-                       pressed40:false,
-                })
-                }
-                    }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#A878F0', position:'absolute', top:hp('24%'), left:wp('52%') }, this.state.pressed20?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.details}>20'</Text></Animated.View>
+          }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#6C069B',  position:'absolute', top:100, right:-30}, this.state.pressed40?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.minute}>40'</Text></Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
-                  this.setTheme(7)
+                  this.setTheme(0)
                    this.setState({
                     catSelected:true,
-                    pressedCat1:false,
+                    pressedCat1:true,
                     pressedCat2:false,
                     pressedCat3:false,
                     pressedCat4:false,
                     pressedCat5:false,
                     pressedCat6:false,
-                    pressedCat7:false,
-                    pressedCat8:true,
-                    pressedCat9:false
-                       
-                })
-                }
-                    }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#EA6363', position:'absolute', top:hp('23%'), left:wp('38%') }, this.state.pressedCat8?[styles.pressed,{position:'absolute', top:hp('10%'), left:wp('30%') }]: ""]} >{this.state.pressedCat8?<View><Text style={styles.details}>Sport Interieur </Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='universal-access' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
-         </TouchableWithoutFeedback>
-         <TouchableWithoutFeedback onPress={
-                ()=>{
-                  this.setTheme(6)
-                   this.setState({
-                    catSelected:true,
-                    pressedCat1:false,
-                    pressedCat2:false,
-                    pressedCat3:false,
-                    pressedCat4:false,
-                    pressedCat5:false,
-                    pressedCat6:false,
-                    pressedCat7:true,
-                    pressedCat8:false,
-                    pressedCat9:false
-                       
-                })
-                }
-                    }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#F6A2A2', position:'absolute', top:hp('30%'), left:wp('33%') }, this.state.pressedCat7?[styles.pressed,{position:'absolute', top:hp('20%'), left:wp('23%') }]: ""]} >{this.state.pressedCat7?<View><Text style={styles.details}>Hygiène de vie</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='cutlery' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
-         </TouchableWithoutFeedback>  
-         <TouchableWithoutFeedback onPress={
-                ()=>{
-                  this.setTheme(5)
-                   this.setState({
-                    catSelected:true,
-                    pressedCat1:false,
-                    pressedCat2:false,
-                    pressedCat3:false,
-                    pressedCat4:false,
-                    pressedCat5:false,
-                    pressedCat6:true,
                     pressedCat7:false,
                     pressedCat8:false,
                     pressedCat9:false
@@ -218,7 +165,7 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#DCD97A', position:'absolute', top:hp('39%'), left:wp('31%') }, this.state.pressedCat6?[styles.pressed,{position:'absolute', top:hp('32%'), left:wp('20%') }]: ""]} >{this.state.pressedCat6?<View><Text style={styles.details}>Domicile Extérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='leaf' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#0D0AAE', position:'absolute', bottom:33, right:-15}, this.state.pressedCat1?[styles.pressed,{position:'absolute', bottom:-45, right:-120 }]: ""]} >{this.state.pressedCat1?<View><Text style={styles.details}>Ecole</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='edit' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
@@ -238,19 +185,19 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BA5D8', position:'absolute', top:hp('56%'), left:wp('45%') }, this.state.pressedCat3?[styles.pressed,{position:'absolute', top:hp('58%'), left:wp('40%') }]: ""]} >{this.state.pressedCat3?<View><Text style={styles.details}>Lecture</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='book' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
-         </TouchableWithoutFeedback>  
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BA5D8', position:'absolute', bottom:-30, left:100 }, this.state.pressedCat3?[styles.pressed,{position:'absolute', bottom:-145, left:50}]: ""]} >{this.state.pressedCat3?<View><Text style={styles.details}>Lecture</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='book' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+         </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
-                  this.setTheme(4)
+                  this.setTheme(5)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
                     pressedCat2:false,
                     pressedCat3:false,
                     pressedCat4:false,
-                    pressedCat5:true,
-                    pressedCat6:false,
+                    pressedCat5:false,
+                    pressedCat6:true,
                     pressedCat7:false,
                     pressedCat8:false,
                     pressedCat9:false
@@ -258,27 +205,92 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#9FD83B', position:'absolute', top:hp('47%'), left:wp('33%') }, this.state.pressedCat5?[styles.pressed,{position:'absolute', top:hp('46%'), left:wp('23%') }]: ""]} >{this.state.pressedCat5?<View><Text style={styles.details}>Domicile Intérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='home' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
-         </TouchableWithoutFeedback>  
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#DCD97A', position:'absolute', left:-30, top:100}, this.state.pressedCat6?[styles.pressed,{position:'absolute', top:50, left:-145}]: ""]} >{this.state.pressedCat6?<View><Text style={styles.details}>Domicile Extérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='leaf' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+         </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
-                  this.setTheme(3)
+                  this.setTheme(8)
+                   this.setState({
+                      catSelected:true,
+                      pressedCat1:false,
+                      pressedCat2:false,
+                      pressedCat3:false,
+                      pressedCat4:false,
+                      pressedCat5:false,
+                      pressedCat6:false,
+                      pressedCat7:false,
+                      pressedCat8:false,
+                      pressedCat9:true
+                })
+                }
+                    }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#CC3E3A', position:'absolute', top:-30, left:100}, this.state.pressedCat9?[styles.pressed,{position:'absolute', top:-145, left:50 }]: ""]} >{this.state.pressedCat9?<View><Text style={styles.details}>Sport Extérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='futbol-o' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+         </TouchableWithoutFeedback> 
+         <TouchableWithoutFeedback onPress={
+                ()=>{
+                  this.setTheme(7)
                    this.setState({
                     catSelected:true,
                     pressedCat1:false,
                     pressedCat2:false,
                     pressedCat3:false,
-                    pressedCat4:true,
+                    pressedCat4:false,
                     pressedCat5:false,
                     pressedCat6:false,
                     pressedCat7:false,
-                    pressedCat8:false,
+                    pressedCat8:true,
                     pressedCat9:false
+                       
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BD83F', position:'absolute', top:hp('54%'), left:wp('38%') }, this.state.pressedCat4?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('30%') }]: ""]} >{this.state.pressedCat4?<View><Text style={styles.details}>Arts, Musique</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='music' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#EA6363', position:'absolute', top:-15, left:33 }, this.state.pressedCat8?[styles.pressed,{position:'absolute', top:-125, left:-45 }]: ""]} >{this.state.pressedCat8?<View><Text style={styles.details}>Sport Interieur </Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='universal-access' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>
+         <TouchableWithoutFeedback onPress={
+                ()=>{
+                  this.setTheme(6)
+                   this.setState({
+                    catSelected:true,
+                    pressedCat1:false,
+                    pressedCat2:false,
+                    pressedCat3:false,
+                    pressedCat4:false,
+                    pressedCat5:false,
+                    pressedCat6:false,
+                    pressedCat7:true,
+                    pressedCat8:false,
+                    pressedCat9:false
+                       
+                })
+                }
+                    }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#F6A2A2', position:'absolute', top:33, left:-15 }, this.state.pressedCat7?[styles.pressed,{position:'absolute', top:-45, left:-120 }]: ""]} >{this.state.pressedCat7?<View><Text style={styles.details}>Hygiène de vie</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='cutlery' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+         </TouchableWithoutFeedback>  
+         <TouchableWithoutFeedback onPress={
+                ()=>{
+                   this.setState({
+                      timeSelected:true,
+                       pressed20:true,
+                       pressed30:false,
+                       pressed40:false,
+                })
+                }
+                    }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#A878F0', position:'absolute', top:-15, right:33 }, this.state.pressed20?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.details}>20'</Text></Animated.View>
+         </TouchableWithoutFeedback>
+         <TouchableWithoutFeedback onPress={
+                ()=>{
+                   this.setState({
+                      timeSelected:true,
+                       pressed20:false,
+                       pressed30:true,
+                       pressed40:false,
+                       
+                })
+                }
+                    }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#5C3ACC', position:'absolute', top:33, right:-15}, this.state.pressed30?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.details}>30'</Text></Animated.View>
+         </TouchableWithoutFeedback> 
          <TouchableWithoutFeedback onPress={
                 ()=>{
                   this.setTheme(1)
@@ -297,18 +309,38 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3B67D8', position:'absolute', top:hp('54%'), left:wp('51%') }, this.state.pressedCat2?[styles.pressed,{position:'absolute', top:hp('54%'), left:wp('50%') }]: ""]} >{this.state.pressedCat2?<View><Text style={styles.details}>Etudes</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='university' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
-         </TouchableWithoutFeedback>     
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3B67D8', position:'absolute', bottom:-15, right:33 }, this.state.pressedCat2?[styles.pressed,{position:'absolute', bottom:-125, right:-45 }]: ""]} >{this.state.pressedCat2?<View><Text style={styles.details}>Etudes</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='university' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+         </TouchableWithoutFeedback>
          <TouchableWithoutFeedback onPress={
                 ()=>{
-                  this.setTheme(0)
+                  this.setTheme(3)
                    this.setState({
                     catSelected:true,
-                    pressedCat1:true,
+                    pressedCat1:false,
+                    pressedCat2:false,
+                    pressedCat3:false,
+                    pressedCat4:true,
+                    pressedCat5:false,
+                    pressedCat6:false,
+                    pressedCat7:false,
+                    pressedCat8:false,
+                    pressedCat9:false
+                })
+                }
+                    }>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#3BD83F', position:'absolute', bottom:-15 ,left:33 }, this.state.pressedCat4?[styles.pressed,{position:'absolute', bottom:-125, left:-45}]: ""]} >{this.state.pressedCat4?<View><Text style={styles.details}>Arts, Musique</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='music' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
+         </TouchableWithoutFeedback>
+            
+         <TouchableWithoutFeedback onPress={
+                ()=>{
+                  this.setTheme(4)
+                   this.setState({
+                    catSelected:true,
+                    pressedCat1:false,
                     pressedCat2:false,
                     pressedCat3:false,
                     pressedCat4:false,
-                    pressedCat5:false,
+                    pressedCat5:true,
                     pressedCat6:false,
                     pressedCat7:false,
                     pressedCat8:false,
@@ -317,30 +349,11 @@ export default class Menu extends React.Component {
                 })
                 }
                     }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#0D0AAE', position:'absolute', top:hp('47%'), left:wp('56%') }, this.state.pressedCat1?[styles.pressed,{position:'absolute', top:hp('45%'), left:wp('56%') }]: ""]} >{this.state.pressedCat1?<View><Text style={styles.details}>Ecole</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='edit' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
-         </TouchableWithoutFeedback>   
-            <TouchableWithoutFeedback onPress={
-                ()=>{if(this.state.timeSelected &&this.state.catSelected){
-                  this.setParams();
-                  this.playSound();
-                  this.startAnimation();
-                }
-                }
-                    }>
-           <Animated.View useNativeDriver={true} style={[styles.mainView, transformStyle]} ><Text style={styles.title}>Let's go !</Text></Animated.View>
+           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#9FD83B', position:'absolute', bottom:33, left:-15 }, this.state.pressedCat5?[styles.pressed,{position:'absolute', bottom:-45, left:-120  }]: ""]} >{this.state.pressedCat5?<View><Text style={styles.details}>Domicile Intérieur</Text><Text style={styles.details}> Niveau : {this.props.currentLevel[0].name}</Text></View>:<Icon name='home' type='font-awesome'color='white' style={styles.icon} />}</Animated.View>
          </TouchableWithoutFeedback>  
-         <TouchableWithoutFeedback onPress={
-                ()=>{
-                    this.setState({
-                        timeSelected:true,
-                        pressed30:false,
-                        pressed20:false,
-                        pressed40:true
-                 })
-                }
-          }>
-           <Animated.View useNativeDriver={true} style={[styles.minuteView, transformStyle, {backgroundColor:'#6C069B', marginLeft: 10}, this.state.pressed40?{borderColor:'white',borderWidth:2}: ""]} ><Text style={styles.minute}>40'</Text></Animated.View>
-         </TouchableWithoutFeedback>  
+        
+         </View>   
+        
          
         </View>
         
@@ -353,11 +366,20 @@ export default class Menu extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+      height:10,
+      width:250,
+
       flex: 1,
       display:'flex',
       justifyContent:'center',
-      flexDirection:'row',
+      flexDirection:'column',
       position:'relative'
+    },
+    circle:{
+      height:250,
+      width:250,
+  
+      alignItems:'center'
     },
     title: {
         fontSize: 30,

@@ -26,7 +26,7 @@
     "@stripe/stripe-js": "^1.13.0",
     "@tele2/react-native-select-input": "^1.1.0",
     "axios": "^0.21.1",
-    "expo": "~40.0.0",
+    "expo": "^40.0.1",
     "expo-av": "~8.7.0",
     "expo-constants": "^10.0.1",
     "expo-image-picker": "~9.2.0",

@@ -130,7 +130,7 @@ const ChangeAccount = ({ navigation,theme,user,loadUserInfo,loadProgress,loadLev
                       routes: [{ name: 'AddSubuser' }],
                   });}}
               >
-              <Text style={styles.buttonText}>Ajouter un compte</Text>
+            {user.subuser.length<5&&<Text style={styles.buttonText}>Ajouter un compte</Text>}
               </TouchableOpacity>
             </ImageBackground>
             

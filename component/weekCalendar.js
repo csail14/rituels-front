@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     weekView:{
       width:wp('100%'),
       backgroundColor:'white',
-      height:hp('95%')
+      height:hp('80%')
     },
     calendar: {
         borderTopWidth: 1,

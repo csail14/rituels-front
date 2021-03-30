@@ -10,6 +10,7 @@ import HeaderLog from '../navigation/header-log'
 import {connect} from 'react-redux';
 import Menu from '../component/go'
 import logo from '../assets/logo.png'
+
 import axios from 'axios';
 import {getAllTheme} from '../api/themeApi'
 import {loadTheme} from '../actions/theme/themeActions'
@@ -17,6 +18,10 @@ import {config} from '../config';
 import LevelBar from '../component/levelbar'
 import {loadCycleInfo} from '../actions/cycle/cycleActions'
 import {getCurrentLevel} from '../api/levelApi'
+import fille1 from '../assets/fille1.png'
+import fille2 from '../assets/fille2.png'
+import garcon1 from '../assets/garcon1.png'
+import garcon2 from '../assets/garcon2.png'
 
 const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle,level, theme })=>{
 
@@ -24,8 +29,32 @@ const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle,level, 
   const [currentLevel, setcurrentLevel] = useState([{name:'Débutant'}])
   const [obj,setObj] = useState(0)
   const [state,setState] = useState(0)
+  const [image,setImage] = useState(null)
+
+  const defineImage = ()=>{
+    if (user.infos){
+      switch (user.subuser[user.current_subuser].image) {
+        case 'garcon1':
+          setImage(garcon1)
+          break;
+        case 'garcon2':
+          setImage(garcon2)
+          break;
+        case 'fille1':
+        setImage(fille1)
+          break;
+        case 'fille2':
+          setImage(fille2)
+          break;
+        default:
+          break;
+      }
+    }
+    else return null
+  }
 
   useEffect(()=>{
+    defineImage()
     if(theme.allTheme.length==0){
       getAllTheme().then((res)=>{
         loadTheme(res.result,res.result[0])
@@ -46,18 +75,14 @@ const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle,level, 
     }
     
   }, [theme_id])
-
-  console.log('themeid', theme_id)
-  console.log('currentLevel',currentLevel)
-   
+   console.log('isLogged',user.isLogged)
     return (
         <View style={styles.container}>
           {user && user.isLogged ? <HeaderLog screen='Home' navigation={navigation}/>: <Header screen='Home' navigation={navigation}/>}
           
             <ImageBackground source={background} style={styles.image}>
             
-              {user.infos &&
-              <> 
+              {user.infos &&<> 
               
               <Menu loadCycleInfo={loadCycleInfo} currentLevel={currentLevel} alltheme={theme.allTheme} setThemeId={setThemeId} allcycle={cycle.allCycle} navigation={navigation}/>
               <View style={styles.levelbar}>
@@ -69,7 +94,6 @@ const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle,level, 
               </View>
                 
                 <Text style={styles.subTitle}>Bonjour {user.subuser[user.current_subuser].name}</Text>
-              
               
               </>}
               {user.isLogged===false&&<View style={{display:'flex', flex:1}}>
@@ -122,7 +146,21 @@ const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle,level, 
                   </View>
                 </View>
               }
+              {user.isLogged==null&&<Text style={styles.title}>Chargement ...</Text>}
             <Image source={logo} style={styles.logo}/>
+            {user.infos && <><TouchableOpacity style={styles.picto}onPress={()=>{
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'ChangeAccount' }],
+              });
+            }}><Image  source={garcon2} style={styles.picto}/></TouchableOpacity></>}
+            <TouchableOpacity onPress={()=>navigation.reset({
+                index: 0,
+                routes: [{ name: 'Warroom' }],
+              })}style={styles.motivation}>
+              <Text style={styles.text}>Motivé ??</Text>
+              <Text style={styles.text}>Date</Text>
+            </TouchableOpacity>
             </ImageBackground>
             
             
@@ -135,7 +173,12 @@ const Home = ({ navigation,user,progress, loadCycleInfo, loadTheme,cycle,level, 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'black',
+      backgroundColor: 'black'
+    },
+    motivation:{
+      position:'absolute',
+      left:10,
+      bottom:10
     },
     buttonContainer:{
       marginTop:wp('0%')
@@ -189,9 +232,16 @@ const styles = StyleSheet.create({
     image: {
       flex: 1,
       resizeMode: "cover",
+      alignItems:'center',
       justifyContent: "center"
     },
-
+    picto:{
+      height:80,
+      width:80,
+      position:'absolute',
+      right:10,
+      top:10
+    },
     link: {
       backgroundColor: "#321aed",
       justifyContent: "center",

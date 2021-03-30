@@ -49,6 +49,12 @@ const Account = ({ navigation,user,level,loadLevel,theme,progress })=>{
     setCurrentLevel(currentlevel[0])
     }, [level,selectedCat])
 
+    useEffect(()=>{
+      let currentlevel =  getCurrentLevel(stateLevel,state)
+      setCurrentLevel(currentlevel[0])
+      }, [stateLevel])
+    
+
   const addLevel= () => {
     let index = stateLevel.length-1
     let min = parseInt(stateLevel[index].max)+1
@@ -91,9 +97,6 @@ const Account = ({ navigation,user,level,loadLevel,theme,progress })=>{
       }
     )
   }
-
-
-console.log('stateLEvel',stateLevel)
     return (
       <KeyboardAwareScrollView  style={styles.container}>
         <View style={styles.container}>
@@ -282,6 +285,7 @@ const styles = StyleSheet.create({
     boutonView:{
       display:'flex',
       flexDirection:'row',
+      flexWrap:'wrap',
       justifyContent:'center'
     },
     button: {

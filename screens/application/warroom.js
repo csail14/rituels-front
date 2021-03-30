@@ -78,24 +78,33 @@ const Warroom = (props)=>{
         <View style={styles.container}>
           <Header screen='Warroom' navigation={props.navigation}/>
             <ImageBackground source={background} style={styles.image}>
-              <View style={{height:80}}>
+              <View style={{height:hp('90%')}}>
+                <View >
+                  
+                  <TouchableOpacity onPress={()=>{
+                    setShowHelp(true)
+                  }}>
+                    <Text style={styles.text}>Comment fonctionne la warroom ?</Text>
+                  </TouchableOpacity>
                 
-                <TouchableOpacity onPress={()=>{
-                  setShowHelp(true)
-                }}><Text style={styles.text}>Comment fonctionne la warroom ?</Text></TouchableOpacity>
-               
-                <View style={styles.boutonView}>
-                  {props.theme.allTheme.map((item)=>{
-                    return(<View key={item.id} style={[styles.catbutton,{backgroundColor:item.color}]}>
-                        <Text  style={ {marginTop:10, color:'white'}}>{item.name}</Text>   
-                        </View>)
-                      })}              
-            </View>
-              </View>
+                  <View style={styles.boutonView}>
+                    {props.theme.allTheme.map((item)=>{
+                      return(<View key={item.id} style={[styles.catbutton,{backgroundColor:item.color}]}>
+                              <Text  style={ {marginTop:10, color:'white'}}>{item.name}</Text>   
+                              </View>)
+                        })}              
+                  </View>
+                </View>
 
-           <WeekCalendar/>
-           {showHelp&&<Help setShowHelp={setShowHelp}/>}
-           
+                <WeekCalendar/>
+                {showHelp&&<Help setShowHelp={setShowHelp}/>}
+                <TouchableOpacity onPress={()=>props.navigation.reset({
+                index: 0,
+                routes: [{ name: 'Award' }],
+              })}style={styles.button}>
+                  <Text style={styles.textbouton}>Valider</Text>
+                </TouchableOpacity>
+              </View>
           </ImageBackground>    
         </View>
         </KeyboardAwareScrollView>
@@ -121,7 +130,7 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         borderBottomWidth: 1,
         borderColor: '#eee',
-        height: hp('80%'),
+        height: hp('30%'),
         width:wp('100%')
     },
     image: {
@@ -138,8 +147,10 @@ const styles = StyleSheet.create({
     },
     boutonView:{
       marginTop:5,
+      marginBottom:10,
       display:'flex',
       flexDirection:'row',
+      flexWrap:'wrap',
       justifyContent:'center'
     },
     catbutton:{
@@ -152,9 +163,11 @@ const styles = StyleSheet.create({
       borderWidth:1
     },
     textbouton:{
-      backgroundColor:'#bdbdde',
-      padding:20,
+      backgroundColor:'#4185F3',
+      padding:10,
       color:'white',
+      textAlign:'center',
+      fontSize:20,
       borderColor:'white',
       borderRadius:100
     },

@@ -73,7 +73,7 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
 
   const options = [{
     value: 0,
-    label: 'Choisis ta récompense   ▼ ',
+    label: 'Choisis ou saisis ta récompense   ▼ ',
   },
   {
     value: 1,
@@ -142,7 +142,7 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
           ClearForm()
           navigation.reset({
             index: 0,
-            routes: [{ name: 'Home' }],
+            routes: [{ name: 'Account' }],
           })
         }
         else if(!res.status===200){
@@ -186,7 +186,8 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
           <Header screen='Awards' navigation={navigation}/>
         
             <ImageBackground source={background} style={styles.image}>
-            <ScrollView style={styles.scrollContainer}>
+            <ScrollView style={styles.scrollContainer} contentContainerStyle={{ flexGrow: 1, alignItems:'center', height:hp('120%') }}>
+            <View>
             <View style={styles.boutonView}>
               {alltheme.map((item)=>{
                 return(<TouchableOpacity key={item.id} style={[styles.catbutton,{backgroundColor:item.color}]}
@@ -279,6 +280,7 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
                   <Text style={styles.text}>Rituels réalisés : {state}/{obj}</Text>
                 </View>
                 </>}
+                </View>
               </ScrollView>
             </ImageBackground>
 
@@ -290,12 +292,13 @@ const Awards = ({ navigation,user, progress, theme,loadTheme })=>{
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1
+      flex: 1,
+      backgroundColor:'black'
     }, 
     scrollContainer: {
-      flex:1,
-      width: wp('100%'),
-      height:hp('100%'),
+      
+      // width: wp('100%'),
+      // height:hp('100%'),
       textAlign: 'center',
       },
     formView:{
@@ -335,7 +338,8 @@ const styles = StyleSheet.create({
     },
     image: {
       flex: 1,
-      resizeMode: "cover"
+      resizeMode:"cover",
+      justifyContent: "center"
     },
     title:{
       color:'white',
@@ -347,6 +351,7 @@ const styles = StyleSheet.create({
     boutonView:{
       display:'flex',
       flexDirection:'row',
+      flexWrap:'wrap',
       justifyContent:'center'
     },
     text:{
