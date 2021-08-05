@@ -1,20 +1,16 @@
-import {LOAD_LEVEL_INFO} from '../actions/level/action-type';
+import { LOAD_LEVEL_INFO } from "../actions/level/action-type";
 
 const initialState = {
-    allLevel:[]
-}
+  allLevel: [],
+};
 
-const LevelReducer = (state = initialState, action)=>{
-    
-    switch(action.type) {
-        case LOAD_LEVEL_INFO:
-            console.log('load level info')
-            console.log(action.payload.allLevel)
-            return {allLevel: action.payload.allLevel}    
-        break;
-     
-    }
-    return state;
-}
+const LevelReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOAD_LEVEL_INFO:
+      return { allLevel: action.payload.allLevel };
+      break;
+  }
+  return state;
+};
 
 export default LevelReducer;

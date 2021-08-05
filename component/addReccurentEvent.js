@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Platform,
+  Dimensions,
   TextInput,
   TextComponent,
   TouchableOpacity,
@@ -28,34 +28,31 @@ import { getAllEvent } from "../api/eventApi";
 import { loadEvent } from "../actions/event/eventActions";
 import SelectInput from "react-native-select-input-ios";
 import styled from "styled-components";
+import { getNextTriggerDateAsync } from "expo-notifications";
 
 const addEventComp = (props) => {
-  const [date, setDate] = useState(props.date);
   const [title, setTitle] = useState("");
-  const [comment, setComment] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [notifTime, setnotifTime] = useState(60);
   const [duration, setDuration] = useState(30);
   const [selectedValue, setSelectedValue] = useState(1);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [daySelected, setDaySelected] = useState("Lundi");
+  const [hourSelected, setHourSelected] = useState("9:00");
+  const [hourOptions, sethourOption] = useState([]);
 
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
 
   useEffect(() => {
-    var d = new Date(date);
-    d.setDate(d.getDate() - new Date().getDay() + 1);
-    d.setHours(props.hour);
-    setDate(d);
+    setOptionsHour();
   }, []);
 
-  const onSubmitForm = () => {
+  const onSubmitForm = (date) => {
     let index = props.user.current_subuser;
     let data = {
       title: title,
-      comment: comment,
+      comment: "",
       date: date,
       theme_id: selectedValue,
       user_id: props.user.infos.id,
@@ -68,19 +65,7 @@ const addEventComp = (props) => {
     if (error === "") {
       addEvent(data).then((res) => {
         if (res.status === 200) {
-          props.setPopUpAvailable(false);
-          getAllEvent(props.user.subuser[index].id).then((resp) => {
-            if (resp.status === 200) {
-              props.loadEvent(resp.result);
-            }
-          });
-          getCount(
-            props.user.subuser[index].id,
-            moment(new Date()).format("W"),
-            props.theme.allTheme
-          ).then((resultobj) => {
-            props.loadProgress(props.progress.state, resultobj);
-          });
+          return 200;
         } else {
           setErrorMessage(
             "Une erreur est survenue, veuillez réessayer plus tard."
@@ -100,6 +85,66 @@ const addEventComp = (props) => {
     return "";
   };
 
+  const createEventArray = () => {
+    let dateArray = [];
+    const date = new Date().getDay();
+    let value = 0;
+    switch (daySelected) {
+      case "Lundi":
+        value = 1;
+        break;
+      case "Mardi":
+        value = 2;
+        break;
+      case "Mercredi":
+        value = 3;
+        break;
+      case "Jeudi":
+        value = 4;
+        break;
+      case "Vendredi":
+        value = 5;
+        break;
+      case "Samedi":
+        value = 6;
+        break;
+      case "Dimanche":
+        value = 0;
+        break;
+      default:
+        break;
+    }
+    let time = hourSelected.split(":");
+    let ecart = value - date;
+    let newDate = new Date().setDate(new Date().getDate() + ecart);
+    newDate = new Date(newDate).setHours(time[0], time[1]);
+    newDate = new Date(newDate);
+    dateArray.push(newDate);
+    for (let i = 0; i < 7; i++) {
+      newDate = new Date(newDate).setDate(newDate.getDate() + 7);
+      newDate = new Date(newDate).setHours(time[0], time[1]);
+      newDate = new Date(newDate);
+      dateArray.push(newDate);
+    }
+    for (let i = 0; i < dateArray.length; i++) {
+      onSubmitForm(dateArray[i]);
+    }
+    let index = props.user.current_subuser;
+    getAllEvent(props.user.subuser[index].id).then((resp) => {
+      if (resp.status === 200) {
+        props.loadEvent(resp.result);
+      }
+    });
+    getCount(
+      props.user.subuser[index].id,
+      moment(new Date()).format("W"),
+      props.theme.allTheme
+    ).then((resultobj) => {
+      props.loadProgress(props.progress.state, resultobj);
+    });
+    props.setPopUpAvailable(false);
+  };
+
   const selectCat = (value) => {
     let filter = options.filter((item) => item.value === value);
     setSelectedValue(filter[0].value);
@@ -109,12 +154,64 @@ const addEventComp = (props) => {
     return { value: item.id, label: item.name };
   });
 
+  const optionsDay = [
+    {
+      value: "Lundi",
+      label: "Lundi",
+    },
+    {
+      value: "Mardi",
+      label: "Mardi",
+    },
+    {
+      value: "Mercredi",
+      label: "Mercredi",
+    },
+    {
+      value: "Jeudi",
+      label: "Jeudi",
+    },
+    {
+      value: "Vendredi",
+      label: "Vendredi",
+    },
+    {
+      value: "Samedi",
+      label: "Samedi",
+    },
+    {
+      value: "Dimanche",
+      label: "Dimanche",
+    },
+  ];
+
+  const setOptionsHour = () => {
+    let optionsHour = [];
+    for (let i = 0; i < 28; i++) {
+      if (i % 2 == 0) {
+        let item = { value: `${8 + i / 2}:00`, label: `${8 + i / 2}:00` };
+        optionsHour.push(item);
+      } else {
+        let item = {
+          value: `${8 + (i - 1) / 2}:30`,
+          label: `${8 + (i - 1) / 2}:30`,
+        };
+        optionsHour.push(item);
+      }
+    }
+    sethourOption(optionsHour);
+  };
   return (
     <View style={isPhone ? styles.containerPhone : styles.container}>
-      <TouchableOpacity onPress={props.setPopUpAvailable} style={styles.close}>
+      <TouchableOpacity
+        onPress={() => props.setPopUpAvailable(false)}
+        style={styles.close}
+      >
         <Text style={styles.closeText}>X</Text>
       </TouchableOpacity>
-      <Text style={styles.title}>Nouveau rituel</Text>
+      <Text style={styles.title}>
+        Créer un rituel récurrent sur les 7 prochaines semaines{" "}
+      </Text>
       <View style={styles.centerView}>
         <TextInput
           style={styles.input}
@@ -124,18 +221,19 @@ const addEventComp = (props) => {
             setTitle(value);
           }}
         />
+
+        <Text style={{ color: "black", margin: 10, fontSize: 20 }}>
+          Catégorie :{" "}
+        </Text>
       </View>
-      <Text
+
+      <View
         style={{
-          color: "black",
-          textAlign: "center",
-          marginTop: 38,
-          fontSize: 20,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
         }}
       >
-        Catégorie :{" "}
-      </Text>
-      <View style={{ margin: 20 }}>
         <SelectInput
           value={selectedValue}
           style={styles.selectInput}
@@ -148,112 +246,12 @@ const addEventComp = (props) => {
           options={options}
         />
       </View>
-
-      {Platform.OS == "ios" && (
-        <View style={styles.centerView}>
-          <DateTimePicker
-            style={styles.datePickerStyle}
-            value={date}
-            mode="datetime"
-            format="dddd  DD MMMM  HH:mm"
-            minuteInterval="15"
-            confirmBtnText="Valider"
-            locale="fr-FR"
-            cancelBtnText="Annuler"
-            customStyles={{
-              dateIcon: {
-                position: "absolute",
-                left: 0,
-                paddingRight: 5,
-                top: 4,
-              },
-              dateInput: {
-                marginLeft: "30%",
-
-                borderRadius: 10,
-              },
-              marginLeft: 100,
-            }}
-            onDateChange={(event, date) => {
-              setDate(date);
-            }}
-          />
-        </View>
-      )}
-
-      {showDatePicker && (
-        <DateTimePicker
-          style={styles.datePickerStyle}
-          value={date}
-          mode="date"
-          format="dddd  DD MMMM  HH:mm"
-          minuteInterval="15"
-          confirmBtnText="Valider"
-          locale="fr-FR"
-          onChange={async (event, date) => {
-            await setShowDatePicker(false);
-            setDate(date);
-          }}
-        />
-      )}
-      {showTimePicker && (
-        <DateTimePicker
-          style={styles.datePickerStyle}
-          value={date}
-          mode="time"
-          format="dddd  DD MMMM  HH:mm"
-          confirmBtnText="Valider"
-          locale="fr-FR"
-          onChange={async (event, date) => {
-            await setShowTimePicker(false);
-            setDate(date);
-          }}
-        />
-      )}
-
-      {Platform.OS == "android" && (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            marginTop: 20,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              padding: 5,
-              borderWidth: 1,
-              borderColor: "black",
-              borderRadius: 12,
-              margin: 3,
-            }}
-            onPress={() => setShowDatePicker(true)}
-          >
-            <Text>{moment(new Date(date)).format("LL")}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              padding: 5,
-              borderWidth: 1,
-              borderColor: "black",
-              borderRadius: 12,
-              margin: 3,
-            }}
-            onPress={() => setShowTimePicker(true)}
-          >
-            <Text>{moment(new Date(date)).format("LT")}</Text>
-          </TouchableOpacity>
-        </View>
-      )}
       <View style={styles.centerView}>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
+        <View style={{ display: "flex", flexDirection: "row" }}>
           <Text
             style={{
               color: "black",
-              marginTop: 10,
-              marginBottom: 30,
+              margin: 10,
               fontSize: 20,
             }}
           >
@@ -303,78 +301,112 @@ const addEventComp = (props) => {
           </Text>
         </View>
       </View>
-      <View style={styles.centerView}>
-        <TextInput
-          style={styles.comment}
-          type="text"
-          placeholder="Commentaire"
-          onChangeText={(text) => {
-            setComment(text);
-          }}
-        />
-        {props.user.infos.notification == 1 && (
-          <View
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <View>
+          <Text style={{ color: "black", fontSize: 20, margin: 10 }}>
+            Jour :{" "}
+          </Text>
+          <SelectInput
+            value={daySelected}
+            style={styles.selectInput}
+            labelStyle={{ color: "grey", fontSize: 20 }}
+            cancelKeyText="Annuler"
+            submitKeyText="Valider"
+            onSubmitEditing={(value) => {
+              setDaySelected(value);
+            }}
+            options={optionsDay}
+          />
+        </View>
+        <View>
+          <Text
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              flexWrap: "wrap",
+              color: "black",
+              marginLeft: 10,
+              margin: 10,
+              fontSize: 20,
             }}
           >
-            <Text style={styles.text}>M'alerter </Text>
-            <TextInput
-              style={styles.inputTime}
-              value={"" + notifTime}
-              onChangeText={(text) => {
-                setnotifTime(text);
-              }}
-            />
-            <Text style={styles.text}>min avant </Text>
-          </View>
-        )}
-
+            Heure :{" "}
+          </Text>
+          <SelectInput
+            value={hourSelected}
+            style={styles.selectInput}
+            labelStyle={{ color: "grey", fontSize: 20 }}
+            cancelKeyText="Annuler"
+            submitKeyText="Valider"
+            onSubmitEditing={(value) => {
+              setHourSelected(value);
+            }}
+            options={hourOptions}
+          />
+        </View>
+      </View>
+      <View style={styles.centerView}></View>
+      {props.user.infos.notification == 1 && (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
+          <Text style={styles.text}>M'alerter </Text>
+          <TextInput
+            style={styles.inputTime}
+            value={"" + notifTime}
+            onChangeText={(text) => {
+              setnotifTime(text);
+            }}
+          />
+          <Text style={styles.text}>min avant </Text>
+        </View>
+      )}
+      <View style={styles.centerView}>
         <TouchableOpacity
           style={styles.button}
           onPress={(e) => {
             e.preventDefault();
-            onSubmitForm();
+            createEventArray();
           }}
         >
           <Text style={styles.buttonText}>Enregistrer</Text>
         </TouchableOpacity>
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
       </View>
-      <Text style={styles.errorMessage}>{errorMessage}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: hp("80%"),
     width: wp("40%"),
     minWidth: 350,
     backgroundColor: "#CAE6FF",
     borderRadius: 10,
     borderColor: "#CAE6FF",
     borderWidth: 1,
-    marginLeft: wp("30%"),
     padding: "8%",
+    marginLeft: wp("30%"),
     position: "absolute",
     display: "flex",
 
     justifyContent: "space-around",
   },
+  centerView: {
+    alignItems: "center",
+  },
   containerPhone: {
     height: hp("80%"),
     width: wp("100%"),
-    minWidth: 350,
     backgroundColor: "#CAE6FF",
     borderRadius: 10,
     borderColor: "#CAE6FF",
     borderWidth: 1,
     padding: "8%",
     position: "absolute",
-
+    display: "flex",
     justifyContent: "space-around",
   },
 
@@ -384,9 +416,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: "grey",
   },
-  centerView: {
-    alignItems: "center",
-  },
+
   inputTime: {
     backgroundColor: "white",
     width: 50,
@@ -417,19 +447,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 40,
     width: "70%",
-    marginBottom: 15,
+    marginBottom: 10,
     textAlign: "left",
     paddingLeft: 12,
-    alignItems: "center",
   },
   selectInput: {
     paddingLeft: 10,
     paddingRight: 10,
-    marginTop: 35,
+    minWidth: 150,
+    maxWidth: 150,
     marginBottom: 10,
+    marginTop: 10,
     borderWidth: 1,
     borderRadius: 15,
     borderColor: "grey",
+    marginRight: 10,
   },
   datePickerStyle: {
     width: "80%",
@@ -440,8 +472,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 30,
     borderRadius: 50,
-    marginTop: 10,
-    marginBottom: 30,
+    margin: 10,
     fontSize: 20,
   },
   button: {
@@ -449,7 +480,8 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 8,
     width: "50%",
-    marginTop: 10,
+    margin: 10,
+    marginTop: 30,
     textAlign: "center",
     alignItems: "center",
     justifyContent: "center",
@@ -463,7 +495,6 @@ const styles = StyleSheet.create({
     width: "10%",
     marginTop: "10%",
     right: "5%",
-    height: 20,
   },
   closeText: {
     color: "red",
@@ -473,7 +504,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     position: "absolute",
     textAlign: "center",
-    marginTop: "10%",
+    top: 30,
     color: "red",
   },
 });

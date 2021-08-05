@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { WebView } from "react-native-webview";
-import {config} from '../config';
-import { Icon } from 'react-native-elements'
+import { config } from "../config";
+import { Icon } from "react-native-elements";
 import axios from "axios";
-import { View,Modal } from "react-native";
-import {updatestripe} from '../api/userApi';
-import {connect} from 'react-redux';
-import {getUserBy} from '../api/userApi'
+import { View, Modal } from "react-native";
+import { updatestripe } from "../api/userApi";
+import { connect } from "react-redux";
+import { getUserBy } from "../api/userApi";
 
 const AddPaymentMethod = (props) => {
-
   const [sessionId, setSessionId] = useState(null);
 
-  
   useEffect(() => {
-    console.log('test')
-    console.log('priceID', props.route.params.priceId)
-    getUserBy(props.user.infos.id).then((res)=>console.log('user',res))
-    console.log('payment webview')
+    getUserBy(props.user.infos.id).then((res) => console.log("user", res));
     let data = {
-      email:props.user.infos.email,
-      priceId:props.route.params.priceId
-    }
+      email: props.user.infos.email,
+      priceId: props.route.params.priceId,
+    };
     const apiCall = async () => {
       try {
-
-        axios.post(config.api_url+'/api/v1/paiment/checkout',data).then(
-            (res)=>{
-                setSessionId(res.data.sessionId);
-            }
-        )
+        axios
+          .post(config.api_url + "/api/v1/paiment/checkout", data)
+          .then((res) => {
+            setSessionId(res.data.sessionId);
+          });
       } catch (error) {
         console.log(error);
       }
@@ -37,31 +31,39 @@ const AddPaymentMethod = (props) => {
     apiCall();
   }, []);
 
-  const redirect = (navState)=>{
-    if(navState.url.includes('webapp-4b.herokuapp.com')){
-      getUserBy(props.user.infos.id).then((res)=>console.log('user',res))
+  const redirect = (navState) => {
+    if (navState.url.includes("webapp-4b.herokuapp.com")) {
+      getUserBy(props.user.infos.id).then((res) => console.log("user", res));
       props.navigation.reset({
         index: 0,
-        routes: [{ name: 'MainAccount' }],
-      })
-
+        routes: [{ name: "MainAccount" }],
+      });
     }
-  }
-  
-  if (!sessionId) return<View><Icon name='spinner' type='font-awesome'color='black' style={{marginTop:'50%'}} /></View> ;
+  };
+
+  if (!sessionId)
+    return (
+      <View>
+        <Icon
+          name="spinner"
+          type="font-awesome"
+          color="black"
+          style={{ marginTop: "50%" }}
+        />
+      </View>
+    );
   return (
     <>
-      {sessionId ? (      
+      {sessionId ? (
         <WebView
           allowFileAccess={true}
           scalesPageToFit={false}
           originWhitelist={["*"]}
           source={{
-            uri: `https://paiment-4brn.herokuapp.com/`+sessionId,
-         
+            uri: `https://paiment-4brn.herokuapp.com/` + sessionId,
           }}
           onNavigationStateChange={(navState) => {
-            redirect(navState)
+            redirect(navState);
           }}
         />
       ) : null}
@@ -69,13 +71,11 @@ const AddPaymentMethod = (props) => {
   );
 };
 
-mapDispatchToProps = {
-  
-}
+mapDispatchToProps = {};
 
-mapStateToProps = (store)=>{
-    return {
-        user: store.user
-    }
-}
-export default  connect(mapStateToProps, mapDispatchToProps)(AddPaymentMethod);
+mapStateToProps = (store) => {
+  return {
+    user: store.user,
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AddPaymentMethod);

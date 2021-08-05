@@ -45,9 +45,8 @@ const Register = ({navigation})=> {
 					setErrorMessage("Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre.")
 				}
 				if (res.status===200){
-					console.log("nouvel utilisateur enregistré")
 					clearform();
-					navigation.navigate('Login')
+					setErrorMessage("Rendez vous dans votre boite mail pour valider votre compte.")
 				}
 				else{
 					setErrorMessage("Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement.")
