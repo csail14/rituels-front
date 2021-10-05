@@ -91,13 +91,23 @@ const MyStack = (props) => {
               </>
             )}
           </>
-        ) : (
+        ) : props.user.isLogged == true &&
+          props.user.infos &&
+          props.user.infos.isPaid === 0 ? (
           <>
             <Stack.Screen name="MainAccount" component={MainAccount} />
             <Stack.Screen
               name="Logout"
               component={Logout}
               options={{ title: "Déconnexion" }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{ title: "Bienvenu sur 4BRN" }}
             />
           </>
         )}

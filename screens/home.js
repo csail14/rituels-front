@@ -131,6 +131,7 @@ const Home = ({
               setThemeId={setThemeId}
               allcycle={cycle.allCycle}
               navigation={navigation}
+              user={user}
             />
             <View style={styles.levelbar}>
               {theme_id && (

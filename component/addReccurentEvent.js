@@ -48,6 +48,9 @@ const addEventComp = (props) => {
     setOptionsHour();
   }, []);
 
+  let isFamily =
+    props.user && props.user.infos && props.user.infos.product === "family";
+
   const onSubmitForm = (date) => {
     let index = props.user.current_subuser;
     let data = {
@@ -150,9 +153,11 @@ const addEventComp = (props) => {
     setSelectedValue(filter[0].value);
   };
 
-  const options = props.theme.allTheme.map((item) => {
+  const optionsFamily = props.theme.allTheme.map((item) => {
     return { value: item.id, label: item.name };
   });
+
+  const optionsKids = optionsFamily.filter((item) => item.value === 1);
 
   const optionsDay = [
     {
@@ -243,7 +248,7 @@ const addEventComp = (props) => {
           onSubmitEditing={(value) => {
             selectCat(value);
           }}
-          options={options}
+          options={isFamily ? optionsFamily : optionsKids}
         />
       </View>
       <View style={styles.centerView}>

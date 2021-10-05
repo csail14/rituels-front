@@ -12,7 +12,7 @@ const AddPaymentMethod = (props) => {
   const [sessionId, setSessionId] = useState(null);
 
   useEffect(() => {
-    getUserBy(props.user.infos.id).then((res) => console.log("user", res));
+    getUserBy(props.user.infos.id).then((res) => {});
     let data = {
       email: props.user.infos.email,
       priceId: props.route.params.priceId,
@@ -33,7 +33,7 @@ const AddPaymentMethod = (props) => {
 
   const redirect = (navState) => {
     if (navState.url.includes("webapp-4b.herokuapp.com")) {
-      getUserBy(props.user.infos.id).then((res) => console.log("user", res));
+      getUserBy(props.user.infos.id).then((res) => {});
       props.navigation.reset({
         index: 0,
         routes: [{ name: "MainAccount" }],

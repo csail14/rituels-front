@@ -59,6 +59,8 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
     query: "(max-device-width:450)",
   });
 
+  let isFamily = user && user.infos && user.infos.product === "family";
+
   useEffect(() => {
     if (alltheme.length == 0) {
       getAllTheme().then((res) => {
@@ -69,11 +71,17 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
     } else {
       setSelectedCat(theme.allTheme[0]);
     }
-    setObj(progress.obj.filter((item) => item.id == selectedCat.id)[0].obj);
-    setState(
-      progress.state.filter((item) => item.id == selectedCat.id)[0].state
-    );
+
+    if (progress.obj.length) {
+      setObj(progress.obj.filter((item) => item.id == selectedCat.id)[0].obj);
+    }
+    if (progress.state.length) {
+      setState(
+        progress.state.filter((item) => item.id == selectedCat.id)[0].state
+      );
+    }
   }, []);
+
   useEffect(() => {
     let index = user.current_subuser;
     getAwardByWeek(
@@ -89,10 +97,15 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
         setnextAward(res[0]);
       }
     );
-    setObj(progress.obj.filter((item) => item.id == selectedCat.id)[0].obj);
-    setState(
-      progress.state.filter((item) => item.id == selectedCat.id)[0].state
-    );
+    if (progress.obj.length) {
+      setObj(progress.obj.filter((item) => item.id == selectedCat.id)[0].obj);
+    }
+    if (progress.state.length) {
+      setState(
+        progress.state.filter((item) => item.id == selectedCat.id)[0].state
+      );
+    }
+
     let nextMonday = new Date();
 
     nextMonday.setDate(nextMonday.getDate() - nextMonday.getDay() + 8);
@@ -149,7 +162,10 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
     });
     return array;
   };
-  const optionsCategory = setOptionsCatArray();
+  const optionsCategoryFamily = setOptionsCatArray();
+  const optionsCategoryKids = optionsCategoryFamily.filter(
+    (item) => item.value === 1
+  );
 
   const setCatFromSelect = (value) => {
     let themeSelected = [];
@@ -273,13 +289,18 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                           { backgroundColor: item.color },
                         ]}
                         onPress={() => {
-                          setSelectedCat(item);
+                          isFamily || item.id === 1
+                            ? setSelectedCat(item)
+                            : null;
                         }}
                       >
                         <Text
                           style={[
                             styles.textbouton,
-                            { marginTop: 10 },
+                            {
+                              marginTop: 10,
+                              opacity: isFamily || item.id === 1 ? 1 : 0.33,
+                            },
                             selectedCat.id == item.id ? styles.pressed : "",
                           ]}
                         >
@@ -359,7 +380,9 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                         onSubmitEditing={(value) => {
                           setCatFromSelect(value);
                         }}
-                        options={optionsCategory}
+                        options={
+                          isFamily ? optionsCategoryFamily : optionsCategoryKids
+                        }
                       />
                     </View>
                   </>

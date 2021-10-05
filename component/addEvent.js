@@ -44,6 +44,9 @@ const addEventComp = (props) => {
     query: "(max-device-width:450)",
   });
 
+  let isFamily =
+    props.user && props.user.infos && props.user.infos.product === "family";
+
   useEffect(() => {
     var d = new Date(date);
     d.setDate(d.getDate() - new Date().getDay() + 1);
@@ -105,9 +108,11 @@ const addEventComp = (props) => {
     setSelectedValue(filter[0].value);
   };
 
-  const options = props.theme.allTheme.map((item) => {
+  const optionsFamily = props.theme.allTheme.map((item) => {
     return { value: item.id, label: item.name };
   });
+
+  const optionsKids = optionsFamily.filter((item) => item.value === 1);
 
   return (
     <View style={isPhone ? styles.containerPhone : styles.container}>
@@ -145,7 +150,7 @@ const addEventComp = (props) => {
           onSubmitEditing={(value) => {
             selectCat(value);
           }}
-          options={options}
+          options={isFamily ? optionsFamily : optionsKids}
         />
       </View>
 

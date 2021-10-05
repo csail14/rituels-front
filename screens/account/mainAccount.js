@@ -73,7 +73,6 @@ const MainAccount = ({ navigation, user, loadUserInfo }) => {
     }
     loadUserInfo(true, user_info, user.subuser, user.current_subuser);
   };
-  console.log("isPaid", isPaid ? true : false);
   return (
     <View style={styles.container}>
       <Header screen="MainAccount" navigation={navigation} />

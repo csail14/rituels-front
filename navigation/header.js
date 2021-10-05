@@ -50,6 +50,7 @@ const Header = (props) => {
   return (
     <>
       <View style={isPhone ? styles.containerMobile : styles.container}>
+        <Icon name="rowing" />
         {isPhone ? (
           <>
             <Icon

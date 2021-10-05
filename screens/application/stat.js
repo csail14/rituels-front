@@ -37,6 +37,8 @@ const Stats = ({ navigation, user, theme }) => {
     query: "(max-device-width:450)",
   });
 
+  let isFamily = user && user.infos && user.infos.product === "family";
+
   useEffect(() => {
     if (user.subuser) {
       setData();
@@ -57,7 +59,10 @@ const Stats = ({ navigation, user, theme }) => {
     });
     return array;
   };
-  const optionsCategory = setOptionsCatArray();
+  const optionsCategoryFamily = setOptionsCatArray();
+  const optionsCategoryKids = optionsCategoryFamily.filter(
+    (item) => item.value === 1
+  );
 
   const setCatFromSelect = (value) => {
     let themeSelected = [];
@@ -218,13 +223,17 @@ const Stats = ({ navigation, user, theme }) => {
                     key={item.id}
                     style={[styles.catbutton, { backgroundColor: item.color }]}
                     onPress={() => {
-                      setSelectedCat(item);
+                      isFamily || item.id === 1 ? setSelectedCat(item) : null;
                     }}
                   >
                     <Text
                       style={[
                         styles.textcatbouton,
-                        { marginTop: 10 },
+                        {
+                          marginTop: 10,
+                          opacity: isFamily || item.id === 1 ? 1 : 0.33,
+                        },
+
                         selectedCat.id == item.id ? styles.pressed : "",
                       ]}
                     >
@@ -258,7 +267,9 @@ const Stats = ({ navigation, user, theme }) => {
                   onSubmitEditing={(value) => {
                     setCatFromSelect(value);
                   }}
-                  options={optionsCategory}
+                  options={
+                    isFamily ? optionsCategoryFamily : optionsCategoryKids
+                  }
                 />
               </View>
             </>

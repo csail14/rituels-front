@@ -114,6 +114,10 @@ export default class Menu extends React.Component {
         },
       ],
     };
+    let isFamily =
+      this.props.user &&
+      this.props.user.infos &&
+      this.props.user.infos.product === "family";
 
     return (
       <>
@@ -154,6 +158,7 @@ export default class Menu extends React.Component {
                     backgroundColor: "#6C069B",
                     position: "absolute",
                     top: 100,
+
                     right: -30,
                   },
                   this.state.pressed40
@@ -219,21 +224,25 @@ export default class Menu extends React.Component {
               </Animated.View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(2);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: false,
-                  pressedCat3: true,
-                  pressedCat4: false,
-                  pressedCat5: false,
-                  pressedCat6: false,
-                  pressedCat7: false,
-                  pressedCat8: false,
-                  pressedCat9: false,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(2);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: false,
+                        pressedCat3: true,
+                        pressedCat4: false,
+                        pressedCat5: false,
+                        pressedCat6: false,
+                        pressedCat7: false,
+                        pressedCat8: false,
+                        pressedCat9: false,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -245,6 +254,7 @@ export default class Menu extends React.Component {
                     position: "absolute",
                     bottom: -30,
                     left: 100,
+                    opacity: isFamily ? 1 : 0.33,
                   },
                   this.state.pressedCat3
                     ? [
@@ -273,21 +283,25 @@ export default class Menu extends React.Component {
               </Animated.View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(5);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: false,
-                  pressedCat3: false,
-                  pressedCat4: false,
-                  pressedCat5: false,
-                  pressedCat6: true,
-                  pressedCat7: false,
-                  pressedCat8: false,
-                  pressedCat9: false,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(5);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: false,
+                        pressedCat3: false,
+                        pressedCat4: false,
+                        pressedCat5: false,
+                        pressedCat6: true,
+                        pressedCat7: false,
+                        pressedCat8: false,
+                        pressedCat9: false,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -299,6 +313,7 @@ export default class Menu extends React.Component {
                     position: "absolute",
                     left: -30,
                     top: 100,
+                    opacity: isFamily ? 1 : 0.33,
                   },
                   this.state.pressedCat6
                     ? [
@@ -327,21 +342,25 @@ export default class Menu extends React.Component {
               </Animated.View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(8);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: false,
-                  pressedCat3: false,
-                  pressedCat4: false,
-                  pressedCat5: false,
-                  pressedCat6: false,
-                  pressedCat7: false,
-                  pressedCat8: false,
-                  pressedCat9: true,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(8);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: false,
+                        pressedCat3: false,
+                        pressedCat4: false,
+                        pressedCat5: false,
+                        pressedCat6: false,
+                        pressedCat7: false,
+                        pressedCat8: false,
+                        pressedCat9: true,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -353,6 +372,7 @@ export default class Menu extends React.Component {
                     position: "absolute",
                     top: -30,
                     left: 100,
+                    opacity: isFamily ? 1 : 0.33,
                     alignItems: "center",
                   },
                   this.state.pressedCat9
@@ -382,21 +402,25 @@ export default class Menu extends React.Component {
               </Animated.View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(7);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: false,
-                  pressedCat3: false,
-                  pressedCat4: false,
-                  pressedCat5: false,
-                  pressedCat6: false,
-                  pressedCat7: false,
-                  pressedCat8: true,
-                  pressedCat9: false,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(7);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: false,
+                        pressedCat3: false,
+                        pressedCat4: false,
+                        pressedCat5: false,
+                        pressedCat6: false,
+                        pressedCat7: false,
+                        pressedCat8: true,
+                        pressedCat9: false,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -407,6 +431,7 @@ export default class Menu extends React.Component {
                     backgroundColor: "#EA6363",
                     position: "absolute",
                     top: -15,
+                    opacity: isFamily ? 1 : 0.33,
                     left: 33,
                     alignItems: "center",
                   },
@@ -437,21 +462,25 @@ export default class Menu extends React.Component {
               </Animated.View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(6);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: false,
-                  pressedCat3: false,
-                  pressedCat4: false,
-                  pressedCat5: false,
-                  pressedCat6: false,
-                  pressedCat7: true,
-                  pressedCat8: false,
-                  pressedCat9: false,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(6);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: false,
+                        pressedCat3: false,
+                        pressedCat4: false,
+                        pressedCat5: false,
+                        pressedCat6: false,
+                        pressedCat7: true,
+                        pressedCat8: false,
+                        pressedCat9: false,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -462,6 +491,7 @@ export default class Menu extends React.Component {
                     backgroundColor: "#F6A2A2",
                     position: "absolute",
                     top: 33,
+                    opacity: isFamily ? 1 : 0.33,
                     left: -15,
                   },
                   this.state.pressedCat7
@@ -549,21 +579,25 @@ export default class Menu extends React.Component {
               </Animated.View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(1);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: true,
-                  pressedCat3: false,
-                  pressedCat4: false,
-                  pressedCat5: false,
-                  pressedCat6: false,
-                  pressedCat7: false,
-                  pressedCat8: false,
-                  pressedCat9: false,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(1);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: true,
+                        pressedCat3: false,
+                        pressedCat4: false,
+                        pressedCat5: false,
+                        pressedCat6: false,
+                        pressedCat7: false,
+                        pressedCat8: false,
+                        pressedCat9: false,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -575,6 +609,7 @@ export default class Menu extends React.Component {
                     position: "absolute",
                     bottom: -15,
                     right: 33,
+                    opacity: isFamily ? 1 : 0.33,
                     alignItems: "center",
                   },
                   this.state.pressedCat2
@@ -604,21 +639,25 @@ export default class Menu extends React.Component {
               </Animated.View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(3);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: false,
-                  pressedCat3: false,
-                  pressedCat4: true,
-                  pressedCat5: false,
-                  pressedCat6: false,
-                  pressedCat7: false,
-                  pressedCat8: false,
-                  pressedCat9: false,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(3);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: false,
+                        pressedCat3: false,
+                        pressedCat4: true,
+                        pressedCat5: false,
+                        pressedCat6: false,
+                        pressedCat7: false,
+                        pressedCat8: false,
+                        pressedCat9: false,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -630,6 +669,7 @@ export default class Menu extends React.Component {
                     position: "absolute",
                     bottom: -15,
                     left: 33,
+                    opacity: isFamily ? 1 : 0.33,
                   },
                   this.state.pressedCat4
                     ? [
@@ -659,21 +699,25 @@ export default class Menu extends React.Component {
             </TouchableWithoutFeedback>
 
             <TouchableWithoutFeedback
-              onPress={() => {
-                this.setTheme(4);
-                this.setState({
-                  catSelected: true,
-                  pressedCat1: false,
-                  pressedCat2: false,
-                  pressedCat3: false,
-                  pressedCat4: false,
-                  pressedCat5: true,
-                  pressedCat6: false,
-                  pressedCat7: false,
-                  pressedCat8: false,
-                  pressedCat9: false,
-                });
-              }}
+              onPress={
+                isFamily
+                  ? () => {
+                      this.setTheme(4);
+                      this.setState({
+                        catSelected: true,
+                        pressedCat1: false,
+                        pressedCat2: false,
+                        pressedCat3: false,
+                        pressedCat4: false,
+                        pressedCat5: true,
+                        pressedCat6: false,
+                        pressedCat7: false,
+                        pressedCat8: false,
+                        pressedCat9: false,
+                      });
+                    }
+                  : null
+              }
             >
               <Animated.View
                 useNativeDriver={true}
@@ -685,6 +729,7 @@ export default class Menu extends React.Component {
                     position: "absolute",
                     bottom: 33,
                     left: -15,
+                    opacity: isFamily ? 1 : 0.33,
                   },
                   this.state.pressedCat5
                     ? [

@@ -19,11 +19,25 @@ import VideoPlayer from "expo-video-player";
 import Header from "../navigation/header";
 import HeaderLog from "../navigation/header-log";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { getVideo } from "../api/cycleApi";
 
 class HowAppWork extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      video: "",
+    };
   }
+
+  componentDidMount = () => {
+    getVideo(741).then((res) => {
+      if (res.status === 200) {
+        this.setState({ video: config.video_url + res.result[0].url });
+      } else {
+        console.log("error", res);
+      }
+    });
+  };
 
   render() {
     return (
@@ -41,8 +55,7 @@ class HowAppWork extends Component {
               resizeMode: Video.RESIZE_MODE_CONTAIN,
               onFullscreenUpdate: Video.FULLSCREEN_UPDATE_PLAYER_WILL_DISMISS,
               source: {
-                uri:
-                  "https://res.cloudinary.com/dmpzubglr/video/upload/v1612448051/general/Vid%C3%A9o_Pr%C3%A9sentation-720p-210204_ywvr3d.mp4",
+                uri: this.state.video,
               },
             }}
             ref={this.videoRef}

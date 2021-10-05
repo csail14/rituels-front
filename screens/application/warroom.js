@@ -93,6 +93,9 @@ const Warroom = (props) => {
     query: "(max-device-width:450)",
   });
 
+  let isFamily =
+    props.user && props.user.infos && props.user.infos.product === "family";
+
   useEffect(() => {
     let index = props.user.current_subuser;
     let newData = [];
@@ -143,7 +146,10 @@ const Warroom = (props) => {
                         key={item.id}
                         style={[
                           styles.catbutton,
-                          { backgroundColor: item.color },
+                          {
+                            backgroundColor: item.color,
+                            opacity: isFamily || item.id === 1 ? 1 : 0.5,
+                          },
                         ]}
                       >
                         <Text style={{ marginTop: 10, color: "white" }}>
