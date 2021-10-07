@@ -73,7 +73,7 @@ const ChangeAccount = ({
           contentContainerStyle={{
             flexGrow: 1,
             alignItems: "center",
-            height: hp("120%"),
+            minHeight: hp("120%"),
           }}
         >
           <>

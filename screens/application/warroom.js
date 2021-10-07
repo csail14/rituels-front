@@ -23,6 +23,7 @@ import { loadEvent } from "../../actions/event/eventActions";
 import WeekCalendar from "../../component/weekCalendar";
 import moment from "moment";
 import AddEvent from "../../component/addEvent";
+import AddEventModal from "../../component/addEventModal";
 import EditEvent from "../../component/editEvent";
 import AddRecurentEvent from "../../component/addReccurentEvent";
 import Help from "../../component/popUpHelpWarroom.js";
@@ -88,7 +89,7 @@ const Warroom = (props) => {
   const toggleEditEventModal = () => {
     setShowEditEventModal(!showEditEventModal);
   };
-
+  console.log("selectedDate", selectedDate);
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
@@ -188,13 +189,14 @@ const Warroom = (props) => {
               setEditeventPopUp={toggleEditEventModal}
               setselectedEvent={setselectedEvent}
             />
-            {showAddEventModal && (
-              <AddEvent
-                setPopUpAvailable={toggleAddEventModal}
-                hour={hour}
-                date={new Date(selectedDate)}
-              />
-            )}
+
+            <AddEventModal
+              setModalVisible={setShowAddEventModal}
+              modalVisible={showAddEventModal}
+              date={new Date(selectedDate)}
+              hour={hour}
+            ></AddEventModal>
+
             {recurentEventPopUp && (
               <AddRecurentEvent
                 setPopUpAvailable={() => {
@@ -234,19 +236,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
-  },
-  weekView: {
-    width: wp("100%"),
-    backgroundColor: "white",
-    height: hp("80%"),
-  },
-  calendar: {
-    borderTopWidth: 1,
-    backgroundColor: "white",
-    borderBottomWidth: 1,
-    borderColor: "#eee",
-    height: hp("30%"),
-    width: wp("100%"),
   },
   image: {
     flex: 1,

@@ -242,17 +242,16 @@ const Home = ({
         {user.isLogged == null && (
           <Text style={styles.title}>Chargement en cours...</Text>
         )}
-        {!isPhone ||
-          (user.isLogged === true && (
-            <TouchableOpacity
-              style={styles.logo}
-              onPress={async () => {
-                await Linking.openURL("http://4bpremium.com/");
-              }}
-            >
-              <Image source={logo} style={styles.logo} />
-            </TouchableOpacity>
-          ))}
+        {!isPhone && user.isLogged === true && (
+          <TouchableOpacity
+            style={styles.logo}
+            onPress={async () => {
+              await Linking.openURL("http://4bpremium.com/");
+            }}
+          >
+            <Image source={logo} style={styles.logo} />
+          </TouchableOpacity>
+        )}
         {user.infos && (
           <>
             <TouchableOpacity

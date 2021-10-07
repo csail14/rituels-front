@@ -212,7 +212,7 @@ const Stats = ({ navigation, user, theme }) => {
           contentContainerStyle={{
             flexGrow: 1,
             alignItems: "center",
-            height: hp("120%"),
+            height: hp("100%"),
           }}
         >
           {!isPhone && (

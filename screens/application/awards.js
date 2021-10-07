@@ -274,7 +274,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
             contentContainerStyle={{
               flexGrow: 1,
               alignItems: "center",
-              height: hp("120%"),
+              minHeight: hp("100%"),
             }}
           >
             <View>

@@ -27,7 +27,7 @@ import { addEvent, getCount } from "../api/eventApi";
 import { getAllEvent } from "../api/eventApi";
 import { loadEvent } from "../actions/event/eventActions";
 import SelectInput from "react-native-select-input-ios";
-import styled from "styled-components";
+
 import { getNextTriggerDateAsync } from "expo-notifications";
 
 const addEventComp = (props) => {

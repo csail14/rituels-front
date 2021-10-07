@@ -2,57 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0aaa08c-c1bc-4200-8c5f-d70a98aa3002" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/4brn_front.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/4brn_front.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/event/eventActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/actions/event/eventActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/level/levelActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/actions/level/levelActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/actions/user/userActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/actions/user/userActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/awardApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/awardApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/cycleApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/cycleApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/eventApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/eventApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/levelApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/levelApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/statApi.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/statApi.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fille1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fille1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/fille2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fille2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/garcon1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/garcon1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/garcon2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/garcon2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/addEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/addEvent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/checkPayment.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/checkPayment.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/editEvent.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/editEvent.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/go.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/go.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/payment-webview.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/payment-webview.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/stripe.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/stripe.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/validate.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/component/weekCalendar.js" beforeDir="false" afterPath="$PROJECT_DIR$/component/weekCalendar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/isFocused.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/isFocused.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/notification.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/notification.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/require-auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/require-auth.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigation/header-account.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/header-account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigation/header-log.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/header-log.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigation/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducers/cycleReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/reducers/cycleReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducers/eventReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/reducers/eventReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducers/levelReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/reducers/levelReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducers/progressReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/reducers/progressReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/reducers/userReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/reducers/userReducer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/account/addSubuser.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/addSubuser.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/account/changeAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/changeAccount.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/account/level.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/level.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/account/mainAccount.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/mainAccount.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/account/payment.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/payment.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/account/message.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/message.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/account/setSubuser.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/account/setSubuser.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/application/awards.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/application/awards.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/application/stat.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/application/stat.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/application/warroom.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/application/warroom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/howAppWork.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/howAppWork.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/user/forgot-password.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/user/forgot-password.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/user/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/user/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/user/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/user/register.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,24 +104,9 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="401" y="25" width="638" height="804" key="#4bPremium" timestamp="1623836239811">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="100" y="125" width="1240" height="601" key="AVDManager" timestamp="1633446654794">
+      <screen x="0" y="25" width="1440" height="815" />
     </state>
-    <state x="401" y="25" width="638" height="804" key="#4bPremium/0.0.1440.900@0.0.1440.900" timestamp="1623836239811" />
-    <state x="401" y="0" key="#Application" timestamp="1623835631996">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state x="401" y="0" key="#Application/0.0.1440.900@0.0.1440.900" timestamp="1623835631996" />
-    <state x="401" y="25" key="#Application/0.25.1440.804@0.25.1440.804" timestamp="1623766802895" />
-    <state x="460" y="183" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1623835765772">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state x="460" y="183" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1440.900@0.0.1440.900" timestamp="1623835765772" />
-    <state x="299" y="238" width="822" height="385" key="AVDManager" timestamp="1623835389722">
-      <screen x="0" y="0" width="1440" height="900" />
-    </state>
-    <state x="299" y="238" width="822" height="385" key="AVDManager/0.0.1440.900@0.0.1440.900" timestamp="1623835389722" />
-    <state x="299" y="235" width="822" height="380" key="AVDManager/0.25.1440.797@0.25.1440.797" timestamp="1617094482097" />
-    <state x="299" y="238" width="822" height="385" key="AVDManager/0.25.1440.805@0.25.1440.805" timestamp="1623771828010" />
+    <state x="100" y="125" width="1240" height="601" key="AVDManager/0.25.1440.815@0.25.1440.815" timestamp="1633446654794" />
   </component>
 </project>
