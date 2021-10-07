@@ -22,9 +22,8 @@ import { getAllEvent } from "../../api/eventApi";
 import { loadEvent } from "../../actions/event/eventActions";
 import WeekCalendar from "../../component/weekCalendar";
 import moment from "moment";
-import AddEvent from "../../component/addEvent";
 import AddEventModal from "../../component/addEventModal";
-import EditEvent from "../../component/editEvent";
+import EditEventModal from "../../component/editEventModal";
 import AddRecurentEvent from "../../component/addReccurentEvent";
 import Help from "../../component/popUpHelpWarroom.js";
 import { useMediaQuery } from "react-responsive";
@@ -83,6 +82,7 @@ const Warroom = (props) => {
   const [hour, setHour] = useState(0);
   const [selectedDate, setSelectedate] = useState();
   const [selectedEvent, setselectedEvent] = useState([]);
+
   const toggleAddEventModal = () => {
     setShowAddEventModal(!showAddEventModal);
   };
@@ -206,13 +206,13 @@ const Warroom = (props) => {
                 date={new Date(selectedDate)}
               />
             )}
-            {showEditEventModal && (
-              <EditEvent
-                setPopUpAvailable={toggleEditEventModal}
-                event={selectedEvent}
-                navigation={props.navigation}
-              />
-            )}
+            <EditEventModal
+              setModalVisible={toggleEditEventModal}
+              modalVisible={showEditEventModal}
+              event={selectedEvent}
+              navigation={props.navigation}
+            />
+
             {showHelp && <Help setShowHelp={setShowHelp} />}
             <TouchableOpacity
               onPress={() =>

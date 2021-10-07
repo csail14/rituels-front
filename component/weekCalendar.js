@@ -18,9 +18,6 @@ import { LocaleConfig } from "react-native-calendars";
 import { getAllEvent } from "../api/eventApi";
 import { loadEvent } from "../actions/event/eventActions";
 import WeekView from "react-native-week-view";
-import AddEvent from "../component/addEvent";
-import EditEvent from "../component/editEvent";
-import AddRecurentEvent from "../component/addReccurentEvent";
 
 LocaleConfig.locales["fr"] = {
   monthNames: [
