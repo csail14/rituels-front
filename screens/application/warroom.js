@@ -24,6 +24,7 @@ import WeekCalendar from "../../component/weekCalendar";
 import moment from "moment";
 import AddEventModal from "../../component/addEventModal";
 import EditEventModal from "../../component/editEventModal";
+import AddRecurentEventModal from "../../component/addRecurrentEventModal.js";
 import AddRecurentEvent from "../../component/addReccurentEvent";
 import Help from "../../component/popUpHelpWarroom.js";
 import { useMediaQuery } from "react-responsive";
@@ -89,7 +90,6 @@ const Warroom = (props) => {
   const toggleEditEventModal = () => {
     setShowEditEventModal(!showEditEventModal);
   };
-  console.log("selectedDate", selectedDate);
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
@@ -197,15 +197,13 @@ const Warroom = (props) => {
               hour={hour}
             ></AddEventModal>
 
-            {recurentEventPopUp && (
-              <AddRecurentEvent
-                setPopUpAvailable={() => {
-                  setRecurrentEventPopUp(false);
-                }}
-                hour={hour}
-                date={new Date(selectedDate)}
-              />
-            )}
+            <AddRecurentEventModal
+              setModalVisible={setRecurrentEventPopUp}
+              modalVisible={recurentEventPopUp}
+              hour={hour}
+              date={new Date(selectedDate)}
+            />
+
             <EditEventModal
               setModalVisible={toggleEditEventModal}
               modalVisible={showEditEventModal}

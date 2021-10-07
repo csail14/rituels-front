@@ -45,13 +45,11 @@ const App = (props) => {
 
   useEffect(() => {
     var d = props.date;
-    console.log("d1", d);
     d.setDate(d.getDate() - new Date().getDay() + 1);
     d.setHours(props.hour);
     setPickedDate(d);
   });
-  // console.log("date", pickedDate);
-  console.log("props.date", props.date);
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };

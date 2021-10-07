@@ -25,105 +25,37 @@ import moment from "moment";
 import "moment/locale/fr";
 moment.locale("fr");
 import SelectInput from "react-native-select-input-ios";
-import { modifyEvent, deleteEvent, getCount } from "../api/eventApi";
-import { loadCycleInfo } from "../actions/cycle/cycleActions";
+import { addEvent, getCount } from "../api/eventApi";
 import { getAllEvent } from "../api/eventApi";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const App = (props) => {
-  const [pickedDate, setPickedDate] = useState(
-    props.event[0] ? props.event[0].date : null
-  );
-  const [title, setTitle] = useState(
-    props.event[0] ? props.event[0].title : ""
-  );
-  const [comment, setComment] = useState(
-    props.event[0] ? props.event[0].comment : ""
-  );
+  const [title, setTitle] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [notifTime, setnotifTime] = useState(
-    props.event[0] ? props.event[0].notifTime : 0
-  );
-  const [duration, setDuration] = useState(
-    props.event[0] ? props.event[0].duration : 0
-  );
-  const [selectedValue, setSelectedValue] = useState(
-    props.event[0] ? props.event[0].theme_id : 1
-  );
+  const [notifTime, setnotifTime] = useState(60);
+  const [duration, setDuration] = useState(30);
+  const [selectedValue, setSelectedValue] = useState(1);
+  const [daySelected, setDaySelected] = useState("Lundi");
+  const [hourSelected, setHourSelected] = useState("9:00");
+  const [hourOptions, sethourOption] = useState([]);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  console.log("props.event", props.event);
+
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
 
   useEffect(() => {
-    if (props.event[0]) {
-      setPickedDate(props.event[0].date);
-      setTitle(props.event[0].title);
-      setComment(props.event[0].comment);
-      setnotifTime(props.event[0].notifTime);
-      setDuration(props.event[0].duration);
-      setSelectedValue(props.event[0].theme_id);
-    }
-  }, [props.event[0]]);
+    setOptionsHour();
+  }, []);
 
   let isFamily =
     props.user && props.user.infos && props.user.infos.product === "family";
 
-  const deleteform = () => {
-    let index = props.user.current_subuser;
-    deleteEvent(props.event[0].id).then((res) => {
-      if (res.status === 200) {
-        props.setModalVisible(!props.modalVisible);
-        getAllEvent(props.user.subuser[index].id).then((resp) => {
-          if (resp.status === 200) {
-            props.loadEvent(resp.result);
-          }
-        });
-        getCount(
-          props.user.subuser[index].id,
-          moment(new Date()).format("W"),
-          props.theme.allTheme
-        ).then((resultobj) => {
-          props.loadProgress(props.progress.state, resultobj);
-        });
-      } else {
-        setErrorMessage(
-          "Une erreur est survenue, veuillez réessayer plus tard."
-        );
-      }
-    });
-  };
-
-  const launchRituel = () => {
-    const cat = props.theme.allTheme.filter(
-      (item) => item.id === selectedValue
-    )[0];
-    props.loadCycleInfo({}, props.cycle.allCycle, duration, cat);
-    props.navigation.reset({
-      index: 0,
-      routes: [{ name: "Rituels" }],
-    });
-  };
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    setPickedDate(date);
-    hideDatePicker();
-  };
-
-  const onSubmitForm = () => {
+  const onSubmitForm = (pickedDate) => {
     let index = props.user.current_subuser;
     let data = {
       title: title,
-      comment: comment,
+      comment: "",
       date: pickedDate,
       theme_id: selectedValue,
       user_id: props.user.infos.id,
@@ -134,14 +66,9 @@ const App = (props) => {
     setErrorMessage("");
     let error = formValidator();
     if (error === "") {
-      modifyEvent(data, props.event[0].id).then((res) => {
+      addEvent(data).then((res) => {
         if (res.status === 200) {
-          props.setModalVisible(!props.modalVisible);
-          getAllEvent(props.user.subuser[index].id).then((resp) => {
-            if (resp.status === 200) {
-              props.loadEvent(resp.result);
-            }
-          });
+          return 200;
         } else {
           setErrorMessage(
             "Une erreur est survenue, veuillez réessayer plus tard."
@@ -161,6 +88,66 @@ const App = (props) => {
     return "";
   };
 
+  const createEventArray = () => {
+    let dateArray = [];
+    const date = new Date().getDay();
+    let value = 0;
+    switch (daySelected) {
+      case "Lundi":
+        value = 1;
+        break;
+      case "Mardi":
+        value = 2;
+        break;
+      case "Mercredi":
+        value = 3;
+        break;
+      case "Jeudi":
+        value = 4;
+        break;
+      case "Vendredi":
+        value = 5;
+        break;
+      case "Samedi":
+        value = 6;
+        break;
+      case "Dimanche":
+        value = 0;
+        break;
+      default:
+        break;
+    }
+    let time = hourSelected.split(":");
+    let ecart = value - date;
+    let newDate = new Date().setDate(new Date().getDate() + ecart);
+    newDate = new Date(newDate).setHours(time[0], time[1]);
+    newDate = new Date(newDate);
+    dateArray.push(newDate);
+    for (let i = 0; i < 7; i++) {
+      newDate = new Date(newDate).setDate(newDate.getDate() + 7);
+      newDate = new Date(newDate).setHours(time[0], time[1]);
+      newDate = new Date(newDate);
+      dateArray.push(newDate);
+    }
+    for (let i = 0; i < dateArray.length; i++) {
+      onSubmitForm(dateArray[i]);
+    }
+    let index = props.user.current_subuser;
+    getAllEvent(props.user.subuser[index].id).then((resp) => {
+      if (resp.status === 200) {
+        props.loadEvent(resp.result);
+      }
+    });
+    getCount(
+      props.user.subuser[index].id,
+      moment(new Date()).format("W"),
+      props.theme.allTheme
+    ).then((resultobj) => {
+      props.loadProgress(props.progress.state, resultobj);
+    });
+    props.setModalVisible(!props.modalVisible);
+  };
+
   const selectCat = (value) => {
     const options = isFamily ? optionsFamily : optionsKids;
     let filter = options.filter((item) => item.value === value);
@@ -171,6 +158,54 @@ const App = (props) => {
     return { value: item.id, label: item.name };
   });
   const optionsKids = optionsFamily.filter((item) => item.value === 1);
+
+  const optionsDay = [
+    {
+      value: "Lundi",
+      label: "Lundi",
+    },
+    {
+      value: "Mardi",
+      label: "Mardi",
+    },
+    {
+      value: "Mercredi",
+      label: "Mercredi",
+    },
+    {
+      value: "Jeudi",
+      label: "Jeudi",
+    },
+    {
+      value: "Vendredi",
+      label: "Vendredi",
+    },
+    {
+      value: "Samedi",
+      label: "Samedi",
+    },
+    {
+      value: "Dimanche",
+      label: "Dimanche",
+    },
+  ];
+
+  const setOptionsHour = () => {
+    let optionsHour = [];
+    for (let i = 0; i < 28; i++) {
+      if (i % 2 == 0) {
+        let item = { value: `${8 + i / 2}:00`, label: `${8 + i / 2}:00` };
+        optionsHour.push(item);
+      } else {
+        let item = {
+          value: `${8 + (i - 1) / 2}:30`,
+          label: `${8 + (i - 1) / 2}:30`,
+        };
+        optionsHour.push(item);
+      }
+    }
+    sethourOption(optionsHour);
+  };
 
   return (
     <View style={styles.centeredView}>
@@ -184,12 +219,15 @@ const App = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.title}>Modifier un rituel</Text>
+            <Text style={styles.title}>
+              {" "}
+              Créer un rituel récurrent sur les 7 prochaines semaines{" "}
+            </Text>
             <View style={styles.centerView}>
               <TextInput
                 style={styles.input}
                 type="text"
-                value={title}
+                placeholder="Titre"
                 onChangeText={(value) => {
                   setTitle(value);
                 }}
@@ -226,37 +264,46 @@ const App = (props) => {
               </View>
             </View>
 
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  color: "black",
-                  textAlign: "center",
-                  fontSize: 20,
-                  marginBottom: 10,
-                }}
-              >
-                Prévu le :{" "}
-              </Text>
-              <Text style={styles.dateStyle} onPress={showDatePicker}>
-                {pickedDate === null
-                  ? "Selectionner une date"
-                  : moment(new Date(pickedDate)).format("LLL")}
-              </Text>
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="datetime"
-                format="dddd  DD MMMM  HH:mm"
-                minuteInterval="15"
-                locale="fr-FR"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-              />
+            <View style={{ display: "flex", flexDirection: "row" }}>
+              <View>
+                <Text style={{ color: "black", fontSize: 20, margin: 10 }}>
+                  Jour :{" "}
+                </Text>
+                <SelectInput
+                  value={daySelected}
+                  style={styles.selectInput}
+                  labelStyle={{ color: "grey", fontSize: 20 }}
+                  cancelKeyText="Annuler"
+                  submitKeyText="Valider"
+                  onSubmitEditing={(value) => {
+                    setDaySelected(value);
+                  }}
+                  options={optionsDay}
+                />
+              </View>
+              <View>
+                <Text
+                  style={{
+                    color: "black",
+                    marginLeft: 10,
+                    margin: 10,
+                    fontSize: 20,
+                  }}
+                >
+                  Heure :{" "}
+                </Text>
+                <SelectInput
+                  value={hourSelected}
+                  style={styles.selectInput}
+                  labelStyle={{ color: "grey", fontSize: 20 }}
+                  cancelKeyText="Annuler"
+                  submitKeyText="Valider"
+                  onSubmitEditing={(value) => {
+                    setHourSelected(value);
+                  }}
+                  options={hourOptions}
+                />
+              </View>
             </View>
 
             <View style={styles.centerView}>
@@ -315,28 +362,6 @@ const App = (props) => {
               </View>
             </View>
             <View style={styles.centerView}>
-              <TextInput
-                style={styles.comment}
-                type="text"
-                placeholder="Commentaire"
-                onChangeText={(text) => {
-                  setComment(text);
-                }}
-              />
-              <View style={styles.centerView}>
-                <TouchableOpacity
-                  style={[
-                    styles.button,
-                    { backgroundColor: "blue", marginBottom: 10 },
-                  ]}
-                  onPress={(e) => {
-                    e.preventDefault();
-                    launchRituel();
-                  }}
-                >
-                  <Text style={styles.buttonText}>Lancer le rituel</Text>
-                </TouchableOpacity>
-              </View>
               {props.user.infos.notification == 1 && (
                 <View
                   style={{
@@ -362,7 +387,7 @@ const App = (props) => {
                 style={styles.button}
                 onPress={(e) => {
                   e.preventDefault();
-                  onSubmitForm();
+                  createEventArray();
                 }}
               >
                 <Text style={styles.textStyle}>Enregistrer</Text>
@@ -384,7 +409,7 @@ const App = (props) => {
 
 const styles = StyleSheet.create({
   centeredView: {
-    marginLeft: wp("30%"),
+    marginLeft: wp("10%"),
     position: "absolute",
     flex: 1,
     justifyContent: "center",
@@ -535,7 +560,6 @@ const styles = StyleSheet.create({
 mapDispatchToProps = {
   loadEvent,
   loadProgress,
-  loadCycleInfo,
 };
 
 mapStateToProps = (store) => {
@@ -544,7 +568,6 @@ mapStateToProps = (store) => {
     agenda: store.agenda,
     progress: store.progress,
     theme: store.theme,
-    cycle: store.cycle,
   };
 };
 
