@@ -28,7 +28,7 @@ const Register = ({ navigation }) => {
   const [lastName, setLastName] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [lang, setlang] = useState("FR");
+  const [lang, setlang] = useState("fr");
   const [passwordConfirm, setpasswordConfirm] = useState("");
   const [cgu, setcgu] = useState(false);
 

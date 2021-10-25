@@ -30,9 +30,9 @@ import garcon2 from "../../assets/garcon2.png";
 import SelectInput from "react-native-select-input-ios";
 
 const optionsLang = [
-  { value: "FR", label: "Français" },
-  { value: "EN", label: "English" },
-  { value: "ES", label: "Espagnol" },
+  { value: "fr", label: "Français" },
+  { value: "en", label: "English" },
+  { value: "es", label: "Espagnol" },
 ];
 const AddSubuser = ({ navigation, loadUserInfo, user }) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -339,6 +339,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginLeft: wp("30%"),
+    margin: 5,
   },
   buttonText: {
     color: "white",

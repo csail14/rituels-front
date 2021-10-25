@@ -172,19 +172,19 @@ const ChangeAccount = ({
                 );
               })}
             </View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={(e) => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "AddSubuser" }],
-                });
-              }}
-            >
-              {user.subuser.length < 5 && (
+            {user.subuser.length < 5 && (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={(e) => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "AddSubuser" }],
+                  });
+                }}
+              >
                 <Text style={styles.buttonText}>Ajouter un compte</Text>
-              )}
-            </TouchableOpacity>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={styles.button}
               onPress={(e) => {

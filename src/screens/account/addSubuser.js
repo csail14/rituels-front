@@ -27,13 +27,20 @@ import fille1 from "../../assets/fille1.png";
 import fille2 from "../../assets/fille2.png";
 import garcon1 from "../../assets/garcon1.png";
 import garcon2 from "../../assets/garcon2.png";
+import SelectInput from "react-native-select-input-ios";
 
+const optionsLang = [
+  { value: "fr", label: "Français" },
+  { value: "en", label: "English" },
+  { value: "es", label: "Espagnol" },
+];
 const AddSubuser = ({ navigation, loadUserInfo, user }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState("");
   const [birth_date, setBirth_date] = useState(new Date());
   const [fille1Color, setFille1Color] = useState("white");
   const [fille2Color, setFille2Color] = useState("black");
+  const [lang, setLang] = useState("fr");
   const [garcon1Color, setGarcon1Color] = useState("black");
   const [garcon2Color, setGarcon2Color] = useState("black");
   const [selectedPicto, setSelectedPicto] = useState("fille1");
@@ -53,6 +60,7 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
       birth_date: birth_date,
       image: selectedPicto,
       user_id: user.infos.id,
+      lang: lang,
     };
 
     let error = formValidator(data);
@@ -91,8 +99,8 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.container}>
-        <Header screen="ChangeAccount" navigation={navigation} />
         <ImageBackground source={background} style={styles.image}>
+          <Header screen="ChangeAccount" navigation={navigation} />
           <ScrollView style={styles.scrollContainer}>
             <Text style={styles.title}>Créer un nouveau compte</Text>
             <View
@@ -100,6 +108,8 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
+                flexWrap: "wrap",
+                alignItems: "center",
               }}
             >
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
@@ -120,6 +130,8 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
+                flexWrap: "wrap",
+                alignItems: "center",
               }}
             >
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
@@ -143,6 +155,30 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 onDateChange={(event, date) => {
                   setBirth_date(date);
                 }}
+              />
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
+                Ta langue :
+              </Text>
+              <SelectInput
+                value={lang}
+                style={styles.selectInput}
+                labelStyle={{ color: "grey", fontSize: 20 }}
+                cancelKeyText="Annuler"
+                submitKeyText="Valider"
+                onSubmitEditing={(value) => {
+                  setLang(value);
+                }}
+                options={optionsLang}
               />
             </View>
             <Text
@@ -234,6 +270,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
   },
+  selectInput: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginLeft: 5,
+  },
   title: {
     fontSize: 40,
     textAlign: "center",
@@ -284,7 +329,7 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
-    paddingTop: wp("10%"),
+
     height: Dimensions.get("window").height,
   },
   button: {

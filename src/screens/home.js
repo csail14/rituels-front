@@ -35,7 +35,7 @@ import garcon1 from "../assets/garcon1.png";
 import garcon2 from "../assets/garcon2.png";
 import { isMobile } from "react-device-detect";
 
-import i18n from "../i18n/index";
+import { buildI18n } from "../i18n/index";
 
 const Home = ({
   navigation,
@@ -57,6 +57,8 @@ const Home = ({
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
+
+  const i18n = buildI18n(user);
 
   const defineImage = () => {
     if (user.infos) {
