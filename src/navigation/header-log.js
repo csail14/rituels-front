@@ -156,7 +156,7 @@ const HeaderLog = (props) => {
         )}
       </View>
       {showMenu && (
-        <View style={styles.burgerMenuView}>
+        <View>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -244,16 +244,13 @@ const HeaderLog = (props) => {
 };
 
 const styles = StyleSheet.create({
-  burgerMenuView: {
-    alignItems: "center",
-  },
   containerMobile: {
     backgroundColor: "black",
     flexDirection: "row",
     justifyContent: "space-between",
-
     flexWrap: "wrap",
-    paddingTop: 15,
+    paddingTop: 30,
+    paddingBottom: 15,
     paddingLeft: 20,
     paddingRight: 20,
   },

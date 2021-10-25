@@ -20,6 +20,7 @@ import Header from "../navigation/header";
 import HeaderLog from "../navigation/header-log";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { getVideo } from "../api/cycleApi";
+import { config } from "../../config";
 
 class HowAppWork extends Component {
   constructor(props) {

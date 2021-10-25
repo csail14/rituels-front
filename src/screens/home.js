@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
     marginLeft: isMobile ? 100 : 0,
     marginRight: isMobile ? 20 : 0,
     marginTop: 10,
-    paddingBottom: hp("10%"),
+    paddingBottom: 40,
     display: "flex",
   },
   subTitle: {

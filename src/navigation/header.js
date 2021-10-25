@@ -50,7 +50,6 @@ const Header = (props) => {
   return (
     <>
       <View style={isPhone ? styles.containerMobile : styles.container}>
-        <Icon name="rowing" />
         {isPhone ? (
           <>
             <Icon
@@ -143,7 +142,7 @@ const Header = (props) => {
         )}
       </View>
       {showMenu && (
-        <View style={styles.burgerMenuView}>
+        <View style={{ zIndex: 1 }}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -218,16 +217,15 @@ const Header = (props) => {
 };
 
 const styles = StyleSheet.create({
-  burgerMenuView: {
-    alignItems: "center",
-  },
   containerMobile: {
     backgroundColor: "black",
     flexDirection: "row",
     justifyContent: "space-between",
+    flexWrap: "wrap",
+    paddingTop: 30,
+    paddingBottom: 15,
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: 15,
   },
   container: {
     backgroundColor: "black",

@@ -81,6 +81,7 @@ const Login = (props) => {
             </Text>
             <Text></Text>
             <TextInput
+              placeholderTextColor="grey"
               style={styles.input}
               type="text"
               placeholder="Email"
@@ -91,6 +92,7 @@ const Login = (props) => {
               }}
             />
             <TextInput
+              placeholderTextColor="grey"
               style={styles.input}
               type="text"
               valeur={password}

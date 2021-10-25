@@ -27,10 +27,17 @@ import fille1 from "../../assets/fille1.png";
 import fille2 from "../../assets/fille2.png";
 import garcon1 from "../../assets/garcon1.png";
 import garcon2 from "../../assets/garcon2.png";
+import SelectInput from "react-native-select-input-ios";
 
+const optionsLang = [
+  { value: "FR", label: "Français" },
+  { value: "EN", label: "English" },
+  { value: "ES", label: "Espagnol" },
+];
 const AddSubuser = ({ navigation, loadUserInfo, user }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [name, setName] = useState(user.subuser[user.current_subuser].name);
+  const [lang, setLang] = useState(user.subuser[user.current_subuser].lang);
   const [birth_date, setBirth_date] = useState(
     new Date(user.subuser[user.current_subuser].birth_date)
   );
@@ -55,6 +62,7 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
       birth_date: birth_date,
       image: selectedPicto,
       user_id: user.infos.id,
+      lang: lang,
     };
     let error = formValidator(data);
     if (error === "") {
@@ -88,12 +96,12 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
     }
     return "";
   };
-
+  console.log("user", user.subuser[user.current_subuser]);
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.container}>
-        <Header screen="ChangeAccount" navigation={navigation} />
         <ImageBackground source={background} style={styles.image}>
+          <Header screen="ChangeAccount" navigation={navigation} />
           <ScrollView style={styles.scrollContainer}>
             <Text style={styles.title}>Modifier un compte</Text>
             <View
@@ -101,6 +109,8 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
+                flexWrap: "wrap",
+                alignItems: "center",
               }}
             >
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
@@ -121,6 +131,8 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
+                flexWrap: "wrap",
+                alignItems: "center",
               }}
             >
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
@@ -146,6 +158,30 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 }}
               />
             </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
+                Ta langue :
+              </Text>
+              <SelectInput
+                value={lang}
+                style={styles.selectInput}
+                labelStyle={{ color: "grey", fontSize: 20 }}
+                cancelKeyText="Annuler"
+                submitKeyText="Valider"
+                onSubmitEditing={(value) => {
+                  setLang(value);
+                }}
+                options={optionsLang}
+              />
+            </View>
             <Text
               style={{
                 color: "white",
@@ -161,6 +197,7 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
+                flexWrap: "wrap",
               }}
             >
               <TouchableOpacity
@@ -230,6 +267,15 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
 };
 
 const styles = StyleSheet.create({
+  selectInput: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginLeft: 5,
+  },
   container: {
     flex: 1,
     backgroundColor: "black",
@@ -262,7 +308,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
     width: wp("100%"),
-    minHeight: hp("100%"),
+    minHeight: hp("90%"),
     textAlign: "center",
   },
   datePickerStyle: {
@@ -284,7 +330,6 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
-    paddingTop: wp("10%"),
     height: Dimensions.get("window").height,
   },
   button: {

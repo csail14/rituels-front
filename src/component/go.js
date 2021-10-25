@@ -4,10 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
   TouchableWithoutFeedback,
-  Dimensions,
 } from "react-native";
 import { Audio } from "expo-av";
 import {
@@ -15,9 +12,6 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Icon } from "react-native-elements";
-import image1 from "../assets/picto1.png";
-import image2 from "../assets/picto2.png";
-import image3 from "../assets/picto3.png";
 
 export default class Menu extends React.Component {
   constructor(props) {
