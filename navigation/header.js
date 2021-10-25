@@ -143,76 +143,74 @@ const Header = (props) => {
         )}
       </View>
       {showMenu && (
-        <View>
-          <>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                if (props.screen !== "Home") {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: "Home" }],
-                  });
-                }
-              }}
-              color={acceuilColor}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Accueil
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              title="Détails"
-              style={styles.button}
-              color={detailColor}
-              onPress={() => {
-                if (props.screen !== "HowAppWork") {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: "HowAppWork" }],
-                  });
-                }
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: detailColor }}>
-                Détails
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              title="S'inscrire"
-              style={styles.button}
-              color={registerColor}
-              onPress={() => {
-                if (props.screen !== "Register") {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: "Register" }],
-                  });
-                }
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: registerColor }}>
-                S'inscrire
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              title="Se connecter"
-              style={styles.button}
-              color={loginColor}
-              onPress={() => {
-                if (props.screen !== "Login") {
-                  navigation.reset({
-                    index: 0,
-                    routes: [{ name: "Login" }],
-                  });
-                }
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: loginColor }}>
-                Se connecter
-              </Text>
-            </TouchableOpacity>
-          </>
+        <View style={styles.burgerMenuView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              if (props.screen !== "Home") {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Home" }],
+                });
+              }
+            }}
+            color={acceuilColor}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
+              Accueil
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            title="Détails"
+            style={styles.button}
+            color={detailColor}
+            onPress={() => {
+              if (props.screen !== "HowAppWork") {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "HowAppWork" }],
+                });
+              }
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: detailColor }}>
+              Détails
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            title="S'inscrire"
+            style={styles.button}
+            color={registerColor}
+            onPress={() => {
+              if (props.screen !== "Register") {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Register" }],
+                });
+              }
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: registerColor }}>
+              S'inscrire
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            title="Se connecter"
+            style={styles.button}
+            color={loginColor}
+            onPress={() => {
+              if (props.screen !== "Login") {
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Login" }],
+                });
+              }
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: loginColor }}>
+              Se connecter
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </>
@@ -220,6 +218,9 @@ const Header = (props) => {
 };
 
 const styles = StyleSheet.create({
+  burgerMenuView: {
+    alignItems: "center",
+  },
   containerMobile: {
     backgroundColor: "black",
     flexDirection: "row",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Button, Text, Image } from "react-native";
+import { View, StyleSheet, Linking, Text, Image } from "react-native";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { connect } from "react-redux";
 import "@expo/match-media";
@@ -156,89 +156,87 @@ const HeaderLog = (props) => {
         )}
       </View>
       {showMenu && (
-        <View>
-          <>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Home" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Accueil
-              </Text>
-            </TouchableOpacity>
+        <View style={styles.burgerMenuView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Home" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
+              Accueil
+            </Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Stat" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: statColor }}>
-                Statistiques
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Award" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: awardColor }}>
-                Récompenses
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Warroom" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: warroomColor }}>
-                Quartier Général
-              </Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Stat" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: statColor }}>
+              Statistiques
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Award" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: awardColor }}>
+              Récompenses
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Warroom" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: warroomColor }}>
+              Quartier Général
+            </Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "ChangeAccount" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
-                Mon Compte
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "HowAppWork" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
-                ?
-              </Text>
-            </TouchableOpacity>
-          </>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "ChangeAccount" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
+              Mon Compte
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "HowAppWork" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
+              ?
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </>
@@ -246,6 +244,9 @@ const HeaderLog = (props) => {
 };
 
 const styles = StyleSheet.create({
+  burgerMenuView: {
+    alignItems: "center",
+  },
   containerMobile: {
     backgroundColor: "black",
     flexDirection: "row",

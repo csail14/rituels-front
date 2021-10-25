@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Button, Text, Image } from "react-native";
+import { View, StyleSheet, Linking, Text, Image } from "react-native";
 import { connect } from "react-redux";
 import "@expo/match-media";
 import { useMediaQuery } from "react-responsive";
@@ -160,92 +160,90 @@ const HeaderAccount = (props) => {
         )}
       </View>
       {showMenu && (
-        <View>
-          <>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Home" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Accueil
-              </Text>
-            </TouchableOpacity>
+        <View style={styles.burgerMenuView}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Home" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
+              Accueil
+            </Text>
+          </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Account" }],
-                });
-              }}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Account" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
+              Mes niveaux
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "ChangeAccount" }],
+              });
+            }}
+          >
+            <Text
+              style={{ padding: 10, fontSize: 16, color: changeAccountColor }}
             >
-              <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Mes niveaux
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "ChangeAccount" }],
-                });
-              }}
+              Changer de compte
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "MainAccount" }],
+              });
+            }}
+          >
+            <Text
+              style={{ padding: 10, fontSize: 16, color: mainaccountColor }}
             >
-              <Text
-                style={{ padding: 10, fontSize: 16, color: changeAccountColor }}
-              >
-                Changer de compte
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "MainAccount" }],
-                });
-              }}
-            >
-              <Text
-                style={{ padding: 10, fontSize: 16, color: mainaccountColor }}
-              >
-                Compte parent
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Message" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: messageColor }}>
-                Message
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Logout" }],
-                });
-              }}
-            >
-              <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Se déconnecter
-              </Text>
-            </TouchableOpacity>
-          </>
+              Compte parent
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Message" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: messageColor }}>
+              Message
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: "Logout" }],
+              });
+            }}
+          >
+            <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
+              Se déconnecter
+            </Text>
+          </TouchableOpacity>
         </View>
       )}
     </>
@@ -253,6 +251,9 @@ const HeaderAccount = (props) => {
 };
 
 const styles = StyleSheet.create({
+  burgerMenuView: {
+    alignItems: "center",
+  },
   containerMobile: {
     backgroundColor: "black",
     flexDirection: "row",

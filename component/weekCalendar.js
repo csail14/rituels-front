@@ -129,7 +129,6 @@ const WeekCalendar = (props) => {
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.weekView}>
         <WeekView
-          height={hp("80%")}
           events={data}
           selectedDate={new Date()}
           locale={"fr"}

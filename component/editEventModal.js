@@ -51,7 +51,6 @@ const App = (props) => {
     props.event[0] ? props.event[0].theme_id : 1
   );
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  console.log("props.event", props.event);
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });

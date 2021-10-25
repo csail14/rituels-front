@@ -126,7 +126,7 @@ const Warroom = (props) => {
       <View style={styles.container}>
         <Header screen="Warroom" navigation={props.navigation} />
         <ImageBackground source={background} style={styles.image}>
-          <View style={{ height: hp("90%") }}>
+          <View style={{ height: hp("93%") }}>
             <View>
               <TouchableOpacity
                 style={{ marginTop: 30, marginBottom: 10 }}
