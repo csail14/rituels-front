@@ -23,7 +23,6 @@ import CheckPayment from "../component/checkPayment";
 import Notification from "../screens/account/notificationSettings";
 import AddSubuser from "../screens/account/addSubuser";
 import SetSubuser from "../screens/account/setSubuser";
-import howAppWork from "../screens/howAppWork";
 
 const Stack = createStackNavigator();
 
@@ -45,6 +44,7 @@ const MyStack = (props) => {
               options={{ title: "Bienvenu sur 4BRN" }}
               component={Home}
             />
+
             {props.user.isLogged == true ? (
               <>
                 <Stack.Screen

@@ -35,6 +35,8 @@ import garcon1 from "../assets/garcon1.png";
 import garcon2 from "../assets/garcon2.png";
 import { isMobile } from "react-device-detect";
 
+import i18n from "../i18n/index";
+
 const Home = ({
   navigation,
   user,
@@ -145,7 +147,7 @@ const Home = ({
             </View>
 
             <Text style={styles.subTitle}>
-              Bonjour
+              {i18n.t("bonjour", "hi")}
               {user.subuser[user.current_subuser].name}
             </Text>
             <TouchableOpacity

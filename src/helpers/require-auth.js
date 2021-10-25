@@ -104,11 +104,7 @@ const RequireAuth = (props) => {
       }
     }
   };
-  return (
-    <React.Fragment>
-      {isLogged ? <Routes screenProps={props.screenProps} /> : <Routes />}
-    </React.Fragment>
-  );
+  return <React.Fragment>{isLogged ? <Routes /> : <Routes />}</React.Fragment>;
 };
 
 mapDispatchToProps = {
