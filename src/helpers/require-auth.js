@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Routes from "../navigation/routes";
 import axios from "axios";
-import { config } from "../config";
+import { config } from "../../config";
 import { connect } from "react-redux";
 import { getCount } from "../api/eventApi";
 import { getAllTheme } from "../api/themeApi";
@@ -21,7 +21,6 @@ import { loadTheme } from "../actions/theme/themeActions";
 const RequireAuth = (props) => {
   const [isLogged, setIsLogged] = useState(false);
   const [hasPaid, setHasPaid] = useState(false);
-
   useEffect(() => {
     retrieveData();
   }, []);
@@ -105,7 +104,11 @@ const RequireAuth = (props) => {
       }
     }
   };
-  return <React.Fragment>{isLogged ? <Routes /> : <Routes />}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {isLogged ? <Routes screenProps={props.screenProps} /> : <Routes />}
+    </React.Fragment>
+  );
 };
 
 mapDispatchToProps = {

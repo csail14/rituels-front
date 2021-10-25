@@ -24,7 +24,7 @@ import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 import { getAllTheme } from "../api/themeApi";
 import { loadTheme } from "../actions/theme/themeActions";
-import { config } from "../config";
+import { config } from "../../config";
 import LevelBar from "../component/levelbar";
 import { loadCycleInfo } from "../actions/cycle/cycleActions";
 import { getCurrentLevel } from "../api/levelApi";
@@ -145,7 +145,8 @@ const Home = ({
             </View>
 
             <Text style={styles.subTitle}>
-              Bonjour {user.subuser[user.current_subuser].name}
+              Bonjour
+              {user.subuser[user.current_subuser].name}
             </Text>
             <TouchableOpacity
               onPress={() =>

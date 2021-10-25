@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import { config } from "../../config";
+import { config } from "../../../config";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,

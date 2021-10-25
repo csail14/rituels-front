@@ -2,7 +2,7 @@ import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import Constants from "expo-constants";
 import axios from "axios";
-import { config } from "../config";
+import { config } from "../../config";
 
 export const registerForPushNotificationsAsync = async (
   id,

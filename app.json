@@ -3,11 +3,11 @@
     "name": "4b Premium",
     "slug": "4bPremium",
     "version": "1.1.0",
-    "icon": "./assets/logo.png",
+    "icon": "./src/assets/logo.png",
     "orientation": "default",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/logo.png",
+      "image": "./src/assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -33,12 +33,12 @@
       "package": "com.premium4b.app",
       "versionCode": 5,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
+        "foregroundImage": "./src/assets/logo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/icon.png"
+      "favicon": "./src/assets/icon.png"
     }
   }
 }
