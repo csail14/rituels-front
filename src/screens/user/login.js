@@ -21,6 +21,7 @@ import Header from "../../navigation/header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { connect } from "react-redux";
 import { loadUserInfo } from "../../actions/user/userActions";
+import i18n from "../../i18n/index";
 
 const Login = (props) => {
   const [email, setemail] = useState("");
@@ -53,7 +54,10 @@ const Login = (props) => {
         seterrorMessage(res.msg);
       } else {
         seterrorMessage(
-          "Un problème est survenu, veuillez reessayer plus tard."
+          i18n.t(
+            "login.error",
+            "Un problème est survenu, veuillez reessayer plus tard."
+          )
         );
       }
     });
@@ -72,7 +76,9 @@ const Login = (props) => {
         <Header screen="Login" navigation={props.navigation} />
         <ImageBackground source={background} style={styles.image}>
           <ScrollView style={styles.scrollContainer}>
-            <Text style={styles.title}>Se connecter :</Text>
+            <Text style={styles.title}>
+              {i18n.t("home.connexion", "Se connecter")} :
+            </Text>
             <Text></Text>
             <TextInput
               style={styles.input}
@@ -98,7 +104,7 @@ const Login = (props) => {
               onPress={() => props.navigation.navigate("Forgot")}
             >
               <Text style={{ color: "white", textAlign: "center" }}>
-                Mot de passe oublié ?
+                {i18n.t("login.forgotPassword", "Mot de passe oublié ?")}
               </Text>
             </TouchableOpacity>
             <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -109,7 +115,10 @@ const Login = (props) => {
                 onSubmitForm();
               }}
             >
-              <Text style={styles.buttonText}>Connexion</Text>
+              <Text style={styles.buttonText}>
+                {" "}
+                {i18n.t("login.connexion", "Connexion ")}
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </ImageBackground>

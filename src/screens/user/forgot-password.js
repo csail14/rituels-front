@@ -18,9 +18,10 @@ import background from "../../assets/rituals-background.jpg";
 import { loginUser, forgotPassword } from "../../api/userApi";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Header from "../../navigation/header";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { connect } from "react-redux";
 import { loadUserInfo } from "../../actions/user/userActions";
+import i18n from "../../i18n/index";
 
 const ForgotPassword = (props) => {
   const [email, setemail] = useState("");
@@ -33,10 +34,18 @@ const ForgotPassword = (props) => {
     forgotPassword(data).then((res) => {
       seterrorMessage("");
       if (res.status === 200) {
-        window.alert("Un email vous a été envoyé");
+        window.alert(
+          i18n.t(
+            "login.Un email vous a été envoyé",
+            "Un email vous a été envoyé"
+          )
+        );
       } else {
         seterrorMessage(
-          "Un problème est survenu, veuillez reessayer plus tard."
+          i18n.t(
+            "login.error",
+            "Un problème est survenu, veuillez reessayer plus tard."
+          )
         );
       }
     });
@@ -48,12 +57,16 @@ const ForgotPassword = (props) => {
         <Header screen="Login" navigation={props.navigation} />
         <ImageBackground source={background} style={styles.image}>
           <ScrollView style={styles.scrollContainer}>
-            <Text style={styles.title}>Mot de passe oublié :</Text>
+            <Text style={styles.title}>
+              {" "}
+              {i18n.t("login.forgotPassword", "Mot de passe oublié ?.")}
+            </Text>
             <Text></Text>
             <TextInput
               style={styles.input}
               type="text"
-              placeholder="Email"
+              placeholderTextColor="grey"
+              placeholder={i18n.t("register.email", "Email")}
               valeur={email}
               autoCapitalize="none"
               onChangeText={(text) => {
@@ -68,7 +81,9 @@ const ForgotPassword = (props) => {
                 onSubmitForm();
               }}
             >
-              <Text style={styles.buttonText}>Envoyer</Text>
+              <Text style={styles.buttonText}>
+                {i18n.t("login.send", "Envoyer")}
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </ImageBackground>

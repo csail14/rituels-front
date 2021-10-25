@@ -140,14 +140,14 @@ const Home = ({
                 <>
                   <LevelBar obj={obj} state={state} />
                   <Text style={styles.text}>
-                    Rituels : {state}/{obj}
+                    {i18n.t("home.rituels", "Rituels")} : {state}/{obj}
                   </Text>
                 </>
               )}
             </View>
 
             <Text style={styles.subTitle}>
-              {i18n.t("bonjour", "hi")}
+              {i18n.t("home.bonjour", "hi")}
               {user.subuser[user.current_subuser].name}
             </Text>
             <TouchableOpacity
@@ -164,7 +164,7 @@ const Home = ({
                   isPhone ? styles.motivationTextPhone : styles.motivationText
                 }
               >
-                Organisation
+                {i18n.t("home.organisation", "Organisation")}
               </Text>
             </TouchableOpacity>
           </>
@@ -191,7 +191,7 @@ const Home = ({
                   }}
                 >
                   <Text style={{ color: "white", fontSize: 20 }}>
-                    Se connecter{" "}
+                    {i18n.t("home.connexion", "Se connecter")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -202,7 +202,10 @@ const Home = ({
                   marginBottom: 20,
                 }}
               >
-                <Text style={styles.subTitle}>Nouveau sur 4b ?</Text>
+                <Text style={styles.subTitle}>
+                  {" "}
+                  {i18n.t("home.new", "Nouveau sur 4b ?")}
+                </Text>
                 <TouchableOpacity
                   style={styles.link}
                   onPress={() => {
@@ -213,7 +216,7 @@ const Home = ({
                   }}
                 >
                   <Text style={{ color: "white", fontSize: 20 }}>
-                    Créer un compte{" "}
+                    {i18n.t("home.newAccount", "Créer un compte")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -224,7 +227,10 @@ const Home = ({
                   marginBottom: 20,
                 }}
               >
-                <Text style={styles.subTitle}>Plus d'information sur 4b :</Text>
+                <Text style={styles.subTitle}>
+                  {" "}
+                  {i18n.t("home.moreInfo", "Plus d'information sur 4b ")}:
+                </Text>
                 <TouchableOpacity
                   style={styles.link}
                   onPress={() => {
@@ -235,7 +241,7 @@ const Home = ({
                   }}
                 >
                   <Text style={{ color: "white", fontSize: 20 }}>
-                    Cliquez-ici{" "}
+                    {i18n.t("home.clique", "Cliquez-ici ")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -243,7 +249,9 @@ const Home = ({
           </View>
         )}
         {user.isLogged == null && (
-          <Text style={styles.title}>Chargement en cours...</Text>
+          <Text style={styles.title}>
+            {i18n.t("home.loading", "Chargement en cours...")}
+          </Text>
         )}
         {!isPhone && user.isLogged === true && (
           <TouchableOpacity

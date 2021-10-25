@@ -20,6 +20,7 @@ import Header from "../../navigation/header";
 import { validateInputField } from "../../helpers/form-validator";
 import { useIsFocused } from "@react-navigation/native";
 import { CheckBox } from "react-native-elements";
+import i18n from "../../i18n/index";
 
 const Register = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -49,17 +50,26 @@ const Register = ({ navigation }) => {
       saveUser(data).then((res) => {
         if (res.status === 501) {
           setErrorMessage(
-            "Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre."
+            i18n.t(
+              "register.email utilisé",
+              "Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre."
+            )
           );
         }
         if (res.status === 200) {
           clearform();
           setErrorMessage(
-            "Rendez vous dans votre boite mail pour valider votre compte."
+            i18n.t(
+              "register.validation compte",
+              "Rendez vous dans votre boite mail pour valider votre compte."
+            )
           );
         } else {
           setErrorMessage(
-            "Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement."
+            i18n.t(
+              "register.error",
+              "Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement."
+            )
           );
         }
       });
@@ -81,8 +91,16 @@ const Register = ({ navigation }) => {
       return validateInputField("email", "email", data.email);
     }
     if (data.password !== data.passwordConfirm) {
-      setErrorMessage("Les deux mots de passe ne sont pas identiques.");
-      return "Les deux mots de pass ne sont pas identiques.";
+      setErrorMessage(
+        i18n.t(
+          "register.error mdp",
+          "Les deux mots de passe ne sont pas identiques."
+        )
+      );
+      return i18n.t(
+        "register.error mdp",
+        "Les deux mots de passe ne sont pas identiques."
+      );
     }
     return "";
   };
@@ -101,11 +119,15 @@ const Register = ({ navigation }) => {
         <Header screen="Register" navigation={navigation} />
         <ImageBackground source={background} style={styles.image}>
           <ScrollView style={styles.scrollContainer}>
-            <Text style={styles.title}>Créer un nouveau compte</Text>
+            <Text style={styles.title}>
+              {" "}
+              {i18n.t("register.creation", "Créer un nouveau compte")}
+            </Text>
             <TextInput
               style={styles.input}
+              placeholderTextColor="grey"
               type="text"
-              placeholder="Prénom"
+              placeholder={i18n.t("register.prenom", "Prénom")}
               value={firstName}
               onChangeText={(text) => {
                 setFirstName(text);
@@ -113,8 +135,9 @@ const Register = ({ navigation }) => {
             />
             <TextInput
               style={styles.input}
+              placeholderTextColor="grey"
               type="text"
-              placeholder="Nom"
+              placeholder={i18n.t("register.nom", "Nom")}
               value={lastName}
               onChangeText={(text) => {
                 setLastName(text);
@@ -123,36 +146,45 @@ const Register = ({ navigation }) => {
 
             <TextInput
               style={styles.input}
+              placeholderTextColor="grey"
               value={email}
               autoCapitalize="none"
               type="text"
-              placeholder="Email"
+              placeholder={i18n.t("register.email", "Email")}
               onChangeText={(text) => {
                 setemail(text);
               }}
             />
             <TextInput
               style={styles.input}
+              placeholderTextColor="grey"
               type="password"
               value={password}
               secureTextEntry={true}
-              placeholder="Mot de passe"
+              placeholder={i18n.t("register.mdp", "Mot de passe")}
               onChangeText={(text) => {
                 setpassword(text);
               }}
             />
             <TextInput
               style={styles.input}
+              placeholderTextColor="grey"
               type="password"
               value={passwordConfirm}
               secureTextEntry={true}
-              placeholder="Confirmation mot de passe"
+              placeholder={i18n.t(
+                "register.confirm mdp",
+                "Confirmation mot de passe"
+              )}
               onChangeText={(text) => {
                 setpasswordConfirm(text);
               }}
             />
             <CheckBox
-              title="J'accepte les conditions générales d'utilisation"
+              title={i18n.t(
+                "register.cgu",
+                "J'accepte les conditions générales d'utilisation"
+              )}
               checked={cgu}
               onPress={() => setcgu(!cgu)}
               containerStyle={styles.checkbox}
@@ -165,7 +197,9 @@ const Register = ({ navigation }) => {
                 onSubmitForm();
               }}
             >
-              <Text style={styles.buttonText}>Enregistrer</Text>
+              <Text style={styles.buttonText}>
+                {i18n.t("register.save", "Enregistrer")}
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </ImageBackground>
