@@ -27,7 +27,7 @@ import fille1 from "../../assets/fille1.png";
 import fille2 from "../../assets/fille2.png";
 import garcon1 from "../../assets/garcon1.png";
 import garcon2 from "../../assets/garcon2.png";
-import SelectInput from "react-native-select-input-ios";
+import RNPickerSelect from "react-native-picker-select";
 
 const optionsLang = [
   { value: "fr", label: "Français" },
@@ -96,7 +96,6 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
     }
     return "";
   };
-  console.log("user", user.subuser[user.current_subuser]);
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.container}>
@@ -170,17 +169,18 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
                 Ta langue :
               </Text>
-              <SelectInput
-                value={lang}
+              <RNPickerSelect
                 style={styles.selectInput}
-                labelStyle={{ color: "grey", fontSize: 20 }}
-                cancelKeyText="Annuler"
-                submitKeyText="Valider"
-                onSubmitEditing={(value) => {
-                  setLang(value);
-                }}
-                options={optionsLang}
-              />
+                onValueChange={(value) => setLang(value)}
+                items={optionsLang}
+                doneText={"Valider"}
+              >
+                <Text
+                  style={[styles.selectInput, { color: "grey", fontSize: 19 }]}
+                >
+                  {lang} ↓
+                </Text>
+              </RNPickerSelect>
             </View>
             <Text
               style={{

@@ -20,7 +20,8 @@ import Header from "../../navigation/header";
 import { validateInputField } from "../../helpers/form-validator";
 import { useIsFocused } from "@react-navigation/native";
 import { CheckBox } from "react-native-elements";
-import i18n from "../../i18n/index";
+import { loadUserInfo } from "../../actions/user/userActions";
+import { buildI18n } from "../../i18n/index";
 
 const Register = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -31,7 +32,7 @@ const Register = ({ navigation }) => {
   const [lang, setlang] = useState("fr");
   const [passwordConfirm, setpasswordConfirm] = useState("");
   const [cgu, setcgu] = useState(false);
-
+  const i18n = buildI18n();
   const onSubmitForm = () => {
     setErrorMessage("");
 

@@ -10,7 +10,6 @@ export const buildI18n = (user = null) => {
     user.subuser &&
     user.subuser[user.current_subuser] &&
     user.subuser[user.current_subuser].lang;
-  console.log(lang);
   i18n.translations = {
     en: en,
     fr: fr,
@@ -18,7 +17,6 @@ export const buildI18n = (user = null) => {
   };
 
   i18n.locale = lang ? lang : Localization.locale;
-  console.log(i18n.locale);
   i18n.fallbacks = true;
   return i18n;
 };

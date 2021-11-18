@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Button,
   Linking,
+  ScrollView,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -16,6 +17,7 @@ import {
 import background from "../assets/main-background.jpg";
 import Header from "../navigation/header";
 import HeaderLog from "../navigation/header-log";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { connect } from "react-redux";
 import Menu from "../component/go";
 import logo from "../assets/icon.png";
@@ -126,160 +128,169 @@ const Home = ({
       )}
 
       <ImageBackground source={background} style={styles.image}>
-        {user.infos && (
-          <>
-            <Menu
-              loadCycleInfo={loadCycleInfo}
-              currentLevel={currentLevel}
-              alltheme={theme.allTheme}
-              setThemeId={setThemeId}
-              allcycle={cycle.allCycle}
-              navigation={navigation}
-              user={user}
-            />
-            <View style={styles.levelbar}>
-              {theme_id && (
-                <>
-                  <LevelBar obj={obj} state={state} />
-                  <Text style={styles.text}>
-                    {i18n.t("home.rituels", "Rituels")} : {state}/{obj}
-                  </Text>
-                </>
-              )}
-            </View>
+        <ScrollView
+          style={styles.scrollContainer}
+          contentContainerStyle={{
+            flexGrow: 1,
+            alignItems: "center",
+            minHeight: hp("90%"),
+          }}
+        >
+          {user.infos && (
+            <>
+              <Menu
+                loadCycleInfo={loadCycleInfo}
+                currentLevel={currentLevel}
+                alltheme={theme.allTheme}
+                setThemeId={setThemeId}
+                allcycle={cycle.allCycle}
+                navigation={navigation}
+                user={user}
+              />
+              <View style={styles.levelbar}>
+                {theme_id && (
+                  <>
+                    <LevelBar obj={obj} state={state} />
+                    <Text style={styles.text}>
+                      {i18n.t("home.rituels", "Rituels")} : {state}/{obj}
+                    </Text>
+                  </>
+                )}
+              </View>
 
-            <Text style={styles.subTitle}>
-              {i18n.t("home.bonjour", "hi")}
-              {user.subuser[user.current_subuser].name}
-            </Text>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "Warroom" }],
-                })
-              }
-              style={styles.motivation}
-            >
-              <Text
-                style={
-                  isPhone ? styles.motivationTextPhone : styles.motivationText
-                }
-              >
-                {i18n.t("home.organisation", "Organisation")}
+              <Text style={styles.subTitle}>
+                {i18n.t("home.bonjour", "hi")}
+                {user.subuser[user.current_subuser].name}
               </Text>
-            </TouchableOpacity>
-          </>
-        )}
-        {user.isLogged === false && (
-          <View style={{ display: "flex", flex: 1 }}>
-            <Text style={styles.title}>Bienvenue sur 4b Premium</Text>
-            <View style={styles.buttonContainer}>
-              <View
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 20,
-                }}
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "Warroom" }],
+                  })
+                }
+                style={styles.motivation}
               >
-                <Text style={styles.subTitle}>Déjà un compte ? </Text>
-                <TouchableOpacity
-                  style={styles.link}
-                  onPress={() => {
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "Login" }],
-                    });
-                  }}
+                <Text
+                  style={
+                    isPhone ? styles.motivationTextPhone : styles.motivationText
+                  }
                 >
-                  <Text style={{ color: "white", fontSize: 20 }}>
-                    {i18n.t("home.connexion", "Se connecter")}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 20,
-                }}
-              >
-                <Text style={styles.subTitle}>
-                  {" "}
-                  {i18n.t("home.new", "Nouveau sur 4b ?")}
+                  {i18n.t("home.organisation", "Organisation")}
                 </Text>
-                <TouchableOpacity
-                  style={styles.link}
-                  onPress={() => {
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "Register" }],
-                    });
+              </TouchableOpacity>
+            </>
+          )}
+          {user.isLogged === false && (
+            <View style={{ display: "flex", flex: 1 }}>
+              <Text style={styles.title}>Bienvenue sur 4b Premium</Text>
+              <View style={styles.buttonContainer}>
+                <View
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 20,
                   }}
                 >
-                  <Text style={{ color: "white", fontSize: 20 }}>
-                    {i18n.t("home.newAccount", "Créer un compte")}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: 20,
-                }}
-              >
-                <Text style={styles.subTitle}>
-                  {" "}
-                  {i18n.t("home.moreInfo", "Plus d'information sur 4b ")}:
-                </Text>
-                <TouchableOpacity
-                  style={styles.link}
-                  onPress={() => {
-                    navigation.reset({
-                      index: 0,
-                      routes: [{ name: "HowAppWork" }],
-                    });
+                  <Text style={styles.subTitle}>Déjà un compte ? </Text>
+                  <TouchableOpacity
+                    style={styles.link}
+                    onPress={() => {
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "Login" }],
+                      });
+                    }}
+                  >
+                    <Text style={{ color: "white", fontSize: 20 }}>
+                      {i18n.t("home.connexion", "Se connecter")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 20,
                   }}
                 >
-                  <Text style={{ color: "white", fontSize: 20 }}>
-                    {i18n.t("home.clique", "Cliquez-ici ")}
+                  <Text style={styles.subTitle}>
+                    {" "}
+                    {i18n.t("home.new", "Nouveau sur 4b ?")}
                   </Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.link}
+                    onPress={() => {
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "Register" }],
+                      });
+                    }}
+                  >
+                    <Text style={{ color: "white", fontSize: 20 }}>
+                      {i18n.t("home.newAccount", "Créer un compte")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <Text style={styles.subTitle}>
+                    {" "}
+                    {i18n.t("home.moreInfo", "Plus d'information sur 4b ")}:
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.link}
+                    onPress={() => {
+                      navigation.reset({
+                        index: 0,
+                        routes: [{ name: "HowAppWork" }],
+                      });
+                    }}
+                  >
+                    <Text style={{ color: "white", fontSize: 20 }}>
+                      {i18n.t("home.clique", "Cliquez-ici ")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        )}
-        {user.isLogged == null && (
-          <Text style={styles.title}>
-            {i18n.t("home.loading", "Chargement en cours...")}
-          </Text>
-        )}
-        {!isPhone && user.isLogged === true && (
-          <TouchableOpacity
-            style={styles.logo}
-            onPress={async () => {
-              await Linking.openURL("http://4bpremium.com/");
-            }}
-          >
-            <Image source={logo} style={styles.logo} />
-          </TouchableOpacity>
-        )}
-        {user.infos && (
-          <>
+          )}
+          {user.isLogged == null && (
+            <Text style={styles.title}>
+              {i18n.t("home.loading", "Chargement en cours...")}
+            </Text>
+          )}
+          {!isPhone && user.isLogged === true && (
             <TouchableOpacity
-              style={styles.picto}
-              onPress={() => {
-                navigation.reset({
-                  index: 0,
-                  routes: [{ name: "ChangeAccount" }],
-                });
+              style={styles.logo}
+              onPress={async () => {
+                await Linking.openURL("http://4bpremium.com/");
               }}
             >
-              <Image source={image} style={styles.picto} />
+              <Image source={logo} style={styles.logo} />
             </TouchableOpacity>
-          </>
-        )}
+          )}
+          {user.infos && (
+            <>
+              <TouchableOpacity
+                style={styles.picto}
+                onPress={() => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "ChangeAccount" }],
+                  });
+                }}
+              >
+                <Image source={image} style={styles.picto} />
+              </TouchableOpacity>
+            </>
+          )}
+        </ScrollView>
       </ImageBackground>
     </View>
   );

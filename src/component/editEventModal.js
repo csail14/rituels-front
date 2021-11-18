@@ -29,6 +29,7 @@ import { modifyEvent, deleteEvent, getCount } from "../api/eventApi";
 import { loadCycleInfo } from "../actions/cycle/cycleActions";
 import { getAllEvent } from "../api/eventApi";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import RNPickerSelect from "react-native-picker-select";
 
 const App = (props) => {
   const [pickedDate, setPickedDate] = useState(
@@ -172,7 +173,7 @@ const App = (props) => {
   const optionsKids = optionsFamily.filter((item) => item.value === 1);
 
   return (
-    <View style={styles.centeredView}>
+    <View style={isPhone ? styles.centeredViewMobile : styles.centeredView}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -211,17 +212,38 @@ const App = (props) => {
                 Catégorie :{" "}
               </Text>
               <View>
-                <SelectInput
-                  value={selectedValue}
+                <RNPickerSelect
                   style={styles.selectInput}
-                  labelStyle={{ color: "grey", fontSize: 20 }}
-                  cancelKeyText="Annuler"
-                  submitKeyText="Valider"
-                  onSubmitEditing={(value) => {
-                    selectCat(value);
-                  }}
-                  options={isFamily ? optionsFamily : optionsKids}
-                />
+                  onValueChange={(value) => selectCat(value)}
+                  items={isFamily ? optionsFamily : optionsKids}
+                  doneText={"Valider"}
+                >
+                  <Text
+                    style={[
+                      styles.selectInput,
+                      { color: "grey", fontSize: 19 },
+                    ]}
+                  >
+                    {isFamily
+                      ? optionsFamily &&
+                        optionsFamily.length &&
+                        optionsFamily.filter(
+                          (item) => item.value === selectedValue
+                        )[0] &&
+                        optionsFamily.filter(
+                          (item) => item.value === selectedValue
+                        )[0].label
+                      : optionsKids &&
+                        optionsKids.length &&
+                        optionsKids.filter(
+                          (item) => item.value === selectedValue
+                        )[0] &&
+                        optionsKids.filter(
+                          (item) => item.value === selectedValue
+                        )[0].label}
+                    ↓
+                  </Text>
+                </RNPickerSelect>
               </View>
             </View>
 
@@ -390,6 +412,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
+  centeredViewMobile: {
+    position: "absolute",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   title: {
     marginBottom: 10,
     textAlign: "center",

@@ -21,13 +21,13 @@ import Header from "../../navigation/header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { connect } from "react-redux";
 import { loadUserInfo } from "../../actions/user/userActions";
-import i18n from "../../i18n/index";
+import { buildI18n } from "../../i18n/index";
 
 const Login = (props) => {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const [errorMessage, seterrorMessage] = useState("");
-
+  const i18n = buildI18n();
   const onSubmitForm = () => {
     let data = {
       email: email,

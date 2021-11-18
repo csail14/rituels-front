@@ -25,7 +25,6 @@ import moment from "moment";
 import AddEventModal from "../../component/addEventModal";
 import EditEventModal from "../../component/editEventModal";
 import AddRecurentEventModal from "../../component/addRecurrentEventModal.js";
-import AddRecurentEvent from "../../component/addReccurentEvent";
 import Help from "../../component/popUpHelpWarroom.js";
 import { useMediaQuery } from "react-responsive";
 //import 'moment/locale/fr';

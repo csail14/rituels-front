@@ -24,6 +24,8 @@ import { useMediaQuery } from "react-responsive";
 import moment from "moment";
 import "moment/locale/fr";
 moment.locale("fr");
+import RNPickerSelect from "react-native-picker-select";
+
 import SelectInput from "react-native-select-input-ios";
 import { addEvent, getCount } from "../api/eventApi";
 import { getAllEvent } from "../api/eventApi";
@@ -41,7 +43,7 @@ const App = (props) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const isPhone = useMediaQuery({
-    query: "(max-device-width:450)",
+    query: "(min-device-width:450)",
   });
 
   useEffect(() => {
@@ -206,9 +208,8 @@ const App = (props) => {
     }
     sethourOption(optionsHour);
   };
-
   return (
-    <View style={styles.centeredView}>
+    <View style={isPhone ? styles.centeredViewMobile : styles.centerView}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -220,7 +221,6 @@ const App = (props) => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.title}>
-              {" "}
               Créer un rituel récurrent sur les 7 prochaines semaines{" "}
             </Text>
             <View style={styles.centerView}>
@@ -250,17 +250,38 @@ const App = (props) => {
                 Catégorie :{" "}
               </Text>
               <View>
-                <SelectInput
-                  value={selectedValue}
+                <RNPickerSelect
                   style={styles.selectInput}
-                  labelStyle={{ color: "grey", fontSize: 20 }}
-                  cancelKeyText="Annuler"
-                  submitKeyText="Valider"
-                  onSubmitEditing={(value) => {
-                    selectCat(value);
-                  }}
-                  options={isFamily ? optionsFamily : optionsKids}
-                />
+                  onValueChange={(value) => selectCat(value)}
+                  items={isFamily ? optionsFamily : optionsKids}
+                  doneText={"Valider"}
+                >
+                  <Text
+                    style={[
+                      styles.selectInput,
+                      { color: "grey", fontSize: 19 },
+                    ]}
+                  >
+                    {isFamily
+                      ? optionsFamily &&
+                        optionsFamily.length &&
+                        optionsFamily.filter(
+                          (item) => item.value === selectedValue
+                        )[0] &&
+                        optionsFamily.filter(
+                          (item) => item.value === selectedValue
+                        )[0].label
+                      : optionsKids &&
+                        optionsKids.length &&
+                        optionsKids.filter(
+                          (item) => item.value === selectedValue
+                        )[0] &&
+                        optionsKids.filter(
+                          (item) => item.value === selectedValue
+                        )[0].label}
+                    ↓
+                  </Text>
+                </RNPickerSelect>
               </View>
             </View>
 
@@ -269,17 +290,21 @@ const App = (props) => {
                 <Text style={{ color: "black", fontSize: 20, margin: 10 }}>
                   Jour :{" "}
                 </Text>
-                <SelectInput
-                  value={daySelected}
+                <RNPickerSelect
                   style={styles.selectInput}
-                  labelStyle={{ color: "grey", fontSize: 20 }}
-                  cancelKeyText="Annuler"
-                  submitKeyText="Valider"
-                  onSubmitEditing={(value) => {
-                    setDaySelected(value);
-                  }}
-                  options={optionsDay}
-                />
+                  onValueChange={(value) => setDaySelected(value)}
+                  items={optionsDay}
+                  doneText={"Valider"}
+                >
+                  <Text
+                    style={[
+                      styles.selectInput,
+                      { color: "grey", fontSize: 19 },
+                    ]}
+                  >
+                    {daySelected} ↓
+                  </Text>
+                </RNPickerSelect>
               </View>
               <View>
                 <Text
@@ -292,17 +317,21 @@ const App = (props) => {
                 >
                   Heure :{" "}
                 </Text>
-                <SelectInput
-                  value={hourSelected}
+                <RNPickerSelect
                   style={styles.selectInput}
-                  labelStyle={{ color: "grey", fontSize: 20 }}
-                  cancelKeyText="Annuler"
-                  submitKeyText="Valider"
-                  onSubmitEditing={(value) => {
-                    setHourSelected(value);
-                  }}
-                  options={hourOptions}
-                />
+                  onValueChange={(value) => setHourSelected(value)}
+                  items={hourOptions}
+                  doneText={"Valider"}
+                >
+                  <Text
+                    style={[
+                      styles.selectInput,
+                      { color: "grey", fontSize: 19 },
+                    ]}
+                  >
+                    {hourSelected} ↓
+                  </Text>
+                </RNPickerSelect>
               </View>
             </View>
 
@@ -410,6 +439,13 @@ const App = (props) => {
 const styles = StyleSheet.create({
   centeredView: {
     marginLeft: wp("10%"),
+    position: "absolute",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22,
+  },
+  centeredViewMobile: {
     position: "absolute",
     flex: 1,
     justifyContent: "center",

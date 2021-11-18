@@ -23,6 +23,7 @@ import "moment/locale/fr";
 moment.locale("fr");
 import { useMediaQuery } from "react-responsive";
 import SelectInput from "react-native-select-input-ios";
+import RNPickerSelect from "react-native-picker-select";
 
 const Stats = ({ navigation, user, theme }) => {
   const [scale, setScale] = useState("week");
@@ -212,7 +213,7 @@ const Stats = ({ navigation, user, theme }) => {
           contentContainerStyle={{
             flexGrow: 1,
             alignItems: "center",
-            height: hp("100%"),
+            minHeight: hp("100%"),
           }}
         >
           {!isPhone && (
@@ -255,22 +256,21 @@ const Stats = ({ navigation, user, theme }) => {
                   justifyContent: "center",
                 }}
               >
-                <SelectInput
-                  value={selectedCat.id}
+                <RNPickerSelect
                   style={styles.selectInput}
-                  labelStyle={{
-                    color: "white",
-                    fontSize: 20,
-                  }}
-                  cancelKeyText="Annuler"
-                  submitKeyText="Valider"
-                  onSubmitEditing={(value) => {
-                    setCatFromSelect(value);
-                  }}
-                  options={
-                    isFamily ? optionsCategoryFamily : optionsCategoryKids
-                  }
-                />
+                  onValueChange={(value) => setCatFromSelect(value)}
+                  items={isFamily ? optionsCategoryFamily : optionsCategoryKids}
+                  doneText={"Valider"}
+                >
+                  <Text
+                    style={[
+                      styles.selectInput,
+                      { color: "white", fontSize: 19 },
+                    ]}
+                  >
+                    {selectedCat.name} ↓
+                  </Text>
+                </RNPickerSelect>
               </View>
             </>
           )}
@@ -329,6 +329,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "black",
   },
+  scrollContainer: { paddingBottom: 0 },
   image: {
     flex: 1,
     resizeMode: "cover",

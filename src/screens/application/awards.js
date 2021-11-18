@@ -33,8 +33,9 @@ import { validateInputField } from "../../helpers/form-validator";
 import { getAllTheme } from "../../api/themeApi";
 import { loadTheme } from "../../actions/theme/themeActions";
 import LevelBar from "../../component/levelbar";
-import SelectInput from "react-native-select-input-ios";
+import RNPickerSelect from "react-native-picker-select";
 import { useMediaQuery } from "react-responsive";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
   const [date, setdate] = useState(new Date());
@@ -51,6 +52,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
     id: 1,
     name: "categorie 1",
   });
+
   const [errorMessage, setErrorMessage] = useState("");
   const [showCalendar, setshowCalendar] = useState(false);
   const [showTitleInput, setShowTitleInput] = useState(false);
@@ -115,7 +117,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
   const options = [
     {
       value: 0,
-      label: "Choisis ou saisis ta récompense   ▼ ",
+      label: "Choisis ou saisis ta récompense",
     },
     {
       value: 1,
@@ -263,6 +265,17 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
       setShowTitleInput(true);
     }
   };
+
+  const handleConfirm = (date) => {
+    setshowCalendar(false);
+    if (date.getDay() !== 1) {
+      date.setDate(date.getDate() - (date.getDay() - 1));
+    }
+    setdate(date);
+  };
+  const hideDatePicker = () => {
+    setshowCalendar(false);
+  };
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.container}>
@@ -321,20 +334,25 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                   justifyContent: "center",
                 }}
               >
-                <SelectInput
-                  value={selectedValue}
+                <RNPickerSelect
                   style={styles.selectInput}
-                  labelStyle={{
-                    color: "white",
-                    fontSize: 20,
-                  }}
-                  cancelKeyText="Annuler"
-                  submitKeyText="Valider"
-                  onSubmitEditing={(value) => {
-                    selectAward(value);
-                  }}
-                  options={options}
-                />
+                  onValueChange={(value) => selectAward(value)}
+                  items={options}
+                  doneText={"Valider"}
+                >
+                  <Text
+                    style={[
+                      styles.selectInput,
+                      { color: "white", fontSize: 19 },
+                    ]}
+                  >
+                    {options &&
+                      options.filter((item) => item.value === selectedValue) &&
+                      options.filter((item) => item.value === selectedValue)[0]
+                        .label}{" "}
+                    ↓
+                  </Text>
+                </RNPickerSelect>
               </View>
               <View style={styles.formView}>
                 {showTitleInput && (
@@ -358,6 +376,16 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                     Semaine du {moment(date).format("dddd DD MMMM")}
                   </Text>
                 </TouchableOpacity>
+                <DateTimePickerModal
+                  isVisible={showCalendar}
+                  mode="date"
+                  format="dddd  DD MMMM"
+                  minuteInterval="15"
+                  locale="fr-FR"
+                  date={new Date(date)}
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                />
                 {isPhone ? (
                   <>
                     <Text style={styles.text}>Catégorie :</Text>
@@ -368,22 +396,23 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                         justifyContent: "center",
                       }}
                     >
-                      <SelectInput
-                        value={selectedCat.id}
+                      <RNPickerSelect
                         style={styles.selectInput}
-                        labelStyle={{
-                          color: "white",
-                          fontSize: 20,
-                        }}
-                        cancelKeyText="Annuler"
-                        submitKeyText="Valider"
-                        onSubmitEditing={(value) => {
-                          setCatFromSelect(value);
-                        }}
-                        options={
+                        onValueChange={(value) => setCatFromSelect(value)}
+                        items={
                           isFamily ? optionsCategoryFamily : optionsCategoryKids
                         }
-                      />
+                        doneText={"Valider"}
+                      >
+                        <Text
+                          style={[
+                            styles.selectInput,
+                            { color: "white", fontSize: 19 },
+                          ]}
+                        >
+                          {selectedCat.name} ↓
+                        </Text>
+                      </RNPickerSelect>
                     </View>
                   </>
                 ) : (
@@ -416,29 +445,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              {showCalendar && (
-                <View style={styles.calendar}>
-                  <CalendarPicker
-                    height={hp("55%")}
-                    previousTitle={"Préc"}
-                    disabledDates={(d) => {
-                      if (new Date(d).getDay() !== 1) {
-                        return d;
-                      }
-                    }}
-                    disabledDatesTextStyle={{ color: "grey" }}
-                    nextTitle={"Suiv"}
-                    selectedDayColor={"blue"}
-                    startFromMonday={true}
-                    locale={"FR"}
-                    width={wp("50%")}
-                    onDateChange={(date) => {
-                      setdate(date);
-                      setshowCalendar(false);
-                    }}
-                  />
-                </View>
-              )}
+
               {nextaward && (
                 <View>
                   <Text style={styles.title}>

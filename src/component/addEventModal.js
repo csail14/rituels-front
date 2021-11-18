@@ -24,7 +24,7 @@ import { useMediaQuery } from "react-responsive";
 import moment from "moment";
 import "moment/locale/fr";
 moment.locale("fr");
-import SelectInput from "react-native-select-input-ios";
+import RNPickerSelect from "react-native-picker-select";
 import { addEvent, getCount } from "../api/eventApi";
 import { getAllEvent } from "../api/eventApi";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -124,9 +124,8 @@ const App = (props) => {
     return { value: item.id, label: item.name };
   });
   const optionsKids = optionsFamily.filter((item) => item.value === 1);
-
   return (
-    <View style={styles.centeredView}>
+    <View style={isPhone ? styles.centeredViewMobile : styles.centerView}>
       <Modal
         animationType="slide"
         transparent={true}
@@ -135,7 +134,7 @@ const App = (props) => {
           props.setModalVisible(!props.modalVisible);
         }}
       >
-        <View style={styles.centeredView}>
+        <View style={isPhone ? styles.centeredViewMobile : styles.centerView}>
           <View style={styles.modalView}>
             <Text style={styles.title}>Nouveau rituel</Text>
             <View style={styles.centerView}>
@@ -165,17 +164,38 @@ const App = (props) => {
                 Catégorie :{" "}
               </Text>
               <View>
-                <SelectInput
-                  value={selectedValue}
+                <RNPickerSelect
                   style={styles.selectInput}
-                  labelStyle={{ color: "grey", fontSize: 20 }}
-                  cancelKeyText="Annuler"
-                  submitKeyText="Valider"
-                  onSubmitEditing={(value) => {
-                    selectCat(value);
-                  }}
-                  options={isFamily ? optionsFamily : optionsKids}
-                />
+                  onValueChange={(value) => selectCat(value)}
+                  items={isFamily ? optionsFamily : optionsKids}
+                  doneText={"Valider"}
+                >
+                  <Text
+                    style={[
+                      styles.selectInput,
+                      { color: "grey", fontSize: 19 },
+                    ]}
+                  >
+                    {isFamily
+                      ? optionsFamily &&
+                        optionsFamily.length &&
+                        optionsFamily.filter(
+                          (item) => item.value === selectedValue
+                        )[0] &&
+                        optionsFamily.filter(
+                          (item) => item.value === selectedValue
+                        )[0].label
+                      : optionsKids &&
+                        optionsKids.length &&
+                        optionsKids.filter(
+                          (item) => item.value === selectedValue
+                        )[0] &&
+                        optionsKids.filter(
+                          (item) => item.value === selectedValue
+                        )[0].label}
+                    ↓
+                  </Text>
+                </RNPickerSelect>
               </View>
             </View>
 
@@ -323,12 +343,20 @@ const App = (props) => {
 
 const styles = StyleSheet.create({
   centeredView: {
-    marginLeft: wp("30%"),
+    //marginLeft: wp("30%"),
     position: "absolute",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22,
+  },
+  centeredViewMobile: {
+    // marginLeft: wp("30%"),
+    position: "absolute",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    //marginTop: 22,
   },
   title: {
     marginBottom: 10,
@@ -394,7 +422,7 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
   },
   modalView: {
-    margin: 20,
+    // margin: 20,
     backgroundColor: "#CAE6FF",
     borderRadius: 20,
     padding: 35,
@@ -464,9 +492,8 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     fontSize: 20,
-    position: "absolute",
     textAlign: "center",
-    marginTop: "10%",
+    marginBottom: 10,
     color: "red",
   },
 });
