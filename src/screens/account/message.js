@@ -18,11 +18,11 @@ import { validateInputField } from "../../helpers/form-validator";
 import { connect } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { sendContactMessage } from "../../api/userApi";
-
+import { buildI18n } from "../../i18n/index";
 const Message = ({ navigation, user }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
-
+  const i18n = buildI18n(user);
   const onSubmitForm = () => {
     setErrorMessage("");
 
@@ -45,20 +45,20 @@ const Message = ({ navigation, user }) => {
       });
     }
   };
-
+  console.log(user);
   const formValidator = (data) => {
     let error = false;
 
     for (let key in data) {
-      error = validateInputField(key, "string", data[key]);
+      error = validateInputField(key, "string", data[key], i18n.t);
       if (error !== "") {
         setErrorMessage(error);
         return error;
       }
     }
-    if (validateInputField("mail", "email", data.email) !== "") {
-      setErrorMessage(validateInputField("mail", "email", data.email));
-      return validateInputField("email", "email", data.email);
+    if ((validateInputField("mail", "email", data.email) !== "", i18n.t)) {
+      setErrorMessage(validateInputField("mail", "email", data.email, i18n.t));
+      return validateInputField("email", "email", data.email, i18n.t);
     }
     return "";
   };
@@ -70,7 +70,10 @@ const Message = ({ navigation, user }) => {
 
         <ImageBackground source={background} style={styles.image}>
           <ScrollView style={styles.scrollContainer}>
-            <Text style={styles.title}>Envoyez-nous un message</Text>
+            <Text style={styles.title}>
+              {" "}
+              {i18n.t("account.message", "Envoyez-nous un message")}
+            </Text>
 
             <TextInput
               style={styles.inputMessage}
@@ -90,7 +93,9 @@ const Message = ({ navigation, user }) => {
                 onSubmitForm();
               }}
             >
-              <Text style={styles.buttonText}>Envoyer</Text>
+              <Text style={styles.buttonText}>
+                {i18n.t("account.send", "Envoyer")}
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </ImageBackground>

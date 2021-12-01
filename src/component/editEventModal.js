@@ -30,6 +30,7 @@ import { loadCycleInfo } from "../actions/cycle/cycleActions";
 import { getAllEvent } from "../api/eventApi";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
+import { buildI18n } from "../i18n/index";
 
 const App = (props) => {
   const [pickedDate, setPickedDate] = useState(
@@ -55,6 +56,7 @@ const App = (props) => {
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
+  const i18n = buildI18n(props.user);
 
   useEffect(() => {
     if (props.event[0]) {
@@ -153,7 +155,7 @@ const App = (props) => {
 
   const formValidator = () => {
     let error = false;
-    error = validateInputField("title", "string", title);
+    error = validateInputField("title", "string", title, i18n.t);
     if (error !== "") {
       setErrorMessage("Veuillez ajouter un titre");
       return error;

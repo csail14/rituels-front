@@ -36,7 +36,6 @@ import fille2 from "../assets/fille2.png";
 import garcon1 from "../assets/garcon1.png";
 import garcon2 from "../assets/garcon2.png";
 import { isMobile } from "react-device-detect";
-
 import { buildI18n } from "../i18n/index";
 
 const Home = ({
@@ -183,7 +182,9 @@ const Home = ({
           )}
           {user.isLogged === false && (
             <View style={{ display: "flex", flex: 1 }}>
-              <Text style={styles.title}>Bienvenue sur 4b Premium</Text>
+              <Text style={styles.title}>
+                {i18n.t("home.welcome", "Bienvenue sur 4b Premium.")}
+              </Text>
               <View style={styles.buttonContainer}>
                 <View
                   style={{
@@ -192,7 +193,10 @@ const Home = ({
                     marginBottom: 20,
                   }}
                 >
-                  <Text style={styles.subTitle}>Déjà un compte ? </Text>
+                  <Text style={styles.subTitle}>
+                    {" "}
+                    {i18n.t("home.account", "Déjà un compte ? ")}
+                  </Text>
                   <TouchableOpacity
                     style={styles.link}
                     onPress={() => {

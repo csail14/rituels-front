@@ -11,6 +11,7 @@ import { useMediaQuery } from "react-responsive";
 import { Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import logo from "../assets/icon.png";
+import { buildI18n } from "../i18n/index";
 
 const Header = (props) => {
   const navigation = props.navigation;
@@ -19,6 +20,8 @@ const Header = (props) => {
   const [loginColor, setLoginColor] = useState("#1E90FF");
   const [registerColor, setRegisterColor] = useState("#1E90FF");
   const [showMenu, setShowMenu] = useState(false);
+
+  const i18n = buildI18n(props.user);
 
   useEffect(() => {
     navigationColor();
@@ -84,7 +87,7 @@ const Header = (props) => {
               color={acceuilColor}
             >
               <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Accueil
+                {i18n.t("header.home", "Accueil")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -101,7 +104,7 @@ const Header = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: detailColor }}>
-                Détails
+                {i18n.t("header.details", "Détails")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -118,7 +121,7 @@ const Header = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: registerColor }}>
-                S'inscrire
+                {i18n.t("header.register", "S'inscrire")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -135,7 +138,7 @@ const Header = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: loginColor }}>
-                Se connecter
+                {i18n.t("header.login", "Se connecter")}
               </Text>
             </TouchableOpacity>
           </>
@@ -156,7 +159,7 @@ const Header = (props) => {
             color={acceuilColor}
           >
             <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-              Accueil
+              {i18n.t("header.home", "Accueil")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -173,7 +176,7 @@ const Header = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: detailColor }}>
-              Détails
+              {i18n.t("header.details", "Détails")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -190,7 +193,7 @@ const Header = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: registerColor }}>
-              S'inscrire
+              {i18n.t("header.register", "S'inscrire")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -207,7 +210,7 @@ const Header = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: loginColor }}>
-              Se connecter
+              {i18n.t("header.login", "Se connecter")}
             </Text>
           </TouchableOpacity>
         </View>

@@ -24,6 +24,7 @@ moment.locale("fr");
 import { useMediaQuery } from "react-responsive";
 import SelectInput from "react-native-select-input-ios";
 import RNPickerSelect from "react-native-picker-select";
+import { buildI18n } from "../../i18n/index";
 
 const Stats = ({ navigation, user, theme }) => {
   const [scale, setScale] = useState("week");
@@ -33,7 +34,7 @@ const Stats = ({ navigation, user, theme }) => {
   const [selectedCat, setSelectedCat] = useState(theme.allTheme[0]);
   const [weekColor, setWeekcolor] = useState("#bdbdde");
   const [monthColor, setMonthcolor] = useState("#8484a3");
-
+  const i18n = buildI18n(user);
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
@@ -245,10 +246,15 @@ const Stats = ({ navigation, user, theme }) => {
               })}
             </View>
           )}
-          <Text style={styles.text}>Nombre de Rituels validés</Text>
+          <Text style={styles.text}>
+            {i18n.t("application.rituels validés", "Nombre de Rituels validés")}
+          </Text>
           {isPhone && (
             <>
-              <Text style={styles.text}>Catégorie :</Text>
+              <Text style={styles.text}>
+                {" "}
+                {i18n.t("application.Catégorie :", "Catégorie :")}
+              </Text>
               <View
                 style={{
                   display: "flex",
@@ -260,7 +266,7 @@ const Stats = ({ navigation, user, theme }) => {
                   style={styles.selectInput}
                   onValueChange={(value) => setCatFromSelect(value)}
                   items={isFamily ? optionsCategoryFamily : optionsCategoryKids}
-                  doneText={"Valider"}
+                  doneText={i18n.t("application.Valider", "Valider")}
                 >
                   <Text
                     style={[
@@ -302,7 +308,7 @@ const Stats = ({ navigation, user, theme }) => {
               <Text
                 style={[styles.textbouton, { backgroundColor: monthColor }]}
               >
-                Hebdo
+                {i18n.t("application.Hebdo", "Hebdo")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -314,7 +320,7 @@ const Stats = ({ navigation, user, theme }) => {
               }}
             >
               <Text style={[styles.textbouton, { backgroundColor: weekColor }]}>
-                Mensuel
+                {i18n.t("application.Mensuel", "Mensuel")}
               </Text>
             </TouchableOpacity>
           </View>

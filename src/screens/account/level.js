@@ -28,6 +28,7 @@ import {
 } from "../../api/levelApi";
 import { loadLevel } from "../../actions/level/levelActions";
 import moment from "moment";
+import { buildI18n } from "../../i18n/index";
 import "moment/locale/fr";
 moment.locale("fr");
 
@@ -38,12 +39,14 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
   const [currentLevel, setCurrentLevel] = useState(null);
   const [bestScore, setBestScore] = useState(0);
   const [test, setTest] = useState("0");
+  const i18n = buildI18n(user);
 
   useEffect(() => {
     if (user.subuser) {
       setsubuser(user.subuser[user.current_subuser]);
     }
     let array = [];
+
     let catLevel = level.allLevel.filter((it) => it.id == selectedCat.id);
     if (catLevel.length > 0) {
       catLevel[0].level.map((level) => {
@@ -138,7 +141,8 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
             <Text style={styles.title}>{subuser.name}</Text>
             {currentLevel && (
               <Text style={styles.title}>
-                Niveau actuel : {currentLevel.name}
+                {i18n.t("account.current", "Niveau actuel :")}
+                {currentLevel.name}
               </Text>
             )}
             <View style={styles.boutonView}>
@@ -175,7 +179,10 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
                           {level.name}
                         </Text>
                         <View>
-                          <Text style={styles.leveltext}>Cycle min</Text>
+                          <Text style={styles.leveltext}>
+                            {" "}
+                            {i18n.t("account.min", "Cycle min")}
+                          </Text>
                           <TextInput
                             style={styles.input}
                             type="text"
@@ -190,7 +197,10 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
                           />
                         </View>
                         <View>
-                          <Text style={styles.leveltext}>Cycle max</Text>
+                          <Text style={styles.leveltext}>
+                            {" "}
+                            {i18n.t("account.max", "Cycle max")}
+                          </Text>
                           <TextInput
                             style={styles.input}
                             type="text"
@@ -221,7 +231,10 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
                           }}
                         />
                         <View>
-                          <Text style={styles.leveltext}>Cycle min</Text>
+                          <Text style={styles.leveltext}>
+                            {" "}
+                            {i18n.t("account.min", "Cycle min")}
+                          </Text>
                           <TextInput
                             style={styles.input}
                             type="text"
@@ -236,7 +249,10 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
                           />
                         </View>
                         <View>
-                          <Text style={styles.leveltext}>Cycle max</Text>
+                          <Text style={styles.leveltext}>
+                            {" "}
+                            {i18n.t("account.max", "Cycle max")}
+                          </Text>
                           <TextInput
                             style={styles.input}
                             type="text"
@@ -283,10 +299,16 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
               }}
             >
               <TouchableOpacity onPress={saveChange} style={styles.button}>
-                <Text style={styles.text}>Valider</Text>
+                <Text style={styles.text}>
+                  {" "}
+                  {i18n.t("account.validate", "Valider")}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={addLevel}>
-                <Text style={styles.text}> + Ajouter un Niveau</Text>
+                <Text style={styles.text}>
+                  {" "}
+                  {i18n.t("account.addLevel", "+ Ajouter un Niveau")}
+                </Text>
               </TouchableOpacity>
             </View>
           </ImageBackground>

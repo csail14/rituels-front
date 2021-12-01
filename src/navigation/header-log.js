@@ -11,6 +11,7 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "react-native-elements";
 import logo from "../assets/icon.png";
+import { buildI18n } from "../i18n/index";
 
 const HeaderLog = (props) => {
   const navigation = props.navigation;
@@ -24,6 +25,7 @@ const HeaderLog = (props) => {
   const isPhone = useMediaQuery({
     query: "(max-device-width:450)",
   });
+  const i18n = buildI18n(props.user);
 
   useEffect(() => {
     navigationColor();
@@ -62,7 +64,7 @@ const HeaderLog = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Accueil
+                {i18n.t("header.home", "Accueil")}
               </Text>
             </TouchableOpacity>
 
@@ -76,7 +78,7 @@ const HeaderLog = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: statColor }}>
-                Statistiques
+                {i18n.t("header.stat", "Statistiques")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -89,7 +91,7 @@ const HeaderLog = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: awardColor }}>
-                Récompenses
+                {i18n.t("header.award", "Récompenses")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -102,7 +104,7 @@ const HeaderLog = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: warroomColor }}>
-                Quartier Général
+                {i18n.t("header.qg", "Quartier Général")}
               </Text>
             </TouchableOpacity>
 
@@ -116,7 +118,7 @@ const HeaderLog = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
-                Mon Compte
+                {i18n.t("header.account", "Mon Compte")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -129,7 +131,7 @@ const HeaderLog = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
-                ?
+                {i18n.t("header.?", "?")}
               </Text>
             </TouchableOpacity>
           </>
@@ -167,7 +169,7 @@ const HeaderLog = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-              Accueil
+              {i18n.t("header.home", "Accueil")}
             </Text>
           </TouchableOpacity>
 
@@ -181,7 +183,7 @@ const HeaderLog = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: statColor }}>
-              Statistiques
+              {i18n.t("header.stat", "Statistiques")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -194,7 +196,7 @@ const HeaderLog = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: awardColor }}>
-              Récompenses
+              {i18n.t("header.award", "Récompenses")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -207,7 +209,7 @@ const HeaderLog = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: warroomColor }}>
-              Quartier Général
+              {i18n.t("header.qg", "Quartier Général")}
             </Text>
           </TouchableOpacity>
 
@@ -221,7 +223,7 @@ const HeaderLog = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
-              Mon Compte
+              {i18n.t("header.account", "Mon Compte")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -234,7 +236,7 @@ const HeaderLog = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: logoutColor }}>
-              ?
+              {i18n.t("header.?", "?")}
             </Text>
           </TouchableOpacity>
         </View>

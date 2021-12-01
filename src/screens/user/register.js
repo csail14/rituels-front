@@ -81,15 +81,15 @@ const Register = ({ navigation }) => {
     let error = false;
 
     for (let key in data) {
-      error = validateInputField(key, "string", data[key]);
+      error = validateInputField(key, "string", data[key], i18n.t);
       if (error !== "") {
         setErrorMessage(error);
         return error;
       }
     }
-    if (validateInputField("mail", "email", data.email) !== "") {
-      setErrorMessage(validateInputField("mail", "email", data.email));
-      return validateInputField("email", "email", data.email);
+    if (validateInputField("mail", "email", data.email, i18n.t) !== "") {
+      setErrorMessage(validateInputField("mail", "email", data.email, i18n.t));
+      return validateInputField("email", "email", data.email, i18n.t);
     }
     if (data.password !== data.passwordConfirm) {
       setErrorMessage(
@@ -101,6 +101,18 @@ const Register = ({ navigation }) => {
       return i18n.t(
         "register.error mdp",
         "Les deux mots de passe ne sont pas identiques."
+      );
+    }
+    if (!cgu) {
+      setErrorMessage(
+        i18n.t(
+          "register.cguAccept",
+          "Veuillez accepter les conditions générales d'utilisation."
+        )
+      );
+      return i18n.t(
+        "register.cguAccept",
+        "Veuillez accepter les conditions générales d'utilisation."
       );
     }
     return "";

@@ -27,6 +27,8 @@ import EditEventModal from "../../component/editEventModal";
 import AddRecurentEventModal from "../../component/addRecurrentEventModal.js";
 import Help from "../../component/popUpHelpWarroom.js";
 import { useMediaQuery } from "react-responsive";
+import { buildI18n } from "../../i18n/index";
+
 //import 'moment/locale/fr';
 moment.locale("fr");
 
@@ -82,7 +84,7 @@ const Warroom = (props) => {
   const [hour, setHour] = useState(0);
   const [selectedDate, setSelectedate] = useState();
   const [selectedEvent, setselectedEvent] = useState([]);
-
+  const i18n = buildI18n(props.user);
   const toggleAddEventModal = () => {
     setShowAddEventModal(!showAddEventModal);
   };
@@ -134,7 +136,10 @@ const Warroom = (props) => {
                 }}
               >
                 <Text style={styles.text}>
-                  Comment fonctionne le quartier général ?
+                  {i18n.t(
+                    "application.QG",
+                    "Comment fonctionne le quartier général ?"
+                  )}
                 </Text>
               </TouchableOpacity>
 
@@ -175,7 +180,10 @@ const Warroom = (props) => {
                 setRecurrentEventPopUp(true);
               }}
             >
-              <Text style={{ color: "white" }}>Programmer</Text>
+              <Text style={{ color: "white" }}>
+                {" "}
+                {i18n.t("application.Programmer", "Programmer")}
+              </Text>
             </TouchableOpacity>
 
             <WeekCalendar
@@ -220,7 +228,9 @@ const Warroom = (props) => {
               }
               style={styles.button}
             >
-              <Text style={styles.textbouton}>Valider</Text>
+              <Text style={styles.textbouton}>
+                {i18n.t("application.Valider", "Valider")}
+              </Text>
             </TouchableOpacity>
           </View>
         </ImageBackground>

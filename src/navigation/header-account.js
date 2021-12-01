@@ -10,6 +10,7 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "react-native-elements";
 import logo from "../assets/icon.png";
+import { buildI18n } from "../i18n/index";
 
 const HeaderAccount = (props) => {
   const navigation = props.navigation;
@@ -24,6 +25,7 @@ const HeaderAccount = (props) => {
     query: "(max-device-width:450)",
   });
 
+  const i18n = buildI18n(props.user);
   useEffect(() => {
     navigationColor();
   }, [props.screen]);
@@ -83,7 +85,7 @@ const HeaderAccount = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Accueil
+                {i18n.t("header.home", "Accueil")}
               </Text>
             </TouchableOpacity>
 
@@ -97,7 +99,7 @@ const HeaderAccount = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Mes niveaux
+                {i18n.t("header.level", "Mes niveaux")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -112,7 +114,7 @@ const HeaderAccount = (props) => {
               <Text
                 style={{ padding: 10, fontSize: 16, color: changeAccountColor }}
               >
-                Changer de compte
+                {i18n.t("header.changeAccount", "Changer de compte")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -127,7 +129,7 @@ const HeaderAccount = (props) => {
               <Text
                 style={{ padding: 10, fontSize: 16, color: mainaccountColor }}
               >
-                Compte parent
+                {i18n.t("header.mainAccount", "Compte parent")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -140,7 +142,7 @@ const HeaderAccount = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: messageColor }}>
-                Message
+                {i18n.t("header.message", "Message")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -153,7 +155,7 @@ const HeaderAccount = (props) => {
               }}
             >
               <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-                Se déconnecter
+                {i18n.t("header.logout", "Se déconnecter")}
               </Text>
             </TouchableOpacity>
           </>
@@ -171,7 +173,7 @@ const HeaderAccount = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-              Accueil
+              {i18n.t("header.home", "Accueil")}
             </Text>
           </TouchableOpacity>
 
@@ -185,7 +187,7 @@ const HeaderAccount = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-              Mes niveaux
+              {i18n.t("header.level", "Mes niveaux")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -200,7 +202,7 @@ const HeaderAccount = (props) => {
             <Text
               style={{ padding: 10, fontSize: 16, color: changeAccountColor }}
             >
-              Changer de compte
+              {i18n.t("header.changeAccount", "Changer de compte")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -215,7 +217,7 @@ const HeaderAccount = (props) => {
             <Text
               style={{ padding: 10, fontSize: 16, color: mainaccountColor }}
             >
-              Compte parent
+              {i18n.t("header.mainAccount", "Compte parent")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -228,7 +230,7 @@ const HeaderAccount = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: messageColor }}>
-              Message
+              {i18n.t("header.message", "Message")}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -241,7 +243,7 @@ const HeaderAccount = (props) => {
             }}
           >
             <Text style={{ padding: 10, fontSize: 16, color: acceuilColor }}>
-              Se déconnecter
+              {i18n.t("header.logout", "Se déconnecter")}
             </Text>
           </TouchableOpacity>
         </View>

@@ -21,10 +21,12 @@ import { setNotification } from "../../api/userApi";
 import { registerForPushNotificationsAsync } from "../../helpers/notification";
 import { loadUserInfo } from "../../actions/user/userActions";
 import { Icon } from "react-native-elements";
+import { buildI18n } from "../../i18n/index";
 
 const MainAccount = ({ navigation, user, loadUserInfo }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isPaid, setIsPaid] = useState(user.infos ? user.infos.isPaid : 0);
+  const i18n = buildI18n(user);
 
   const toggleSwitch = () => {
     setIsEnabled((previousState) => !previousState);
@@ -101,7 +103,13 @@ const MainAccount = ({ navigation, user, loadUserInfo }) => {
                   flexWrap: "wrap",
                 }}
               >
-                <Text style={styles.text}>Activer les notifications : </Text>
+                <Text style={styles.text}>
+                  {" "}
+                  {i18n.t(
+                    "account.notification",
+                    "Activer les notifications :"
+                  )}
+                </Text>
                 <Switch
                   style={styles.title}
                   trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -128,7 +136,10 @@ const MainAccount = ({ navigation, user, loadUserInfo }) => {
                       style={styles.notifButton}
                     >
                       <Text style={styles.text}>
-                        Ajouter cet appareil comme principal
+                        {i18n.t(
+                          "account.addDevice",
+                          " Ajouter cet appareil comme principal"
+                        )}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -138,7 +149,10 @@ const MainAccount = ({ navigation, user, loadUserInfo }) => {
                       style={styles.notifButton}
                     >
                       <Text style={styles.text}>
-                        Ajouter cet appareil en secondaire
+                        {i18n.t(
+                          "account.addDevice2",
+                          " Ajouter cet appareil en secondaire"
+                        )}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -148,7 +162,10 @@ const MainAccount = ({ navigation, user, loadUserInfo }) => {
                 <>
                   {isPaid ? (
                     <Text style={styles.text}>
-                      Votre moyen de paiment est à jour !{" "}
+                      {i18n.t(
+                        "account.paid",
+                        " Votre moyen de paiment est à jour !"
+                      )}{" "}
                       <Icon
                         name="check-square"
                         type="font-awesome"
@@ -157,8 +174,10 @@ const MainAccount = ({ navigation, user, loadUserInfo }) => {
                     </Text>
                   ) : (
                     <Text style={styles.text}>
-                      Rendez-vous sur le site pour gérer votre moyen de paiement
-                      et choisir votre pack !{" "}
+                      {i18n.t(
+                        "account.rdv",
+                        "Rendez-vous sur le site pour gérer votre moyen de paiement et choisir votre pack !"
+                      )}
                       <Icon
                         name="check-square"
                         type="font-awesome"
@@ -172,11 +191,17 @@ const MainAccount = ({ navigation, user, loadUserInfo }) => {
                     }}
                     style={[styles.button]}
                   >
-                    <Text style={styles.text}>Gérer mes options</Text>
+                    <Text style={styles.text}>
+                      {" "}
+                      {i18n.t("account.options", "Gérer mes options")}
+                    </Text>
                   </TouchableOpacity>
                   {!isPaid && (
                     <Text style={styles.text}>
-                      Profitez de 7 jours d'essai gratuit !
+                      {i18n.t(
+                        "account.trial",
+                        "Profitez de 7 jours d'essai gratuit !"
+                      )}
                     </Text>
                   )}
                 </>

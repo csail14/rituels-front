@@ -30,7 +30,7 @@ import SelectInput from "react-native-select-input-ios";
 import { addEvent, getCount } from "../api/eventApi";
 import { getAllEvent } from "../api/eventApi";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-
+import { buildI18n } from "../i18n/index";
 const App = (props) => {
   const [title, setTitle] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -41,7 +41,7 @@ const App = (props) => {
   const [hourSelected, setHourSelected] = useState("9:00");
   const [hourOptions, sethourOption] = useState([]);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
+  const i18n = buildI18n(props.user);
   const isPhone = useMediaQuery({
     query: "(min-device-width:450)",
   });
@@ -82,7 +82,7 @@ const App = (props) => {
 
   const formValidator = () => {
     let error = false;
-    error = validateInputField("title", "string", title);
+    error = validateInputField("title", "string", title, i18n.t);
     if (error !== "") {
       setErrorMessage("Veuillez ajouter un titre");
       return error;

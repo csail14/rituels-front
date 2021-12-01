@@ -28,6 +28,7 @@ import fille2 from "../../assets/fille2.png";
 import garcon1 from "../../assets/garcon1.png";
 import garcon2 from "../../assets/garcon2.png";
 import RNPickerSelect from "react-native-picker-select";
+import { buildI18n } from "../../i18n/index";
 
 const optionsLang = [
   { value: "fr", label: "Français" },
@@ -44,6 +45,8 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
   const [garcon1Color, setGarcon1Color] = useState("black");
   const [garcon2Color, setGarcon2Color] = useState("black");
   const [selectedPicto, setSelectedPicto] = useState("fille1");
+
+  const i18n = buildI18n(user);
 
   const resetColor = () => {
     setFille2Color("black");
@@ -76,7 +79,10 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
           });
         } else {
           setErrorMessage(
-            "Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement."
+            i18n.t(
+              "error.enregistrement de l'utilisateur",
+              "Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement."
+            )
           );
         }
       });
@@ -87,7 +93,7 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
     let error = false;
 
     for (let key in data) {
-      error = validateInputField(key, "string", data[key]);
+      error = validateInputField(key, "string", data[key], i18n.t);
       if (error !== "") {
         setErrorMessage(error);
         return error;
@@ -102,7 +108,9 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
         <ImageBackground source={background} style={styles.image}>
           <Header screen="ChangeAccount" navigation={navigation} />
           <ScrollView style={styles.scrollContainer}>
-            <Text style={styles.title}>Créer un nouveau compte</Text>
+            <Text style={styles.title}>
+              {i18n.t("register.creation", "Créer un nouveau compte")}
+            </Text>
             <View
               style={{
                 display: "flex",
@@ -113,7 +121,7 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
               }}
             >
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
-                Ton prénom :
+                {i18n.t("register.name", "Ton prénom :")}
               </Text>
               <TextInput
                 style={styles.input}
@@ -135,7 +143,10 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
               }}
             >
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
-                Ta date de naissance :
+                {i18n.t(
+                  "register.Ta date de naissance :",
+                  "Ta date de naissance :"
+                )}
               </Text>
               <DatePicker
                 style={styles.datePickerStyle}
@@ -167,7 +178,7 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
               }}
             >
               <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
-                Ta langue :
+                {i18n.t("register.Ta langue :", "Ta langue :")}
               </Text>
               <RNPickerSelect
                 style={styles.selectInput}
@@ -190,7 +201,7 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 textAlign: "center",
               }}
             >
-              Choisi ton perso :
+              {i18n.t("register.Choisi ton perso :", "Choisi ton perso :")}
             </Text>
             <View
               style={{
@@ -257,7 +268,10 @@ const AddSubuser = ({ navigation, loadUserInfo, user }) => {
                 onSubmitForm();
               }}
             >
-              <Text style={styles.buttonText}>Enregistrer</Text>
+              <Text style={styles.buttonText}>
+                {" "}
+                {i18n.t("register.save", "Enregistrer")}
+              </Text>
             </TouchableOpacity>
           </ScrollView>
         </ImageBackground>

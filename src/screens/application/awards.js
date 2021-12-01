@@ -36,6 +36,7 @@ import LevelBar from "../../component/levelbar";
 import RNPickerSelect from "react-native-picker-select";
 import { useMediaQuery } from "react-responsive";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { buildI18n } from "../../i18n/index";
 
 const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
   const [date, setdate] = useState(new Date());
@@ -48,6 +49,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
   const [state, setState] = useState(0);
   const [alltheme, setallTheme] = useState(theme.allTheme);
 
+  const i18n = buildI18n(user);
   const [selectedCat, setSelectedCat] = useState({
     id: 1,
     name: "categorie 1",
@@ -201,6 +203,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
         if (res.status === 500) {
           Alert.alert(
             "Attention",
+
             "Un award a déjà été programmé pour cette semaine. Voulez-vous le remplacer ?",
             [
               {
@@ -247,7 +250,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
 
   const formValidator = () => {
     let error = false;
-    error = validateInputField("title", "string", title);
+    error = validateInputField("title", "string", title, i18n.t);
     if (error !== "") {
       setErrorMessage("Veuillez ajouter un titre à votre récompense");
       return error;
@@ -325,7 +328,10 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                 </View>
               )}
               <Text style={styles.title}>
-                Quelle récompense pour la semaine prochaine ???
+                {i18n.t(
+                  "application.WhatAward",
+                  "Quelle récompense pour la semaine prochaine ???"
+                )}
               </Text>
               <View
                 style={{
@@ -373,7 +379,8 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                   onPress={() => setshowCalendar(true)}
                 >
                   <Text style={styles.textDate}>
-                    Semaine du {moment(date).format("dddd DD MMMM")}
+                    {i18n.t("application.week", "Semaine du ")}
+                    {moment(date).format("dddd DD MMMM")}
                   </Text>
                 </TouchableOpacity>
                 <DateTimePickerModal
@@ -388,7 +395,10 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                 />
                 {isPhone ? (
                   <>
-                    <Text style={styles.text}>Catégorie :</Text>
+                    <Text style={styles.text}>
+                      {" "}
+                      {i18n.t("application.categorie", "Catégorie :")}
+                    </Text>
                     <View
                       style={{
                         display: "flex",
@@ -417,7 +427,8 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                   </>
                 ) : (
                   <Text style={styles.text}>
-                    Catégorie : {selectedCat.name}
+                    {i18n.t("application.categorie", "Catégorie :")}{" "}
+                    {selectedCat.name}
                   </Text>
                 )}
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -429,7 +440,9 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                     onSubmitForm();
                   }}
                 >
-                  <Text style={styles.buttonText}>Enregistrer</Text>
+                  <Text style={styles.buttonText}>
+                    {i18n.t("register.save", "Enregistrer")}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.button}
@@ -441,7 +454,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                   }}
                 >
                   <Text style={styles.buttonText}>
-                    Passer à l'étape suivante
+                    {i18n.t("application.next", "Passer à l'étape suivante")}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -449,7 +462,10 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
               {nextaward && (
                 <View>
                   <Text style={styles.title}>
-                    Ta récompense de la semaine prochaine:{" "}
+                    {i18n.t(
+                      "application.nextAward",
+                      "Ta récompense de la semaine prochaine:"
+                    )}
                   </Text>
                   <Text style={styles.text}>{nextaward.title}</Text>
                 </View>
@@ -457,7 +473,10 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
               {award && (
                 <>
                   <Text style={styles.title}>
-                    Ta récompense de la semaine :{" "}
+                    {i18n.t(
+                      "application.thisAward",
+                      "Ta récompense de la semaine :"
+                    )}
                   </Text>
                   <View style={{ alignItems: "center" }}>
                     <Text style={styles.text}>{award.title}</Text>
@@ -469,7 +488,8 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                       state={state}
                     />
                     <Text style={styles.text}>
-                      Rituels réalisés : {state}/{obj}
+                      {i18n.t("application.obj", " Rituels réalisés : ")}
+                      {state}/{obj}
                     </Text>
                   </View>
                 </>

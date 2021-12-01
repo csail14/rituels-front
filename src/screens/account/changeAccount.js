@@ -30,6 +30,7 @@ import fille1 from "../../assets/fille1.png";
 import fille2 from "../../assets/fille2.png";
 import garcon1 from "../../assets/garcon1.png";
 import garcon2 from "../../assets/garcon2.png";
+import { buildI18n } from "../../i18n/index";
 
 const ChangeAccount = ({
   navigation,
@@ -41,7 +42,7 @@ const ChangeAccount = ({
   loadEvent,
 }) => {
   const subuser = [];
-
+  const i18n = buildI18n(user);
   const storeData = async (value) => {
     await AsyncStorage.setItem("@storage_subuser", "" + value);
   };
@@ -125,7 +126,7 @@ const ChangeAccount = ({
                             user.subuser[index].id,
                             theme.allTheme[i].id
                           ).then((result) => {
-                            item.id = restheme.result[i].id;
+                            item.id = theme.allTheme[i].id;
                             item.level = result;
                             allLevel.push(item);
                           });
@@ -165,7 +166,7 @@ const ChangeAccount = ({
                           marginTop: 8,
                         }}
                       >
-                        Modifier
+                        {i18n.t("account.edit", "Modifier")}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -182,7 +183,10 @@ const ChangeAccount = ({
                   });
                 }}
               >
-                <Text style={styles.buttonText}>Ajouter un compte</Text>
+                <Text style={styles.buttonText}>
+                  {" "}
+                  {i18n.t("account.add", "Ajouter un compte")}
+                </Text>
               </TouchableOpacity>
             )}
             <TouchableOpacity
@@ -193,7 +197,10 @@ const ChangeAccount = ({
                 });
               }}
             >
-              <Text style={styles.buttonText}>Changer mon forfait</Text>
+              <Text style={styles.buttonText}>
+                {" "}
+                {i18n.t("account.change", "Changer mon forfait")}
+              </Text>
             </TouchableOpacity>
           </>
         </ScrollView>

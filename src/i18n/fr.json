@@ -8,7 +8,28 @@
     "newAccount": "Créer un compte",
     "moreInfo": "Plus d'information sur 4b ",
     "clique": "Cliquez-ici ",
-    "loading": "Chargement en cours..."
+    "loading": "Chargement en cours...",
+    "welcome": "Bienvenue sur 4b Premium",
+    "account": "Déjà un compte ? "
+  },
+  "header": {
+    "home": "Accueil",
+    "level": "Mes niveaux",
+    "changeAccount": "Changer de compte",
+    "mainAccount": "Compte parent",
+    "message": "Message",
+    "logout": "Se déconnecter",
+    "stat": "Statistiques",
+    "award": "Récompenses",
+    "qg": "Quartier Général",
+    "account": "Mon Compte",
+    "?": "?",
+    "details": "Détails",
+    "register": "S'inscrire",
+    "login": "Se connecter",
+    "back": "retour",
+    "start": "Recommencer le cycle",
+    "change": "Changer de cycle"
   },
   "login": {
     "error": "Un problème est survenu, veuillez reessayer plus tard.",
@@ -29,6 +50,59 @@
     "mdp": "Mot de passe",
     "confirm mdp": "Confirmation mot de passe",
     "cgu": "J'accepte les conditions générales d'utilisation",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "name": "Ton prénom :",
+    "Ta date de naissance :": "Ta date de naissance :",
+    "Ta langue :": "Ta langue :",
+    "Choisi ton perso :": "Choisi ton perso :",
+    "cguAccept": "Veuillez accepter les conditions générales d'utilisation."
+  },
+  "account": {
+    "edit": "Modifier",
+    "add": "Ajouter un compte",
+    "change": "Changer mon forfait",
+    "current": "Niveau actuel :",
+    "max": "Cycle max",
+    "min": "Cycle min",
+    "validate": "Valider",
+    "addLevel": "+ Ajouter un Niveau",
+    "notification": "Activer les notifications :",
+    "addDevice": " Ajouter cet appareil comme principal",
+    "addDevice2": " Ajouter cet appareil en secondaire",
+    "paid": " Votre moyen de paiment est à jour !",
+    "rdv": "Rendez-vous sur le site pour gérer votre moyen de paiement et choisir votre pack !",
+    "options": "Gérer mes options",
+    "trial": "Profitez de 7 jours d'essai gratuit !",
+    "message": "Envoyez-nous un message",
+    "send": "Envoyer",
+    "notif": "Notification",
+    "editAccount": "Modifier un compte"
+  },
+  "application": {
+    "WhatAward": "Quelle récompense pour la semaine prochaine ???",
+    "week": "Semaine du ",
+    "categorie": "Catégorie :",
+    "next": "Passer à l'étape suivante",
+    "nextAward": "Ta récompense de la semaine prochaine:",
+    "thisAward": "Ta récompense de la semaine :",
+    "obj": " Rituels réalisés : ",
+    "rituels validés": "Nombre de Rituels validés",
+    "Catégorie :": "Catégorie :",
+    "Hebdo": "Hebdo",
+    "Mensuel": "Mensuel",
+    "QG": "Comment fonctionne le quartier général ?",
+    "Programmer": "Programmer",
+    "Valider": "Valider"
+  },
+  "formValidator": {
+    "rempli": "Veuillez remplir tous les champs !",
+    "Le champs": "Le champs ",
+    "n'est pas un chiffre, veuillez le retaper !": " n'est pas un chiffre, veuillez le retaper !",
+    "n'est pas un numéro, veuillez le retaper !": " n'est pas un numéro, veuillez le retaper !",
+    "email": " doit être une adresse email valide.",
+    "doit avoir 8 chiffres, 1 lettre, 1 majuscule, 1 minuscule, 1 caractère spécial": " doit avoir 8 chiffres, 1 lettre, 1 majuscule, 1 minuscule, 1 caractère spécials"
+  },
+  "error": {
+    "enregistrement de l'utilisateur": "Erreur lors de l'enregistrement de l'utilisateur, veuillez réessayer ultérieurement."
   }
 }

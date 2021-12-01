@@ -67,33 +67,35 @@ const RequireAuth = (props) => {
                     }
                     props.loadUserInfo(true, user, subuser, current_subuser);
                     getAllTheme().then((restheme) => {
-                      loadTheme(restheme.result, restheme.result[0]);
-                      getCount(
-                        subuser[current_subuser].id,
-                        moment(new Date()).format("W"),
-                        restheme.result
-                      ).then((resultobj) => {
-                        getStateByWeek(
+                      if (restheme) {
+                        loadTheme(restheme.result, restheme.result[0]);
+                        getCount(
+                          subuser[current_subuser].id,
                           moment(new Date()).format("W"),
-                          subuser[current_subuser].id,
                           restheme.result
-                        ).then((resultstate) => {
-                          props.loadProgress(resultstate, resultobj);
+                        ).then((resultobj) => {
+                          getStateByWeek(
+                            moment(new Date()).format("W"),
+                            subuser[current_subuser].id,
+                            restheme.result
+                          ).then((resultstate) => {
+                            props.loadProgress(resultstate, resultobj);
+                          });
                         });
-                      });
-                      let allLevel = [];
-                      for (let i = 0; i < restheme.result.length; i++) {
-                        let item = {};
-                        getAllLevel(
-                          subuser[current_subuser].id,
-                          restheme.result[i].id
-                        ).then((result) => {
-                          item.id = restheme.result[i].id;
-                          item.level = result;
-                          allLevel.push(item);
-                        });
+                        let allLevel = [];
+                        for (let i = 0; i < restheme.result.length; i++) {
+                          let item = {};
+                          getAllLevel(
+                            subuser[current_subuser].id,
+                            restheme.result[i].id
+                          ).then((result) => {
+                            item.id = restheme.result[i].id;
+                            item.level = result;
+                            allLevel.push(item);
+                          });
+                        }
+                        props.loadLevel(allLevel);
                       }
-                      props.loadLevel(allLevel);
                     });
                   });
               }
