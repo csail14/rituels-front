@@ -29,7 +29,6 @@ import RNPickerSelect from "react-native-picker-select";
 import SelectInput from "react-native-select-input-ios";
 import { addEvent, getCount } from "../api/eventApi";
 import { getAllEvent } from "../api/eventApi";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { buildI18n } from "../i18n/index";
 const App = (props) => {
   const [title, setTitle] = useState("");

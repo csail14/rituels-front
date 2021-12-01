@@ -275,7 +275,6 @@ const App = (props) => {
                 isVisible={isDatePickerVisible}
                 mode="datetime"
                 format="dddd  DD MMMM  HH:mm"
-                minuteInterval="15"
                 locale="fr-FR"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}

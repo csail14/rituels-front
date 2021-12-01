@@ -387,7 +387,6 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                   isVisible={showCalendar}
                   mode="date"
                   format="dddd  DD MMMM"
-                  minuteInterval="15"
                   locale="fr-FR"
                   date={new Date(date)}
                   onConfirm={handleConfirm}

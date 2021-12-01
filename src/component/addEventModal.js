@@ -49,7 +49,7 @@ const App = (props) => {
     d.setDate(d.getDate() - new Date().getDay() + 1);
     d.setHours(props.hour);
     setPickedDate(d);
-  });
+  }, []);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -226,7 +226,6 @@ const App = (props) => {
                 isVisible={isDatePickerVisible}
                 mode="datetime"
                 format="dddd  DD MMMM  HH:mm"
-                minuteInterval="15"
                 locale="fr-FR"
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
