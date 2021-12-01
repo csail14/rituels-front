@@ -109,6 +109,8 @@ const Rituels = (props) => {
 
   const filtreCycle = () => {
     let i = props.user.current_subuser;
+    const lang =
+      props.user && props.user.subuser[i] && props.user.subuser[i].lang;
     let age =
       Math.floor(
         new Date().getTime() -
@@ -116,15 +118,17 @@ const Rituels = (props) => {
       ) /
       (365.24 * 24 * 3600 * 1000);
     let user_age = Math.trunc(age);
+
     let possibleCycle = props.cycle.allCycle.filter(
       (item) =>
         props.cycle.duration == item.duration &&
         item.age_min <= user_age &&
         item.age_max >= user_age &&
-        props.cycle.cat.id == item.theme_id
+        props.cycle.cat.id == item.theme_id &&
+        item.lang.toUpperCase() === lang.toUpperCase()
     );
     if (possibleCycle.length == 0 && props.cycle.allCycle.length !== 0) {
-      window.alert("Aucun rituel disponible");
+      window.alert("Aucun rituel disponible dans votre langue");
       props.navigation.reset({
         index: 0,
         routes: [{ name: "Home" }],

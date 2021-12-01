@@ -21,6 +21,7 @@ import { validateInputField } from "../../helpers/form-validator";
 import { useIsFocused } from "@react-navigation/native";
 import { CheckBox } from "react-native-elements";
 import { loadUserInfo } from "../../actions/user/userActions";
+import RNPickerSelect from "react-native-picker-select";
 import { buildI18n } from "../../i18n/index";
 
 const Register = ({ navigation }) => {
@@ -29,7 +30,7 @@ const Register = ({ navigation }) => {
   const [lastName, setLastName] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-  const [lang, setlang] = useState("fr");
+  const [lang, setLang] = useState("FR");
   const [passwordConfirm, setpasswordConfirm] = useState("");
   const [cgu, setcgu] = useState(false);
   const i18n = buildI18n();
@@ -118,6 +119,12 @@ const Register = ({ navigation }) => {
     return "";
   };
 
+  const optionsLang = [
+    { value: "fr", label: "Français" },
+    { value: "en", label: "English" },
+    { value: "es", label: "Espagnol" },
+  ];
+
   const clearform = () => {
     setFirstName("");
     setLastName("");
@@ -193,6 +200,19 @@ const Register = ({ navigation }) => {
                 setpasswordConfirm(text);
               }}
             />
+            <RNPickerSelect
+              style={styles.input}
+              onValueChange={(value) => setLang(value)}
+              items={optionsLang}
+              doneText={"Valider"}
+            >
+              <Text style={[styles.input, { color: "grey", paddingTop: 10 }]}>
+                {optionsLang.filter((item) => item.value === lang)[0]
+                  ? optionsLang.filter((item) => item.value === lang)[0].label
+                  : "Choisissez votre langue"}{" "}
+                ↓
+              </Text>
+            </RNPickerSelect>
             <CheckBox
               title={i18n.t(
                 "register.cgu",
@@ -278,6 +298,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: wp("10%"),
     height: Dimensions.get("window").height,
+  },
+  selectInput: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginLeft: 5,
   },
   button: {
     backgroundColor: "#321aed",
