@@ -53,14 +53,42 @@ const Stats = ({ navigation, user, theme }) => {
     }
   }, [scale, selectedCat]);
 
+  const lang =
+    user &&
+    user.subuser &&
+    user.current_subuser &&
+    user.subuser[user.current_subuser] &&
+    user.subuser[user.current_subuser].lang;
+
+  const returnCatNameCurrentLang = (cat) => {
+    if (cat) {
+      switch (lang) {
+        case "fr":
+          return cat.name_fr || cat.name;
+          break;
+        case "en":
+          return cat.name_en || cat.name;
+          break;
+        case "es":
+          return cat.name_es || cat.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
+  };
+
   const setOptionsCatArray = () => {
     let array = [];
     alltheme.forEach((item) => {
-      let index = { value: item.id, label: item.name };
+      let index = { value: item.id, label: returnCatNameCurrentLang(item) };
       array.push(index);
     });
     return array;
   };
+
   const optionsCategoryFamily = setOptionsCatArray();
   const optionsCategoryKids = optionsCategoryFamily.filter(
     (item) => item.value === 1
@@ -86,27 +114,74 @@ const Stats = ({ navigation, user, theme }) => {
     return moment(date).format("DD/MM");
   };
 
+  const createCalendarLang = () => {
+    let calendar = [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre",
+    ];
+    console.log(lang);
+    switch (lang) {
+      case "fr":
+        return calendar;
+        break;
+      case "en":
+        return [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+        break;
+      case "es":
+        return [
+          "Enero",
+          "Febrero",
+          "Marzo",
+          "Abril",
+          "Mayo",
+          "Junio",
+          "Julio",
+          "Agosto",
+          "Septiembre",
+          "Octubre",
+          "Noviembre",
+          "Diciembre",
+        ];
+        break;
+      default:
+        break;
+    }
+
+    return calendar;
+  };
+
   const setData = async () => {
     let index = user.current_subuser;
+
     if (scale === "month") {
       getstatbymonth(user.subuser[index].id, selectedCat.id).then((res) => {
         let data = [];
         let thisMonth = new Date().getMonth();
         let thisYear = new Date().getFullYear();
-        let calendar = [
-          "Janvier",
-          "Février",
-          "Mars",
-          "Avril",
-          "Mai",
-          "Juin",
-          "Juillet",
-          "Août",
-          "Septembre",
-          "Octobre",
-          "Novembre",
-          "Décembre",
-        ];
+        let calendar = createCalendarLang();
         for (let i = -6; i < 1; i++) {
           if (thisMonth + i < 0) {
             if (
@@ -239,7 +314,7 @@ const Stats = ({ navigation, user, theme }) => {
                         selectedCat.id == item.id ? styles.pressed : "",
                       ]}
                     >
-                      {item.name}
+                      {returnCatNameCurrentLang(item)}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -274,7 +349,7 @@ const Stats = ({ navigation, user, theme }) => {
                       { color: "white", fontSize: 19 },
                     ]}
                   >
-                    {selectedCat.name} ↓
+                    {returnCatNameCurrentLang(selectedCat)} ↓
                   </Text>
                 </RNPickerSelect>
               </View>

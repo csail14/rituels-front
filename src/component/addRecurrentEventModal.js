@@ -71,9 +71,7 @@ const App = (props) => {
         if (res.status === 200) {
           return 200;
         } else {
-          setErrorMessage(
-            "Une erreur est survenue, veuillez réessayer plus tard."
-          );
+          setErrorMessage(i18n.t("error.reessayer"));
         }
       });
     }
@@ -155,8 +153,34 @@ const App = (props) => {
     setSelectedValue(filter[0].value);
   };
 
+  const lang =
+    props.user &&
+    props.user.subuser &&
+    props.user.subuser[props.user.current_subuser] &&
+    props.user.subuser[props.user.current_subuser].lang;
+
+  const returnCatNameCurrentLang = (cat) => {
+    if (cat) {
+      switch (lang) {
+        case "fr":
+          return cat.name_fr || cat.name;
+          break;
+        case "en":
+          return cat.name_en || cat.name;
+          break;
+        case "es":
+          return cat.name_es || cat.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
+  };
+
   const optionsFamily = props.theme.allTheme.map((item) => {
-    return { value: item.id, label: item.name };
+    return { value: item.id, label: returnCatNameCurrentLang(item) };
   });
   const optionsKids = optionsFamily.filter((item) => item.value === 1);
 
@@ -219,14 +243,12 @@ const App = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.title}>
-              Créer un rituel récurrent sur les 7 prochaines semaines{" "}
-            </Text>
+            <Text style={styles.title}>{i18n.t("component.recurrent")} </Text>
             <View style={styles.centerView}>
               <TextInput
                 style={styles.input}
                 type="text"
-                placeholder="Titre"
+                placeholder={i18n.t("component.Titre")}
                 onChangeText={(value) => {
                   setTitle(value);
                 }}
@@ -253,7 +275,7 @@ const App = (props) => {
                   style={styles.selectInput}
                   onValueChange={(value) => selectCat(value)}
                   items={isFamily ? optionsFamily : optionsKids}
-                  doneText={"Valider"}
+                  doneText={i18n.t("application.Valider")}
                 >
                   <Text
                     style={[
@@ -293,7 +315,7 @@ const App = (props) => {
                   style={styles.selectInput}
                   onValueChange={(value) => setDaySelected(value)}
                   items={optionsDay}
-                  doneText={"Valider"}
+                  doneText={i18n.t("application.Valider")}
                 >
                   <Text
                     style={[
@@ -314,13 +336,13 @@ const App = (props) => {
                     fontSize: 20,
                   }}
                 >
-                  Heure :{" "}
+                  {i18n.t("component.Heure")}
                 </Text>
                 <RNPickerSelect
                   style={styles.selectInput}
                   onValueChange={(value) => setHourSelected(value)}
                   items={hourOptions}
-                  doneText={"Valider"}
+                  doneText={i18n.t("application.Valider")}
                 >
                   <Text
                     style={[
@@ -343,7 +365,7 @@ const App = (props) => {
                     fontSize: 20,
                   }}
                 >
-                  Durée :{" "}
+                  {i18n.t("component.Durée :")}
                 </Text>
                 <Text
                   style={[
@@ -399,7 +421,10 @@ const App = (props) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <Text style={styles.text}>M'alerter </Text>
+                  <Text style={styles.text}>
+                    {" "}
+                    {i18n.t("component.M'alerter")}{" "}
+                  </Text>
                   <TextInput
                     style={styles.inputTime}
                     value={"" + notifTime}
@@ -407,7 +432,10 @@ const App = (props) => {
                       setnotifTime(text);
                     }}
                   />
-                  <Text style={styles.text}>min avant </Text>
+                  <Text style={styles.text}>
+                    {" "}
+                    {i18n.t("component.min avant")}{" "}
+                  </Text>
                 </View>
               )}
 
@@ -418,7 +446,7 @@ const App = (props) => {
                   createEventArray();
                 }}
               >
-                <Text style={styles.textStyle}>Enregistrer</Text>
+                <Text style={styles.textStyle}>{i18n.t("register.save")}</Text>
               </TouchableOpacity>
             </View>
             <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -426,7 +454,7 @@ const App = (props) => {
               style={styles.button}
               onPress={() => props.setModalVisible(!props.modalVisible)}
             >
-              <Text style={styles.textStyle}>Fermer</Text>
+              <Text style={styles.textStyle}>{i18n.t("component.fermer")}</Text>
             </Pressable>
           </View>
         </View>

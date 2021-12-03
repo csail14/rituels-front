@@ -46,7 +46,6 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
       setsubuser(user.subuser[user.current_subuser]);
     }
     let array = [];
-
     let catLevel = level.allLevel.filter((it) => it.id == selectedCat.id);
     if (catLevel.length > 0) {
       catLevel[0].level.map((level) => {
@@ -58,6 +57,9 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
           id: level.id,
           theme_id: selectedCat.id,
           subuser_id: user.subuser[user.current_subuser].id,
+          name_fr: level.name_fr,
+          name_en: level.name_en,
+          name_es: level.name_es,
         };
         array.push(el);
       });
@@ -106,6 +108,13 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
     setTest("");
   };
 
+  const lang =
+    user &&
+    user.subuser &&
+    user.current_subuser &&
+    user.subuser[user.current_subuser] &&
+    user.subuser[user.current_subuser].lang;
+
   const saveChange = () => {
     setLevel(
       user.subuser[user.current_subuser].id,
@@ -132,6 +141,47 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
       });
     });
   };
+
+  const returnLevelNameCurrentLang = (level) => {
+    if (level) {
+      switch (lang) {
+        case "fr":
+          return level.name_fr || level.name;
+          break;
+        case "en":
+          return level.name_en || level.name;
+          break;
+        case "es":
+          return level.name_es || level.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
+  };
+
+  const returnCatNameCurrentLang = (cat) => {
+    if (cat) {
+      switch (lang) {
+        case "fr":
+          return cat.name_fr || cat.name;
+          break;
+        case "en":
+          return cat.name_en || cat.name;
+          break;
+        case "es":
+          return cat.name_es || cat.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
+  };
+
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.container}>
@@ -142,14 +192,15 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
             {currentLevel && (
               <Text style={styles.title}>
                 {i18n.t("account.current", "Niveau actuel :")}
-                {currentLevel.name}
+                {level ? returnLevelNameCurrentLang() : ""}
+                {returnLevelNameCurrentLang(currentLevel)}
               </Text>
             )}
             <View style={styles.boutonView}>
-              {theme.allTheme.map((item) => {
+              {theme.allTheme.map((item, index) => {
                 return (
                   <TouchableOpacity
-                    key={item.id}
+                    key={index}
                     style={[styles.catbutton, { backgroundColor: item.color }]}
                     onPress={() => {
                       setSelectedCat(item);
@@ -162,7 +213,7 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
                         selectedCat.id == item.id ? styles.pressed : "",
                       ]}
                     >
-                      {item.name}
+                      {returnCatNameCurrentLang(item)}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -170,13 +221,13 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
             </View>
 
             {stateLevel.length > 0 &&
-              stateLevel.map((level) => {
+              stateLevel.map((level, index) => {
                 return (
-                  <View key={level.id}>
+                  <View key={index}>
                     {level.ordre < 5 && (
                       <View key={level.id} style={styles.levelBox}>
                         <Text style={[styles.title, { width: "20%" }]}>
-                          {level.name}
+                          {returnLevelNameCurrentLang(level)}
                         </Text>
                         <View>
                           <Text style={styles.leveltext}>

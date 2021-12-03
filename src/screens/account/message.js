@@ -38,14 +38,14 @@ const Message = ({ navigation, user }) => {
     if (error === "") {
       sendContactMessage(data).then((res) => {
         if (res.status == 200) {
-          setErrorMessage("Votre message a bien été envoyé.");
+          setErrorMessage(i18n.t("error.Votre message a bien été envoyé."));
         } else {
-          setErrorMessage("Erreur lors de l'envoi de votre message.");
+          setErrorMessage("error.Erreur lors de l'envoi de votre message.");
         }
       });
     }
   };
-  console.log(user);
+
   const formValidator = (data) => {
     let error = false;
 

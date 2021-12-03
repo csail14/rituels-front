@@ -12,6 +12,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Icon } from "react-native-elements";
+import { buildI18n } from "../i18n/index";
 
 export default class Menu extends React.Component {
   constructor(props) {
@@ -35,6 +36,8 @@ export default class Menu extends React.Component {
       catSelected: false,
     };
   }
+
+  i18n = buildI18n(this.props.user);
 
   getSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
@@ -66,6 +69,31 @@ export default class Menu extends React.Component {
 
   setTheme = (theme) => {
     this.props.setThemeId(this.props.alltheme[theme]);
+  };
+  lang =
+    this.props.user &&
+    this.props.user.subuser &&
+    this.props.user.subuser[this.props.user.current_subuser] &&
+    this.props.user.subuser[this.props.user.current_subuser].lang;
+
+  returnLevelNameCurrentLang = (level) => {
+    if (level) {
+      switch (this.lang) {
+        case "fr":
+          return level.name_fr || level.name;
+          break;
+        case "en":
+          return level.name_en || level.name;
+          break;
+        case "es":
+          return level.name_es || level.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
   };
 
   setParams = () => {
@@ -201,10 +229,15 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat1 ? (
                   <View>
-                    <Text style={styles.details}>Ecole</Text>
+                    <Text style={styles.details}>
+                      {this.i18n.t("go.Ecole")}
+                    </Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -260,10 +293,16 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat3 ? (
                   <View>
-                    <Text style={styles.details}>Lecture</Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.lecture")}
+                    </Text>
+                    <Text style={styles.details}>
+                      {" "}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -319,10 +358,16 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat6 ? (
                   <View>
-                    <Text style={styles.details}>Domicile Extérieur</Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.Domicile Extérieur")}
+                    </Text>
+                    <Text style={styles.details}>
+                      {" "}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -379,10 +424,16 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat9 ? (
                   <View>
-                    <Text style={styles.details}>Sport Extérieur</Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.Sport Extérieur")}
+                    </Text>
+                    <Text style={styles.details}>
+                      {" "}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -439,10 +490,16 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat8 ? (
                   <View>
-                    <Text style={styles.details}>Sport Interieur </Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.Sport Interieur")}
+                    </Text>
+                    <Text style={styles.details}>
+                      {" "}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -498,10 +555,16 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat7 ? (
                   <View>
-                    <Text style={styles.details}>Hygiène de vie</Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.Hygiène de vie")}
+                    </Text>
+                    <Text style={styles.details}>
+                      {" "}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -616,10 +679,16 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat2 ? (
                   <View>
-                    <Text style={styles.details}>Etudes</Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.Etudes")}
+                    </Text>
+                    <Text style={styles.details}>
+                      {" "}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -675,10 +744,16 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat4 ? (
                   <View>
-                    <Text style={styles.details}>Arts, Musique</Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.Arts, Musique")}
+                    </Text>
+                    <Text style={styles.details}>
+                      {" "}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (
@@ -735,10 +810,15 @@ export default class Menu extends React.Component {
               >
                 {this.state.pressedCat5 ? (
                   <View>
-                    <Text style={styles.details}>Domicile Intérieur</Text>
+                    <Text style={styles.details}>
+                      {this.i18n.t("go.Domicile Intérieur")}
+                    </Text>
                     <Text style={styles.details}>
                       {" "}
-                      Niveau : {this.props.currentLevel[0].name}
+                      {this.i18n.t("go.level")}
+                      {this.returnLevelNameCurrentLang(
+                        this.props.currentLevel[0]
+                      )}
                     </Text>
                   </View>
                 ) : (

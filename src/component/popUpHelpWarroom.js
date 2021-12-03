@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  TextInput,
-  TextComponent,
-  TouchableOpacity,
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -37,7 +27,7 @@ const PopUpHelp = (props) => {
       />
       <TouchableOpacity>
         <Text onPress={() => props.setShowHelp(false)} style={styles.closeText}>
-          Fermer
+          {props.t("component.fermer")}
         </Text>
       </TouchableOpacity>
     </View>

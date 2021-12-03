@@ -112,7 +112,9 @@ class Menu extends React.Component {
             useNativeDriver={true}
             style={[styles.mainView, transformStyle]}
           >
-            <Text style={styles.title}>Valider le rituel</Text>
+            <Text style={styles.title}>
+              {props.t("component.Valider le rituel")}
+            </Text>
           </Animated.View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -131,7 +133,10 @@ class Menu extends React.Component {
               transformStyle,
             ]}
           >
-            <Text style={styles.title}>Rituel non validé</Text>
+            <Text style={styles.title}>
+              {" "}
+              {props.t("component.Rituel non validé")}
+            </Text>
           </Animated.View>
         </TouchableOpacity>
         {this.state.showVideo && (

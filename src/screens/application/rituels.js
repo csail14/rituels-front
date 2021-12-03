@@ -23,7 +23,7 @@ import { sendNotification } from "../../helpers/notification";
 import Menu from "../../navigation/menu";
 import Validate from "../../component/validate";
 import { getCycle, getVideo, getAllCycle } from "../../api/cycleApi";
-
+import { buildI18n } from "../../i18n/index";
 import { connect } from "react-redux";
 import { loadCycleInfo } from "../../actions/cycle/cycleActions";
 import GestureRecognizer, {
@@ -42,7 +42,7 @@ const Rituels = (props) => {
   const [height, setHeight] = useState(hp("100%"));
 
   let ref = React.createRef();
-
+  const i18n = buildI18n(props.user);
   useEffect(() => {
     if (true) {
       getAllCycle().then((res) => {
@@ -128,7 +128,7 @@ const Rituels = (props) => {
         item.lang.toUpperCase() === lang.toUpperCase()
     );
     if (possibleCycle.length == 0 && props.cycle.allCycle.length !== 0) {
-      window.alert("Aucun rituel disponible dans votre langue");
+      window.alert(i18n.t("error.Aucun rituel disponible dans votre langue"));
       props.navigation.reset({
         index: 0,
         routes: [{ name: "Home" }],
@@ -251,6 +251,7 @@ const Rituels = (props) => {
             theme_id={props.cycle.cat.id}
             launchCelebration={launchCelebration}
             navigation={props.navigation}
+            t={i18n.t}
           />
         )}
       </View>

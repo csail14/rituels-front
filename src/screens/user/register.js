@@ -57,8 +57,7 @@ const Register = ({ navigation }) => {
               "Cet email est déjà utilisé, veuillez vous connecter ou en choisir un autre."
             )
           );
-        }
-        if (res.status === 200) {
+        } else if (res.status === 200) {
           clearform();
           setErrorMessage(
             i18n.t(

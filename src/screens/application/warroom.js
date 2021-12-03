@@ -4,10 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions,
   TouchableOpacity,
-  Button,
-  Modal,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -95,6 +92,32 @@ const Warroom = (props) => {
     query: "(max-device-width:450)",
   });
 
+  const lang =
+    props.user &&
+    props.user.subuser &&
+    props.user.subuser[props.user.current_subuser] &&
+    props.user.subuser[props.user.current_subuser].lang;
+
+  const returnCatNameCurrentLang = (cat) => {
+    if (cat) {
+      switch (lang) {
+        case "fr":
+          return cat.name_fr || cat.name;
+          break;
+        case "en":
+          return cat.name_en || cat.name;
+          break;
+        case "es":
+          return cat.name_es || cat.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
+  };
+
   let isFamily =
     props.user && props.user.infos && props.user.infos.product === "family";
 
@@ -108,9 +131,7 @@ const Warroom = (props) => {
 
           setData(res.result);
         } else {
-          setErrorMessage(
-            "Une erreur est survenue, veuillez réessayer plus tard."
-          );
+          setErrorMessage(i18n.t("error.reessayer"));
         }
       });
     } else {
@@ -158,7 +179,7 @@ const Warroom = (props) => {
                         ]}
                       >
                         <Text style={{ marginTop: 10, color: "white" }}>
-                          {item.name}
+                          {returnCatNameCurrentLang(item)}
                         </Text>
                       </View>
                     );
@@ -218,7 +239,7 @@ const Warroom = (props) => {
               navigation={props.navigation}
             />
 
-            {showHelp && <Help setShowHelp={setShowHelp} />}
+            {showHelp && <Help setShowHelp={setShowHelp} t={i18n.t} />}
             <TouchableOpacity
               onPress={() =>
                 props.navigation.reset({

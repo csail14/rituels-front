@@ -124,14 +124,20 @@ const WeekCalendar = (props) => {
     });
     setData(newData);
   }, [props.agenda]);
-
+  const locale =
+    props.user &&
+    props.user.subuser &&
+    props.user.subuser[props.user.current_subuser] &&
+    props.user.subuser[props.user.current_subuser].lang
+      ? props.user.subuser[props.user.current_subuser].lang
+      : "fr";
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.weekView}>
         <WeekView
           events={data}
           selectedDate={new Date()}
-          locale={"fr"}
+          locale={locale}
           formatDateHeader={"dddd DD MMMM"}
           showTitle={false}
           numberOfDays={7}

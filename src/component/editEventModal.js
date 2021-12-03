@@ -90,9 +90,7 @@ const App = (props) => {
           props.loadProgress(props.progress.state, resultobj);
         });
       } else {
-        setErrorMessage(
-          "Une erreur est survenue, veuillez réessayer plus tard."
-        );
+        setErrorMessage(i18n.t("error.reessayer"));
       }
     });
   };
@@ -145,9 +143,7 @@ const App = (props) => {
             }
           });
         } else {
-          setErrorMessage(
-            "Une erreur est survenue, veuillez réessayer plus tard."
-          );
+          setErrorMessage(i18n.t("error.reessayer"));
         }
       });
     }
@@ -157,7 +153,7 @@ const App = (props) => {
     let error = false;
     error = validateInputField("title", "string", title, i18n.t);
     if (error !== "") {
-      setErrorMessage("Veuillez ajouter un titre");
+      setErrorMessage(i18n.t("error.titre"));
       return error;
     }
     return "";
@@ -169,8 +165,34 @@ const App = (props) => {
     setSelectedValue(filter[0].value);
   };
 
+  const lang =
+    props.user &&
+    props.user.subuser &&
+    props.user.subuser[props.user.current_subuser] &&
+    props.user.subuser[props.user.current_subuser].lang;
+
+  const returnCatNameCurrentLang = (cat) => {
+    if (cat) {
+      switch (lang) {
+        case "fr":
+          return cat.name_fr || cat.name;
+          break;
+        case "en":
+          return cat.name_en || cat.name;
+          break;
+        case "es":
+          return cat.name_es || cat.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
+  };
+
   const optionsFamily = props.theme.allTheme.map((item) => {
-    return { value: item.id, label: item.name };
+    return { value: item.id, label: returnCatNameCurrentLang(item) };
   });
   const optionsKids = optionsFamily.filter((item) => item.value === 1);
 
@@ -186,7 +208,10 @@ const App = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.title}>Modifier un rituel</Text>
+            <Text style={styles.title}>
+              {" "}
+              {i18n.t("component.Modifier un rituel")}
+            </Text>
             <View style={styles.centerView}>
               <TextInput
                 style={styles.input}
@@ -211,14 +236,14 @@ const App = (props) => {
                   fontSize: 20,
                 }}
               >
-                Catégorie :{" "}
+                {i18n.t("application.categorie")}
               </Text>
               <View>
                 <RNPickerSelect
                   style={styles.selectInput}
                   onValueChange={(value) => selectCat(value)}
                   items={isFamily ? optionsFamily : optionsKids}
-                  doneText={"Valider"}
+                  doneText={i18n.t("application.Valider")}
                 >
                   <Text
                     style={[
@@ -264,18 +289,26 @@ const App = (props) => {
                   marginBottom: 10,
                 }}
               >
-                Prévu le :{" "}
+                {i18n.t("component.prevu")}{" "}
               </Text>
               <Text style={styles.dateStyle} onPress={showDatePicker}>
                 {pickedDate === null
-                  ? "Selectionner une date"
+                  ? i18n.t("component.Selectionner une date")
                   : moment(new Date(pickedDate)).format("LLL")}
               </Text>
               <DateTimePickerModal
                 isVisible={isDatePickerVisible}
                 mode="datetime"
                 format="dddd  DD MMMM  HH:mm"
-                locale="fr-FR"
+                locale={
+                  lang === "en"
+                    ? "en-EN"
+                    : lang === "fr"
+                    ? "fr-FR"
+                    : lang === "es"
+                    ? "es-ES"
+                    : "fr-FR"
+                }
                 onConfirm={handleConfirm}
                 onCancel={hideDatePicker}
               />
@@ -290,7 +323,7 @@ const App = (props) => {
                     fontSize: 20,
                   }}
                 >
-                  Durée :{" "}
+                  {i18n.t("component.Durée :")}
                 </Text>
                 <Text
                   style={[
@@ -340,7 +373,8 @@ const App = (props) => {
               <TextInput
                 style={styles.comment}
                 type="text"
-                placeholder="Commentaire"
+                value={comment}
+                placeholder={i18n.t("component.Commentaire")}
                 onChangeText={(text) => {
                   setComment(text);
                 }}
@@ -356,7 +390,9 @@ const App = (props) => {
                     launchRituel();
                   }}
                 >
-                  <Text style={styles.buttonText}>Lancer le rituel</Text>
+                  <Text style={styles.buttonText}>
+                    {i18n.t("component.Lancer le rituel")}
+                  </Text>
                 </TouchableOpacity>
               </View>
               {props.user.infos.notification == 1 && (
@@ -368,7 +404,10 @@ const App = (props) => {
                     flexWrap: "wrap",
                   }}
                 >
-                  <Text style={styles.text}>M'alerter </Text>
+                  <Text style={styles.text}>
+                    {" "}
+                    {i18n.t("component.M'alerter")}{" "}
+                  </Text>
                   <TextInput
                     style={styles.inputTime}
                     value={"" + notifTime}
@@ -376,7 +415,10 @@ const App = (props) => {
                       setnotifTime(text);
                     }}
                   />
-                  <Text style={styles.text}>min avant </Text>
+                  <Text style={styles.text}>
+                    {" "}
+                    {i18n.t("component.min avant")}{" "}
+                  </Text>
                 </View>
               )}
 
@@ -387,7 +429,7 @@ const App = (props) => {
                   onSubmitForm();
                 }}
               >
-                <Text style={styles.textStyle}>Enregistrer</Text>
+                <Text style={styles.textStyle}>{i18n.t("register.save")}</Text>
               </TouchableOpacity>
             </View>
             <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -395,7 +437,7 @@ const App = (props) => {
               style={styles.button}
               onPress={() => props.setModalVisible(!props.modalVisible)}
             >
-              <Text style={styles.textStyle}>Fermer</Text>
+              <Text style={styles.textStyle}>{i18n.t("component.fermer")}</Text>
             </Pressable>
           </View>
         </View>

@@ -119,49 +119,76 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
   const options = [
     {
       value: 0,
-      label: "Choisis ou saisis ta récompense",
+      label: i18n.t("awards.Choisis ou saisis ta récompense"),
     },
     {
       value: 1,
-      label: "Faire un gâteau",
+      label: i18n.t("awards.Faire un gâteau"),
     },
     {
       value: 2,
-      label: "Une promenade en forêt",
+      label: i18n.t("awards.Une promenade en forêt"),
     },
     {
       value: 3,
-      label: "Lecture d'une BD",
+      label: i18n.t("awards.Lecture d'une BD"),
     },
     {
       value: 4,
-      label: "Visionner 3 épisodes d'une série",
+      label: i18n.t("awards.Visionner 3 épisodes d'une série"),
     },
     {
       value: 6,
-      label: "Aller au cinéma",
+      label: i18n.t("awards.Aller au cinéma"),
     },
     {
       value: 7,
-      label: "Aller au musée",
+      label: i18n.t("awards.Aller au musée"),
     },
     {
       value: 8,
-      label: "Faire une partie d'un jeu de société",
+      label: i18n.t("awards.Faire une partie d'un jeu de société"),
     },
     {
       value: 9,
-      label: "Regarder un match de sport",
+      label: i18n.t("awards.Regarder un match de sport"),
     },
     {
       value: 5,
-      label: "Autre ...",
+      label: i18n.t("awards.Autre ..."),
     },
   ];
+
+  const lang =
+    user &&
+    user.subuser &&
+    user.current_subuser &&
+    user.subuser[user.current_subuser] &&
+    user.subuser[user.current_subuser].lang;
+
+  const returnCatNameCurrentLang = (cat) => {
+    if (cat) {
+      switch (lang) {
+        case "fr":
+          return cat.name_fr || cat.name;
+          break;
+        case "en":
+          return cat.name_en || cat.name;
+          break;
+        case "es":
+          return cat.name_es || cat.name;
+          break;
+
+        default:
+          break;
+      }
+    }
+    return "";
+  };
   const setOptionsCatArray = () => {
     let array = [];
     alltheme.forEach((item) => {
-      let index = { value: item.id, label: item.name };
+      let index = { value: item.id, label: returnCatNameCurrentLang(item) };
       array.push(index);
     });
     return array;
@@ -204,7 +231,9 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
           Alert.alert(
             "Attention",
 
-            "Un award a déjà été programmé pour cette semaine. Voulez-vous le remplacer ?",
+            i18n.t(
+              "error.Un award a déjà été programmé pour cette semaine. Voulez-vous le remplacer ?"
+            ),
             [
               {
                 text: "Non",
@@ -235,9 +264,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
             routes: [{ name: "Account" }],
           });
         } else if (!res.status === 200) {
-          setErrorMessage(
-            "Une erreur est survenue, veuillez réessayer plus tard."
-          );
+          setErrorMessage(i18n.t("error.reessayer"));
         }
       });
     }
@@ -252,7 +279,9 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
     let error = false;
     error = validateInputField("title", "string", title, i18n.t);
     if (error !== "") {
-      setErrorMessage("Veuillez ajouter un titre à votre récompense");
+      setErrorMessage(
+        i18n.t("error.Veuillez ajouter un titre à votre récompense")
+      );
       return error;
     }
     return "";
@@ -320,7 +349,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                             selectedCat.id == item.id ? styles.pressed : "",
                           ]}
                         >
-                          {item.name}
+                          {returnCatNameCurrentLang(item)}
                         </Text>
                       </TouchableOpacity>
                     );
@@ -419,7 +448,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                             { color: "white", fontSize: 19 },
                           ]}
                         >
-                          {selectedCat.name} ↓
+                          {returnCatNameCurrentLang(selectedCat)} ↓
                         </Text>
                       </RNPickerSelect>
                     </View>
@@ -427,7 +456,7 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
                 ) : (
                   <Text style={styles.text}>
                     {i18n.t("application.categorie", "Catégorie :")}{" "}
-                    {selectedCat.name}
+                    {returnCatNameCurrentLang(selectedCat)} ↓
                   </Text>
                 )}
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
