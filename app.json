@@ -2,7 +2,7 @@
   "expo": {
     "name": "4b Premium",
     "slug": "4bPremium",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "icon": "./src/assets/logo.png",
     "orientation": "default",
     "userInterfaceStyle": "automatic",
@@ -17,7 +17,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.premium4b.app",
-      "buildNumber": "1.1.0",
+      "buildNumber": "1.2.0",
       "supportsTablet": true,
       "infoPlist": {
         "NSAppTransportSecurity": {
@@ -31,7 +31,7 @@
     },
     "android": {
       "package": "com.premium4b.app",
-      "versionCode": 5,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/logo.png",
         "backgroundColor": "#FFFFFF"

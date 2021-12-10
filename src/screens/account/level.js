@@ -111,7 +111,6 @@ const Account = ({ navigation, user, level, loadLevel, theme, progress }) => {
   const lang =
     user &&
     user.subuser &&
-    user.current_subuser &&
     user.subuser[user.current_subuser] &&
     user.subuser[user.current_subuser].lang;
 

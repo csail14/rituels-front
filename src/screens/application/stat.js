@@ -56,7 +56,6 @@ const Stats = ({ navigation, user, theme }) => {
   const lang =
     user &&
     user.subuser &&
-    user.current_subuser &&
     user.subuser[user.current_subuser] &&
     user.subuser[user.current_subuser].lang;
 

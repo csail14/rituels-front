@@ -162,10 +162,9 @@ const Awards = ({ navigation, user, progress, theme, loadTheme }) => {
   const lang =
     user &&
     user.subuser &&
-    user.current_subuser &&
     user.subuser[user.current_subuser] &&
     user.subuser[user.current_subuser].lang;
-
+  console.log(lang);
   const returnCatNameCurrentLang = (cat) => {
     if (cat) {
       switch (lang) {
