@@ -8,6 +8,7 @@ import { View } from "react-native";
 
 const AddPaymentMethod = (props) => {
   const [url, setUrl] = useState(null);
+  // Test Key, not used anymore.
   const sessionId =
     "cs_test_a1peUyAe8mDhhyrBRw9SosdMgaDQg5PmVmBvAxHGowuCyRrXo74y6vFh61";
 

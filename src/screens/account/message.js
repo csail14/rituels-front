@@ -40,7 +40,9 @@ const Message = ({ navigation, user }) => {
         if (res.status == 200) {
           setErrorMessage(i18n.t("error.Votre message a bien été envoyé."));
         } else {
-          setErrorMessage("error.Erreur lors de l'envoi de votre message.");
+          setErrorMessage(
+            i18n.t("error.Erreur lors de l'envoi de votre message.")
+          );
         }
       });
     }

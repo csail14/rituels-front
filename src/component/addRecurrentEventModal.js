@@ -81,7 +81,7 @@ const App = (props) => {
     let error = false;
     error = validateInputField("title", "string", title, i18n.t);
     if (error !== "") {
-      setErrorMessage("Veuillez ajouter un titre");
+      setErrorMessage(i18n.t("error.titre"));
       return error;
     }
     return "";
@@ -268,7 +268,7 @@ const App = (props) => {
                   fontSize: 20,
                 }}
               >
-                Catégorie :{" "}
+                {i18n.t("application.categorie")}
               </Text>
               <View>
                 <RNPickerSelect
